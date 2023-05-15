@@ -1,0 +1,1 @@
+<view class="sudoku-climp-container"><button bindtap="{{a}}" type="warn">选择相片</button><canvas id="sudokuSource" canvas-id="sudokuSource" style="{{'height:' + b}}"></canvas><view class="bks-wrapper"><view wx:for="{{c}}" wx:for-item="item" class="{{['bks-item', item.a]}}" bindtap="{{item.b}}"></view></view><button wx:if="{{d}}" bindtap="{{e}}" type="warn">保存图片</button></view>
