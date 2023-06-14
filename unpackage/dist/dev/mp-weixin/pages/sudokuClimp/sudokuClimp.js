@@ -12,7 +12,7 @@ const _sfc_main = {
     const ctx = common_vendor.index.createCanvasContext("sudokuSource");
     const coverImages = common_vendor.ref([
       {
-        src: "../../static/images/260.jpg",
+        src: "../../static/images/border.png",
         class: "img-demo1"
       },
       {
@@ -93,20 +93,25 @@ const _sfc_main = {
       return common_vendor.e({
         a: common_vendor.o(handleChoseImage),
         b: adapterH.value + "px",
-        c: common_vendor.f(coverImages.value, (item, k0, i0) => {
+        c: common_vendor.f(savaImgDatas.value, (item, k0, i0) => {
           return {
-            a: common_vendor.n(item.class),
+            a: item
+          };
+        }),
+        d: common_vendor.f(coverImages.value, (item, k0, i0) => {
+          return {
+            a: item.src,
             b: common_vendor.o(() => {
               handleChangeCoverImage(item.src);
             })
           };
         }),
-        d: successUpload.value
+        e: successUpload.value
       }, successUpload.value ? {
-        e: common_vendor.o(handleSaveImage)
+        f: common_vendor.o(handleSaveImage)
       } : {});
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mz/mztools/mztools/pages/sudokuClimp/sudokuClimp.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mztools_uni/pages/sudokuClimp/sudokuClimp.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -46,26 +46,6 @@ function parseStringStyle(cssText) {
   });
   return ret;
 }
-function normalizeClass(value) {
-  let res = "";
-  if (isString(value)) {
-    res = value;
-  } else if (isArray(value)) {
-    for (let i = 0; i < value.length; i++) {
-      const normalized = normalizeClass(value[i]);
-      if (normalized) {
-        res += normalized + " ";
-      }
-    }
-  } else if (isObject(value)) {
-    for (const name in value) {
-      if (value[name]) {
-        res += name + " ";
-      }
-    }
-  }
-  return res.trim();
-}
 const toDisplayString = (val) => {
   return isString(val) ? val : val == null ? "" : isArray(val) || isObject(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
 };
@@ -156,8 +136,8 @@ const def = (obj, key, value) => {
   });
 };
 const looseToNumber = (val) => {
-  const n2 = parseFloat(val);
-  return isNaN(n2) ? val : n2;
+  const n = parseFloat(val);
+  return isNaN(n) ? val : n;
 };
 const LINEFEED = "\n";
 const SLOT_DEFAULT_NAME = "d";
@@ -419,7 +399,11 @@ function normalizeLocale(locale, messages) {
     }
     return LOCALE_ZH_HANS;
   }
-  const lang = startsWith(locale, [LOCALE_EN, LOCALE_FR, LOCALE_ES]);
+  let locales = [LOCALE_EN, LOCALE_FR, LOCALE_ES];
+  if (messages && Object.keys(messages).length > 0) {
+    locales = Object.keys(messages);
+  }
+  const lang = startsWith(locale, locales);
   if (lang) {
     return lang;
   }
@@ -975,7 +959,7 @@ const $off = defineSyncApi(API_OFF, (name, callback) => {
   }
   if (!isArray(name))
     name = [name];
-  name.forEach((n2) => emitter.off(n2, callback));
+  name.forEach((n) => emitter.off(n, callback));
 }, OffProtocol);
 const $emit = defineSyncApi(API_EMIT, (name, ...args) => {
   emitter.emit(name, ...args);
@@ -1262,8 +1246,8 @@ function populateParameters(fromRes, toRes) {
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.7.11",
-    uniRuntimeVersion: "3.7.11",
+    uniCompileVersion: "3.8.4",
+    uniRuntimeVersion: "3.8.4",
     uniPlatform: "mp-weixin",
     deviceBrand,
     deviceModel: model,
@@ -1505,10 +1489,14 @@ function isWxKey(key) {
   return objectKeys.indexOf(key) > -1 || typeof wx[key] === "function";
 }
 function initWx() {
+  let global2 = wx;
+  if (typeof globalThis !== "undefined" && globalThis.wx && wx !== globalThis.wx) {
+    global2 = globalThis.wx;
+  }
   const newWx = {};
-  for (const key in wx) {
+  for (const key in global2) {
     if (isWxKey(key)) {
-      newWx[key] = wx[key];
+      newWx[key] = global2[key];
     }
   }
   if (typeof globalThis !== "undefined") {
@@ -3667,9 +3655,9 @@ const PublicInstanceProxyHandlers = {
     }
     let normalizedProps;
     if (key[0] !== "$") {
-      const n2 = accessCache[key];
-      if (n2 !== void 0) {
-        switch (n2) {
+      const n = accessCache[key];
+      if (n !== void 0) {
+        switch (n) {
           case 1:
             return setupState[key];
           case 2:
@@ -5884,7 +5872,7 @@ function createInvoker(initialValue, instance) {
     const eventValue = invoker.value;
     const invoke = () => callWithAsyncErrorHandling(patchStopImmediatePropagation(e2, eventValue), instance, 5, args);
     const eventTarget = e2.target;
-    const eventSync = eventTarget ? eventTarget.dataset ? eventTarget.dataset.eventsync === "true" : false : false;
+    const eventSync = eventTarget ? eventTarget.dataset ? String(eventTarget.dataset.eventsync) === "true" : false : false;
     if (bubbles.includes(e2.type) && !eventSync) {
       setTimeout(invoke);
     } else {
@@ -5997,7 +5985,6 @@ const o = (value, key) => vOn(value, key);
 const f = (source, renderItem) => vFor(source, renderItem);
 const s = (value) => stringifyStyle(value);
 const e = (target, ...sources) => extend(target, ...sources);
-const n = (value) => normalizeClass(value);
 const t = (val) => toDisplayString(val);
 const p = (props) => renderProps(props);
 function createApp$1(rootComponent, rootProps = null) {
@@ -6588,6 +6575,7 @@ function parseComponent(vueOptions, { parse, mocks: mocks2, isPage: isPage2, ini
   vueOptions = vueOptions.default || vueOptions;
   const options = {
     multipleSlots: true,
+    // styleIsolation: 'apply-shared',
     addGlobalClass: true,
     pureDataPattern: /^uP$/
   };
@@ -6823,7 +6811,6 @@ exports.createSSRApp = createSSRApp;
 exports.e = e;
 exports.f = f;
 exports.index = index;
-exports.n = n;
 exports.o = o;
 exports.p = p;
 exports.ref = ref;

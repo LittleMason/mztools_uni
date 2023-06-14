@@ -2,12 +2,16 @@
 	<view class="sudoku-climp-container">
 		<button @tap="handleChoseImage" type="warn">选择相片</button>
 		<canvas id="sudokuSource" canvas-id="sudokuSource" :style="{height:adapterH+'px'}"></canvas>
+		<view class="climp-imgs-wrapper">
+			
+		</view>
+		<image v-for="item in savaImgDatas" :src="item" mode="aspectFit" ></image>
 		<view class="bks-wrapper">
 			<view
 			v-for="item in coverImages"
 			class="bks-item" 
-			:class="item.class"
 			@click="()=>{handleChangeCoverImage(item.src)}">
+				<image :src="item.src" mode="aspectFit"></image>
 			</view>
 		</view>
 		<button @tap="handleSaveImage" type="warn" v-if="successUpload">保存图片</button>
@@ -31,7 +35,7 @@
 	const ctx = uni.createCanvasContext('sudokuSource');
 	const coverImages = ref([
 		{
-			src:'../../static/images/260.jpg',
+			src:'../../static/images/border.png',
 			class:'img-demo1'
 		},
 		{
@@ -154,6 +158,11 @@
 
 <style lang="less">
 	.sudoku-climp-container {
+		.climp-imgs-wrapper{
+			display: flex;
+			justify-content: center;
+			
+		}
 		button {
 			margin: 40rpx auto;
 			width: 90%;
@@ -178,13 +187,11 @@
 				width: 23vw;
 				height: 23vw;
 				background-size: cover;
-			}
-			.img-demo1{
-				background-image: url('../../static/images/260.jpg');
-			}
-			.img-demo2{
-				background-image: url('../../static/images/260.jpg');
-			}
+				image{
+					width:100%;
+					height: 100%;
+				}
+			
 		}
 		
 	}
