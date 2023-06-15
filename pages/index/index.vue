@@ -2,27 +2,41 @@
 	<view class="container">
 		<view class="swiper-wrapper">
 			<swiper class="swiper" circular :indicator-dots="true" :autoplay="true" :interval="5 * 1000" :duration="500">
-				<swiper-item><view class="swiper-item uni-bg-red">A</view></swiper-item>
-				<swiper-item><view class="swiper-item uni-bg-green">B</view></swiper-item>
-				<swiper-item><view class="swiper-item uni-bg-blue">C</view></swiper-item>
+				<swiper-item>
+					<view class="swiper-item">
+						<image src="../../static/images/big-logo.png" mode="widthFix"></image>
+					</view>
+				</swiper-item>
 			</swiper>
 		</view>
 		<view class="block-wrapper">
-			<view class="title">文本处理</view>
+			<view class="block-wrapper-title">文本处理</view>
 			<uni-grid :column="4" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in textArr" :key="index">
 					<view class="item-block" @click="hanleItem">
-						<text class="text">{{ item.text }}</text>
+						<image :src="item.icon" mode="widthFix"></image>
+						<view class="text">{{ item.text }}</view>
 					</view>
 				</uni-grid-item>
 			</uni-grid>
 		</view>
 		<view class="block-wrapper">
-			<view class="title">图像</view>
+			<view class="block-wrapper-title">图像处理</view>
 			<uni-grid :column="4" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in imgArr" :key="index">
 					<view class="item-block" @click="()=>{hanleItem(item)}">
-						<text class="text">{{ item.text }}</text>
+						<image :src="item.icon" mode="widthFix"></image>
+						<view class="text">{{ item.text }}</view>
+					</view>
+				</uni-grid-item>
+			</uni-grid>
+		</view><view class="block-wrapper">
+			<view class="block-wrapper-title">视频处理</view>
+			<uni-grid :column="4" :showBorder="false">
+				<uni-grid-item v-for="(item,index) in videoArr" :key="index">
+					<view class="item-block" @click="()=>{hanleItem(item)}">
+						<image :src="item.icon" mode="widthFix"></image>
+						<view class="text">{{ item.text }}</view>
 					</view>
 				</uni-grid-item>
 			</uni-grid>
@@ -35,74 +49,43 @@ import { ref } from 'vue';
 const textArr = [
 	{
 		text: '文字九宫格',
-		path: ''
+		path: '',
+		icon:'../../static/images/text-night-climp.png'
 	},
 	{
 		text: '文字转图片',
-		path: ''
+		path: '',
+		icon:'../../static/images/text-text-to-image.png'
 	},
 	{
 		text: '翅膀昵称',
-		path: ''
+		path: '',
+		icon:'../../static/images/text-wing-nickname.png'
 	},
 	{
 		text: '花式字体',
-		path: ''
-	},
-	{
-		text: '尖叫字',
-		path: ''
-	},
-	{
-		text: '字符表情',
-		path: ''
-	},
-	{
-		text: '520文字',
-		path: ''
-	},
-	{
-		text: '金额转大写',
-		path: ''
+		path: '',
+		icon:'../../static/images/text-flower.png'
 	}
 ];
 const imgArr = [
 	{
-		text:'精选壁纸',
-		path:''
-	},
-	{
 		text:'九宫格切图',
-		path:'/pages/sudokuClimp/sudokuClimp'
+		path:'/pages/sudokuClimp/sudokuClimp',
+		icon:'../../static/images/img-night-climp.png'
 	},
 	{
-		text:'截图拼接',
-		path:'/pages/joinImages/joinImages'
+		text:'长图拼接',
+		path:'/pages/joinImages/joinImages',
+		icon:'../../static/images/img-climp-join.png'
 	},
+]
+const videoArr = [
 	{
-		text:'图片压缩',
-		path:''
-	},
-	{
-		text:'带壳截图',
-		path:''
-	},
-	{
-		text:'生成二维码',
-		path:''
-	},
-	{
-		text:'解码二维码',
-		path:''
-	},
-	{
-		text:'图像取色',
-		path:''
-	},
-	{
-		text:'图加马赛克',
-		path:''
-	},
+		text:'视频去水印',
+		path:'/pages/sudokuClimp/sudokuClimp',
+		icon:'../../static/images/video-water.png'
+	}
 ]
 const hanleItem = (item)=>{
 	console.log('item:',item)
@@ -119,8 +102,26 @@ const hanleItem = (item)=>{
 	padding: 20px;
 	font-size: 14px;
 	line-height: 24px;
+	.swiper-wrapper{
+		margin-bottom: 40rpx;
+		.swiper-item{
+			image{
+				width: 100%;
+			}
+		}
+	}
 	.item-block{
 		text-align: center;
+		image{
+			width: 64rpx;
+		}
+	}
+	.block-wrapper{
+		&-title{
+			font-weight: bold;
+			margin-bottom: 30rpx;
+			font-size: 30rpx;
+		}
 	}
 }
 </style>

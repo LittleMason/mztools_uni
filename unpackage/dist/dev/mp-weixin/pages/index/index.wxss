@@ -3,6 +3,20 @@
   font-size: 14px;
   line-height: 24px;
 }
+.container .swiper-wrapper.data-v-1cf27b2a {
+  margin-bottom: 40rpx;
+}
+.container .swiper-wrapper .swiper-item image.data-v-1cf27b2a {
+  width: 100%;
+}
 .container .item-block.data-v-1cf27b2a {
   text-align: center;
+}
+.container .item-block image.data-v-1cf27b2a {
+  width: 64rpx;
+}
+.container .block-wrapper-title.data-v-1cf27b2a {
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  font-size: 30rpx;
 }

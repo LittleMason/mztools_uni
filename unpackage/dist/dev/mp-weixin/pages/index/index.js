@@ -16,73 +16,42 @@ const _sfc_main = {
     const textArr = [
       {
         text: "文字九宫格",
-        path: ""
+        path: "",
+        icon: "../../static/images/text-night-climp.png"
       },
       {
         text: "文字转图片",
-        path: ""
+        path: "",
+        icon: "../../static/images/text-text-to-image.png"
       },
       {
         text: "翅膀昵称",
-        path: ""
+        path: "",
+        icon: "../../static/images/text-wing-nickname.png"
       },
       {
         text: "花式字体",
-        path: ""
-      },
-      {
-        text: "尖叫字",
-        path: ""
-      },
-      {
-        text: "字符表情",
-        path: ""
-      },
-      {
-        text: "520文字",
-        path: ""
-      },
-      {
-        text: "金额转大写",
-        path: ""
+        path: "",
+        icon: "../../static/images/text-flower.png"
       }
     ];
     const imgArr = [
       {
-        text: "精选壁纸",
-        path: ""
-      },
-      {
         text: "九宫格切图",
-        path: "/pages/sudokuClimp/sudokuClimp"
+        path: "/pages/sudokuClimp/sudokuClimp",
+        icon: "../../static/images/img-night-climp.png"
       },
       {
-        text: "截图拼接",
-        path: "/pages/joinImages/joinImages"
-      },
+        text: "长图拼接",
+        path: "/pages/joinImages/joinImages",
+        icon: "../../static/images/img-climp-join.png"
+      }
+    ];
+    const videoArr = [
       {
-        text: "图片压缩",
-        path: ""
-      },
-      {
-        text: "带壳截图",
-        path: ""
-      },
-      {
-        text: "生成二维码",
-        path: ""
-      },
-      {
-        text: "解码二维码",
-        path: ""
-      },
-      {
-        text: "图像取色",
-        path: ""
-      },
-      {
-        text: "图加马赛克",
-        path: ""
+        text: "视频去水印",
+        path: "/pages/sudokuClimp/sudokuClimp",
+        icon: "../../static/images/video-water.png"
       }
     ];
     const hanleItem = (item) => {
@@ -96,10 +65,11 @@ const _sfc_main = {
         a: 5 * 1e3,
         b: common_vendor.f(textArr, (item, index, i0) => {
           return {
-            a: common_vendor.t(item.text),
-            b: common_vendor.o(hanleItem, index),
-            c: index,
-            d: "1cf27b2a-1-" + i0 + ",1cf27b2a-0"
+            a: item.icon,
+            b: common_vendor.t(item.text),
+            c: common_vendor.o(hanleItem, index),
+            d: index,
+            e: "1cf27b2a-1-" + i0 + ",1cf27b2a-0"
           };
         }),
         c: common_vendor.p({
@@ -108,15 +78,31 @@ const _sfc_main = {
         }),
         d: common_vendor.f(imgArr, (item, index, i0) => {
           return {
-            a: common_vendor.t(item.text),
-            b: common_vendor.o(() => {
+            a: item.icon,
+            b: common_vendor.t(item.text),
+            c: common_vendor.o(() => {
               hanleItem(item);
             }, index),
-            c: index,
-            d: "1cf27b2a-3-" + i0 + ",1cf27b2a-2"
+            d: index,
+            e: "1cf27b2a-3-" + i0 + ",1cf27b2a-2"
           };
         }),
         e: common_vendor.p({
+          column: 4,
+          showBorder: false
+        }),
+        f: common_vendor.f(videoArr, (item, index, i0) => {
+          return {
+            a: item.icon,
+            b: common_vendor.t(item.text),
+            c: common_vendor.o(() => {
+              hanleItem(item);
+            }, index),
+            d: index,
+            e: "1cf27b2a-5-" + i0 + ",1cf27b2a-4"
+          };
+        }),
+        g: common_vendor.p({
           column: 4,
           showBorder: false
         })
@@ -124,5 +110,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/mztools_uni/pages/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/mz/mztools_uni/pages/index/index.vue"]]);
 wx.createPage(MiniProgramPage);
