@@ -12,12 +12,16 @@ const _sfc_main = {
     const ctx = common_vendor.index.createCanvasContext("sudokuSource");
     const coverImages = common_vendor.ref([
       {
-        src: "../../static/images/border.png",
-        class: "img-demo1"
+        src: "../../static/images/border-vertical-flower.png"
       },
       {
-        src: "../../static/images/20170709213934_Q8YTF.jpeg",
-        class: "img-demo2"
+        src: "../../static/images/border-vertical-golden.png"
+      },
+      {
+        src: "../../static/images/border-horizontal-bird.png"
+      },
+      {
+        src: "../../static/images/border-horizontal-cloud.png"
       }
     ]);
     common_vendor.ref(null);
@@ -35,7 +39,7 @@ const _sfc_main = {
       ctx.drawImage(sourceSrc.value, 0, 0, adapterW.value, adapterH.value);
       if (coverSrc) {
         ctx.globalCompositeOperation = "source-over";
-        ctx.drawImage(coverSrc, 0, 0, adapterW.value / 2, adapterH.value / 2);
+        ctx.drawImage(coverSrc, 0, 0, adapterW.value, adapterH.value);
       }
       ctx.draw(false, () => {
         const offsetPxRow = parseInt(adapterW.value / 3);
@@ -64,6 +68,9 @@ const _sfc_main = {
       });
     }
     const handleChangeCoverImage = (coverSrc) => {
+      if (!savaImgDatas.value.length) {
+        return false;
+      }
       drawSudokuImg(coverSrc);
     };
     const handleChoseImage = () => {
@@ -77,7 +84,10 @@ const _sfc_main = {
           common_vendor.index.getImageInfo({
             src: res.tempFilePaths[0],
             success(imgInfo) {
-              const { width, height } = imgInfo;
+              const {
+                width,
+                height
+              } = imgInfo;
               selectWHPercent.value = (width / height).toFixed(2);
               sourceSrc.value = res.tempFilePaths[0];
               drawSudokuImg();

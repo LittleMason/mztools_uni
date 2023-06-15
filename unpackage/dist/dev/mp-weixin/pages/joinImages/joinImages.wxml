@@ -1,0 +1,1 @@
+<view><canvas ref="canvas" style="{{'height:' + a}}" canvas-id="imgBed" id="imgBed"></canvas><button bindtap="{{b}}" type="warn">选择图片</button><button bindtap="{{c}}" type="warn" hidden="{{!d}}">保存图片</button></view>

@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/sudokuClimp/sudokuClimp"
+    "pages/sudokuClimp/sudokuClimp",
+    "pages/joinImages/joinImages"
   ],
   "window": {
     "navigationBarTextStyle": "black",

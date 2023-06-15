@@ -3,19 +3,17 @@
 		<button @tap="handleChoseImage" type="warn">选择相片</button>
 		<canvas id="sudokuSource" canvas-id="sudokuSource" :style="{height:adapterH+'px'}"></canvas>
 		<view class="climp-imgs-wrapper">
-			
+			<image v-for="item in savaImgDatas" :src="item" mode="widthFix"></image>
 		</view>
-		<image v-for="item in savaImgDatas" :src="item" mode="aspectFit" ></image>
+		<view class="adpater-title">
+			边框修饰
+		</view>
 		<view class="bks-wrapper">
-			<view
-			v-for="item in coverImages"
-			class="bks-item" 
-			@click="()=>{handleChangeCoverImage(item.src)}">
-				<image :src="item.src" mode="aspectFit"></image>
+			<view v-for="item in coverImages" class="bks-item" @click="()=>{handleChangeCoverImage(item.src)}">
+				<image :src="item.src" mode="widthFix"></image>
 			</view>
 		</view>
 		<button @tap="handleSaveImage" type="warn" v-if="successUpload">保存图片</button>
-
 	</view>
 </template>
 
@@ -33,14 +31,17 @@
 	const adapterW = ref(0); //适配后的宽度
 	const selectWHPercent = ref(1); //选择的图片宽高比
 	const ctx = uni.createCanvasContext('sudokuSource');
-	const coverImages = ref([
-		{
-			src:'../../static/images/border.png',
-			class:'img-demo1'
+	const coverImages = ref([{
+			src: '../../static/images/border-vertical-flower.png',
 		},
 		{
-			src:'../../static/images/20170709213934_Q8YTF.jpeg',
-			class:'img-demo2'
+			src: '../../static/images/border-vertical-golden.png',
+		},
+		{
+			src: '../../static/images/border-horizontal-bird.png',
+		},
+		{
+			src: '../../static/images/border-horizontal-cloud.png',
 		},
 	]);
 	const cacheImageInfo = ref(null);
@@ -52,34 +53,6 @@
 		imgs.value.push(i);
 	}
 
-	function drawLines(cavansW, canvasH) {
-		const lineWidth = 2;
-		const lineColor = "#f00";
-		ctx.setStrokeStyle(lineColor);
-		ctx.setLineWidth(lineColor);
-		ctx.beginPath();
-		ctx.moveTo(cavansW / 3, 0);
-		ctx.lineTo(cavansW / 3, canvasH);
-		ctx.moveTo(cavansW / 3 * 2, 0);
-		ctx.lineTo(cavansW / 3 * 2, canvasH);
-		ctx.moveTo(0, canvasH / 3);
-		ctx.lineTo(cavansW, canvasH / 3);
-		ctx.moveTo(0, canvasH / 3 * 2);
-		ctx.lineTo(cavansW, canvasH / 3 * 2);
-		ctx.stroke();
-		// 绘制数字
-		const fontSize = 40;
-		const fontColor = "#f00";
-		ctx.setFontSize(fontSize);
-		ctx.setFillStyle(fontColor);
-		ctx.setTextAlign("center");
-		ctx.setTextBaseline("middle");
-		for (let i = 0; i < 9; i++) {
-			const x = (i % 3 + 0.5) * cavansW / 3;
-			const y = (Math.floor(i / 3) + 0.5) * canvasH / 3;
-			ctx.fillText(i + 1, x, y);
-		}
-	}
 
 	function drawSudokuImg(coverSrc) {
 		const {
@@ -92,11 +65,10 @@
 		ctx.drawImage(sourceSrc.value, 0, 0, adapterW.value, adapterH.value);
 		// ctx.draw();
 		// return false;
-		if(coverSrc){
+		if (coverSrc) {
 			ctx.globalCompositeOperation = 'source-over';
-			ctx.drawImage(coverSrc, 0, 0, adapterW.value/2, adapterH.value/2);
+			ctx.drawImage(coverSrc, 0, 0, adapterW.value, adapterH.value);
 		}
-		// drawLines(adapterW.value, adapterH.value); //画九宫格线
 		ctx.draw(false, () => {
 			const offsetPxRow = parseInt(adapterW.value / 3);
 			const offsetPxCol = parseInt(adapterH.value / 3);
@@ -127,6 +99,9 @@
 
 	//切换装饰图
 	const handleChangeCoverImage = (coverSrc) => {
+		if(!savaImgDatas.value.length){
+			return false;
+		}
 		drawSudokuImg(coverSrc);
 	}
 
@@ -140,8 +115,11 @@
 				uni.getImageInfo({
 					src: res.tempFilePaths[0],
 					success(imgInfo) {
-						const {width,height} = imgInfo;
-						selectWHPercent.value = (width/height).toFixed(2);
+						const {
+							width,
+							height
+						} = imgInfo;
+						selectWHPercent.value = (width / height).toFixed(2);
 						sourceSrc.value = res.tempFilePaths[0];
 						drawSudokuImg();
 					}
@@ -158,11 +136,17 @@
 
 <style lang="less">
 	.sudoku-climp-container {
-		.climp-imgs-wrapper{
+		.climp-imgs-wrapper {
 			display: flex;
-			justify-content: center;
-			
+			justify-content: space-between;
+			flex-wrap: wrap;
+			margin-bottom: 40rpx;
+			image{
+				width: 32%;
+				margin-bottom: 1%;
+			}
 		}
+
 		button {
 			margin: 40rpx auto;
 			width: 90%;
@@ -170,6 +154,8 @@
 
 		#sudokuSource {
 			width: 100%;
+			opacity: 0;
+			position: absolute;
 		}
 
 		canvas[id^="img-"] {
@@ -178,21 +164,28 @@
 			border: 1px solid red;
 			margin-bottom: 20rpx;
 		}
-
-		.bks-wrapper {                            
+		.adpater-title{
+			padding-left: 5%;
+			font-weight: bold;
+			font-size: 40rpx;
+			color: #333;
+		}
+		.bks-wrapper {
 			display: flex;
 			justify-content: space-around;
 			margin-top: 40rpx;
 			.bks-item {
 				width: 23vw;
-				height: 23vw;
 				background-size: cover;
-				image{
-					width:100%;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				image {
+					width: 100%;
 					height: 100%;
 				}
-			
+
+			}
 		}
-		
 	}
 </style>

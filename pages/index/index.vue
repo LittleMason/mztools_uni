@@ -27,9 +27,6 @@
 				</uni-grid-item>
 			</uni-grid>
 		</view>
-		<view class="demo">
-			
-		</view>
 	</view>
 </template>
 
@@ -76,11 +73,11 @@ const imgArr = [
 	},
 	{
 		text:'九宫格切图',
-		path:''
+		path:'/pages/sudokuClimp/sudokuClimp'
 	},
 	{
 		text:'截图拼接',
-		path:''
+		path:'/pages/joinImages/joinImages'
 	},
 	{
 		text:'图片压缩',
@@ -110,7 +107,7 @@ const imgArr = [
 const hanleItem = (item)=>{
 	console.log('item:',item)
 	uni.navigateTo({
-		url:'/pages/sudokuClimp/sudokuClimp'
+		url:item.path
 	})
 	
 }
@@ -124,11 +121,6 @@ const hanleItem = (item)=>{
 	line-height: 24px;
 	.item-block{
 		text-align: center;
-	}
-	.demo{
-		height: 200px;
-		width: 200px;
-		background-image: url(../../static/images/260.jpg);
 	}
 }
 </style>

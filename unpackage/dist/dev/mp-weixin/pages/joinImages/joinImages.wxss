@@ -1,0 +1,8 @@
+#imgBed {
+  width: 95%;
+  margin: 0 auto;
+}
+button {
+  margin: 40rpx auto;
+  width: 90%;
+}

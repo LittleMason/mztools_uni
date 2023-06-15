@@ -54,11 +54,11 @@ const _sfc_main = {
       },
       {
         text: "九宫格切图",
-        path: ""
+        path: "/pages/sudokuClimp/sudokuClimp"
       },
       {
         text: "截图拼接",
-        path: ""
+        path: "/pages/joinImages/joinImages"
       },
       {
         text: "图片压缩",
@@ -88,7 +88,7 @@ const _sfc_main = {
     const hanleItem = (item) => {
       console.log("item:", item);
       common_vendor.index.navigateTo({
-        url: "/pages/sudokuClimp/sudokuClimp"
+        url: item.path
       });
     };
     return (_ctx, _cache) => {
