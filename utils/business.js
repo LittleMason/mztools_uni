@@ -89,3 +89,24 @@ export function saveImage2Photo(key,params) {
 		}
 	})
 }
+export const videoTabBars = {
+		"custom": false,
+		"color": "#dbdbdb",
+		"selectedColor": "#337AFF",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "/pages/videos/watermark/index/index",
+				"text": "首页",
+				"iconPath": "/static/images/icon-home.png",
+				"selectedIconPath": "/static/images/icon-home-selected.png"
+			},
+			{
+				"pagePath": "/pages/videos/watermark/mine/mine",
+				"text": "我的",
+				"iconPath": "/static/images/icon-me.png",
+				"selectedIconPath": "/static/images/icon-me-selected.png"
+			}
+		]
+	}

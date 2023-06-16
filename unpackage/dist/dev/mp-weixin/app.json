@@ -4,12 +4,22 @@
     "pages/sudokuClimp/sudokuClimp",
     "pages/joinImages/joinImages"
   ],
+  "subPackages": [
+    {
+      "root": "pages/videos/",
+      "pages": [
+        "watermark/index/index",
+        "watermark/mine/mine",
+        "watermark/video/video",
+        "watermark/mine/history"
+      ]
+    }
+  ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

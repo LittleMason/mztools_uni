@@ -83,7 +83,7 @@ const imgArr = [
 const videoArr = [
 	{
 		text:'视频去水印',
-		path:'/pages/sudokuClimp/sudokuClimp',
+		path:'/pages/videos/watermark/index/index',
 		icon:'../../static/images/video-water.png'
 	}
 ]

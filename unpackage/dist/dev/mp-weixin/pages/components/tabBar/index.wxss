@@ -1,0 +1,32 @@
+
+.custom-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 98rpx;
+  border-top: 1rpx solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5rpx 0rpx;
+  background-color: #fff;
+}
+.custom-tabbar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.custom-tabbar-item-active {
+  color: #337AFF;
+}
+.custom-tabbar-icon {
+  width: 50rpx;
+  height: 50rpx;
+  margin-bottom: 3rpx;
+}
+.custom-tabbar-text {
+  font-size: 24rpx;
+}

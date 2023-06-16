@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "短视频去水印小帮手",
+  "navigationBarBackgroundColor": "#99CCFF",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "video-tab-bar": "../../../components/tabBar/index"
+  }
+}
