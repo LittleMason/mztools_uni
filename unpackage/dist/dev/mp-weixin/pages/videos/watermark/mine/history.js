@@ -30,18 +30,14 @@ const _sfc_main = {
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function() {
-      this.setData({
-        page: this.page + 1
-      });
+      this.page = this.page + 1;
       this.history();
     },
     /**
      * 历史解析记录
      */
     history: function() {
-      this.setData({
-        loading: true
-      });
+      this.loading = true;
       common_vendor.index.showLoading({
         title: "加载中..."
       });
@@ -51,16 +47,11 @@ const _sfc_main = {
           page: this.page
         },
         success: (res) => {
-          console.log(res);
-          this.setData({
-            list: this.list.concat(res.data.data),
-            preview: res.data.preview
-          });
+          this.list = this.list.concat(res.data.data);
+          this.preview = res.data.preview;
         },
         complete: (res) => {
-          this.setData({
-            loading: false
-          });
+          this.loading = false;
           common_vendor.index.hideLoading();
         }
       });
@@ -72,14 +63,10 @@ const _sfc_main = {
         var n = common_vendor.index.createVideoContext("download" + a);
         n.seek(0);
         n.pause();
-        this.setData({
-          downloadIndex: t
-        });
+        this.downloadIndex = t;
         common_vendor.index.createVideoContext("download" + a).play();
       } else {
-        this.setData({
-          downloadIndex: t
-        });
+        this.downloadIndex = t;
         common_vendor.index.createVideoContext("download" + t).play();
       }
     },
@@ -110,9 +97,7 @@ const _sfc_main = {
               method: "DELETE",
               success: (res2) => {
                 this.list.splice(key, 1);
-                this.setData({
-                  list: this.list
-                });
+                this.list = this.list;
               }
             });
           } else if (res.cancel)
@@ -199,6 +184,6 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     c: $data.preview != 0
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/mine/history.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/videos/watermark/mine/history.vue"]]);
 _sfc_main.__runtimeHooks = 2;
 wx.createPage(MiniProgramPage);

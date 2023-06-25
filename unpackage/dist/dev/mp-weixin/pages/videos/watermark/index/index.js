@@ -24,9 +24,7 @@ const _sfc_main = {
             title: "检测到剪切板有视频地址，是否自动填入？",
             success: (res2) => {
               if (res2.confirm) {
-                this.setData({
-                  videoUrl: str
-                });
+                this.videoUrl = str;
               }
             }
           });
@@ -37,9 +35,7 @@ const _sfc_main = {
   methods: {
     // 清空输入框
     inputClear: function() {
-      this.setData({
-        videoUrl: ""
-      });
+      this.videoUrl = "";
     },
     // 视频地址匹配是否合法
     regUrl: function(t) {
@@ -81,6 +77,13 @@ const _sfc_main = {
           common_vendor.index.navigateTo({
             url: "../video/video?url=" + noWaterUrl + "&image=" + imageUrl + "&preview=" + preview
           });
+        },
+        fail: (res) => {
+          console.log("res:", res);
+          common_vendor.index.showToast({
+            title: res.errMsg,
+            icon: "error"
+          });
         }
       });
     }
@@ -106,5 +109,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/videos/watermark/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

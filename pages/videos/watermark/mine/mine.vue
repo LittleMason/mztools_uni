@@ -5,8 +5,8 @@
                 <view class="card-top">
                     <view class="user-top">
                         <view class="user-vip" style="position: relative">
-							<uni-icons type="contact" size="50" color="#ccc"></uni-icons>
-                            <!-- <image class="user-pic" :src="hasUserInfo ? userInfo.avatarUrl : '/static/images/my.png'"></image> -->
+							<uni-icons type="contact" size="50" color="#ccc" v-if="!hasUserInfo"></uni-icons>
+                            <image class="user-pic" :src="userInfo.avatarUrl" v-else/>
                         </view>
                         <view class="user-board">
                             <button v-if="!hasUserInfo" class="user-name" open-type="getUserInfo" @getuserinfo="getUserInfo">点击登陆</button>
@@ -82,15 +82,11 @@ export default {
         onLoad: function () {},
         onShow: function () {
             if (!app.globalData.checkIsLogin()) {
-                this.setData({
-                    hasUserInfo: false
-                });
+				this.hasUserInfo = false;
             }
             if (app.globalData.hasUserInfo) {
-                this.setData({
-                    userInfo: app.globalData.userInfo,
-                    hasUserInfo: app.globalData.hasUserInfo
-                });
+				this.userInfo = app.globalData.userInfo;
+				this.hasUserInfo = app.globalData.hasUserInfo;
             }
             // 获取每日剩余免费解析次数
             this.getDailyFreeParseNum();
@@ -101,8 +97,6 @@ export default {
          * 授权登录
          */
         getUserInfo(e) {
-			this.$root.$options.setData('1111')
-			return false;
             if (e.detail.errMsg !== 'getUserInfo:ok') {
                 uni.showToast({
                     title: '未授权，登录失败',
@@ -116,10 +110,8 @@ export default {
             });
             // 执行登录
             app.globalData.getUserInfo((res) => {
-                this.setData({
-                    userInfo: app.globalData.userInfo,
-                    hasUserInfo: app.globalData.hasUserInfo
-                });
+				this.userInfo = app.globalData.userInfo;
+				this.hasUserInfo = app.globalData.hasUserInfo;
                 uni.hideLoading();
             });
         },
@@ -138,9 +130,7 @@ export default {
             } else {
                 num = uni.getStorageSync('dailyFreeParseNum');
             }
-            this.setData({
-                dailyFreeParseNum: num
-            });
+			this.dailyFreeParseNum = num;
         },
         /**
          * 获取总解析次数
@@ -149,9 +139,7 @@ export default {
             app.globalData.apiRequest({
                 url: '/records/total',
                 success: (res) => {
-                    this.setData({
-                        totalParseNum: res.data.total_num
-                    });
+					this.totalParseNum = res.data.total_num;
                 }
             });
         },

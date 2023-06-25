@@ -62,10 +62,6 @@ const share = {
         });
       }
     };
-  },
-  setData(params) {
-    console.log("params:", params);
-    console.log("this.dailyFreeParseNum:", this);
   }
 };
 exports.share = share;

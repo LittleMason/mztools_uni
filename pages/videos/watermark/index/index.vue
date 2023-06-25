@@ -89,9 +89,7 @@ export default {
                         title: '检测到剪切板有视频地址，是否自动填入？',
                         success: (res) => {
                             if (res.confirm) {
-                                this.setData({
-                                    videoUrl: str
-                                });
+								this.videoUrl = str;
                             }
                         }
                     });
@@ -102,9 +100,7 @@ export default {
     methods: {
         // 清空输入框
         inputClear: function () {
-            this.setData({
-                videoUrl: ''
-            });
+			this.videoUrl = '';
         },
 
         // 视频地址匹配是否合法
@@ -130,30 +126,6 @@ export default {
                     title: '免费解析次数已用完！',
                     icon: 'none'
                 });
-                // // 超免费次数需要观看激励广告
-                // wx.showModal({
-                //   title: "解析视频",
-                //   content: "免费解析次数已用完，需观看完广告才可继续解析！",
-                //   confirmColor: "#00B269",
-                //   cancelColor: "#858585",
-                //   success: (res) => {
-                //     if (res.confirm) {
-                //       videoAd.show().catch(() => {
-                //         // 失败重试
-                //         videoAd.load()
-                //           .then(() => videoAd.show())
-                //           .catch(err => {
-                //             console.log('激励视频 广告显示失败')
-                //           })
-                //       })
-                //     } else if (res.cancel) {
-                //       wx.showToast({
-                //         title: '广告观看完才可继续解析！',
-                //         icon: 'none'
-                //       })
-                //     }
-                //   }
-                // })
             }
         },
 
@@ -173,7 +145,14 @@ export default {
                     uni.navigateTo({
                         url: '../video/video?url=' + noWaterUrl + '&image=' + imageUrl + '&preview=' + preview
                     });
-                }
+                },
+				fail:(res)=>{
+					console.log('res:',res);
+					uni.showToast({
+						title:res.errMsg,
+						icon:'error'
+					})
+				}
             });
         }
     }

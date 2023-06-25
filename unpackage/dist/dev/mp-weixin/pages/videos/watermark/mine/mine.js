@@ -25,15 +25,11 @@ const _sfc_main = {
     },
     onShow: function() {
       if (!app.globalData.checkIsLogin()) {
-        this.setData({
-          hasUserInfo: false
-        });
+        this.hasUserInfo = false;
       }
       if (app.globalData.hasUserInfo) {
-        this.setData({
-          userInfo: app.globalData.userInfo,
-          hasUserInfo: app.globalData.hasUserInfo
-        });
+        this.userInfo = app.globalData.userInfo;
+        this.hasUserInfo = app.globalData.hasUserInfo;
       }
       this.getDailyFreeParseNum();
       this.getTotalParseNum();
@@ -42,8 +38,22 @@ const _sfc_main = {
      * 授权登录
      */
     getUserInfo(e) {
-      this.$root.$options.setData("1111");
-      return false;
+      if (e.detail.errMsg !== "getUserInfo:ok") {
+        common_vendor.index.showToast({
+          title: "未授权，登录失败",
+          icon: "none"
+        });
+        return false;
+      }
+      common_vendor.index.showLoading({
+        title: "正在登录",
+        mask: true
+      });
+      app.globalData.getUserInfo((res) => {
+        this.userInfo = app.globalData.userInfo;
+        this.hasUserInfo = app.globalData.hasUserInfo;
+        common_vendor.index.hideLoading();
+      });
     },
     /**
      * 获取当日免费次数
@@ -60,9 +70,7 @@ const _sfc_main = {
       } else {
         num = common_vendor.index.getStorageSync("dailyFreeParseNum");
       }
-      this.setData({
-        dailyFreeParseNum: num
-      });
+      this.dailyFreeParseNum = num;
     },
     /**
      * 获取总解析次数
@@ -100,33 +108,28 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: common_vendor.p({
+    a: !$data.hasUserInfo
+  }, !$data.hasUserInfo ? {
+    b: common_vendor.p({
       type: "contact",
       size: "50",
       color: "#ccc"
-    }),
-    b: !$data.hasUserInfo
+    })
+  } : {
+    c: $data.userInfo.avatarUrl
+  }, {
+    d: !$data.hasUserInfo
   }, !$data.hasUserInfo ? {
-    c: common_vendor.o((...args) => $options.getUserInfo && $options.getUserInfo(...args))
+    e: common_vendor.o((...args) => $options.getUserInfo && $options.getUserInfo(...args))
   } : {}, {
-    d: $data.hasUserInfo
+    f: $data.hasUserInfo
   }, $data.hasUserInfo ? {
-    e: common_vendor.t($data.userInfo.nickName)
+    g: common_vendor.t($data.userInfo.nickName)
   } : {}, {
-    f: common_vendor.t($data.dailyFreeParseNum),
-    g: common_vendor.t($data.totalParseNum),
-    h: common_vendor.p({
-      type: "download-filled",
-      size: "30",
-      color: "#00c8fd"
-    }),
-    i: common_vendor.p({
-      type: "right",
-      size: "20",
-      color: "#8a8a8a"
-    }),
+    h: common_vendor.t($data.dailyFreeParseNum),
+    i: common_vendor.t($data.totalParseNum),
     j: common_vendor.p({
-      type: "phone-filled",
+      type: "download-filled",
       size: "30",
       color: "#00c8fd"
     }),
@@ -136,7 +139,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       color: "#8a8a8a"
     }),
     l: common_vendor.p({
-      type: "redo-filled",
+      type: "phone-filled",
       size: "30",
       color: "#00c8fd"
     }),
@@ -146,7 +149,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       color: "#8a8a8a"
     }),
     n: common_vendor.p({
-      type: "hand-up-filled",
+      type: "redo-filled",
       size: "30",
       color: "#00c8fd"
     }),
@@ -155,12 +158,22 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       size: "20",
       color: "#8a8a8a"
     }),
-    p: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args)),
+    p: common_vendor.p({
+      type: "hand-up-filled",
+      size: "30",
+      color: "#00c8fd"
+    }),
     q: common_vendor.p({
+      type: "right",
+      size: "20",
+      color: "#8a8a8a"
+    }),
+    r: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args)),
+    s: common_vendor.p({
       tabBar: $data.videoTabBars,
       activeIndex: 1
     })
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/mine/mine.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/videos/watermark/mine/mine.vue"]]);
 wx.createPage(MiniProgramPage);

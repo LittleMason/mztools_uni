@@ -73,18 +73,14 @@ export default {
          * 页面上拉触底事件的处理函数
          */
         onReachBottom: function () {
-            this.setData({
-                page: this.page + 1
-            });
+			this.page = this.page + 1;
             this.history();
         },
         /**
          * 历史解析记录
          */
         history: function () {
-            this.setData({
-                loading: true
-            });
+			this.loading = true;
             uni.showLoading({
                 title: '加载中...'
             });
@@ -94,16 +90,11 @@ export default {
                     page: this.page
                 },
                 success: (res) => {
-                    console.log(res);
-                    this.setData({
-                        list: this.list.concat(res.data.data),
-                        preview: res.data.preview
-                    });
+					this.list = this.list.concat(res.data.data);
+					this.preview = res.data.preview;
                 },
                 complete: (res) => {
-                    this.setData({
-                        loading: false
-                    });
+					this.loading = false;
                     uni.hideLoading();
                 }
             });
@@ -115,14 +106,10 @@ export default {
                 var n = uni.createVideoContext('download' + a);
                 n.seek(0);
                 n.pause();
-                this.setData({
-                    downloadIndex: t
-                });
+				this.downloadIndex = t;
                 uni.createVideoContext('download' + a).play();
             } else {
-                this.setData({
-                    downloadIndex: t
-                });
+				this.downloadIndex = t;
                 uni.createVideoContext('download' + t).play();
             }
         },
@@ -153,9 +140,7 @@ export default {
                             method: 'DELETE',
                             success: (res) => {
                                 this.list.splice(key, 1);
-                                this.setData({
-                                    list: this.list
-                                });
+								this.list = this.list;
                             }
                         });
                     } else if (res.cancel) {
