@@ -37,7 +37,7 @@ export default {
 		}
 	},
 	onShareTimeline(res) { //分享到朋友圈
-	let that = this
+		let that = this
 		// 动态获取当前页面栈
 		let pages = getCurrentPages(); //获取所有页面栈实例列表
 		let nowPage = pages[pages.length - 1]; //当前页页面实例
@@ -62,4 +62,8 @@ export default {
 			}
 		}
 	},
+	setData(params){
+		console.log('params:',params);
+		console.log('this.dailyFreeParseNum:',this);
+	}
 }

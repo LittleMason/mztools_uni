@@ -2,12 +2,10 @@
 const common_vendor = require("../../../../common/vendor.js");
 const utils_util = require("../../../../utils/util.js");
 const utils_business = require("../../../../utils/business.js");
-const icon = () => "./icon/index.js";
 const VideoTabBar = () => "../../../components/tabBar/index.js";
 var app = getApp();
 const _sfc_main = {
   components: {
-    icon,
     VideoTabBar
   },
   data() {
@@ -44,24 +42,8 @@ const _sfc_main = {
      * 授权登录
      */
     getUserInfo(e) {
-      if (e.detail.errMsg !== "getUserInfo:ok") {
-        common_vendor.index.showToast({
-          title: "未授权，登录失败",
-          icon: "none"
-        });
-        return false;
-      }
-      common_vendor.index.showLoading({
-        title: "正在登录",
-        mask: true
-      });
-      app.globalData.getUserInfo((res) => {
-        this.setData({
-          userInfo: app.globalData.userInfo,
-          hasUserInfo: app.globalData.hasUserInfo
-        });
-        common_vendor.index.hideLoading();
-      });
+      this.$root.$options.setData("1111");
+      return false;
     },
     /**
      * 获取当日免费次数
@@ -98,44 +80,31 @@ const _sfc_main = {
     //打赏
     showQrcode() {
       common_vendor.index.previewImage({
-        urls: ["https://m1-1253159997.image.myqcloud.com/images/f58330a41a41d8776db5a7860eb2c9b5.JPG"],
-        current: "https://m1-1253159997.image.myqcloud.com/images/f58330a41a41d8776db5a7860eb2c9b5.JPG"
+        urls: ["http://photocq.photo.store.qq.com/psc?/V10npdo11GG6Tp/es2MkY2PTea.oVL6KUJJIFOSmcKTHd*Cuyf*6EvWFnIzJ.pRRfl1cROyN3XzE6b599JWHEkkwi6i4rHrpms87g!!/b&bo=kAEVAZABFQEDCC0!&rf=viewer_4"],
+        current: "http://photocq.photo.store.qq.com/psc?/V10npdo11GG6Tp/es2MkY2PTea.oVL6KUJJIFOSmcKTHd*Cuyf*6EvWFnIzJ.pRRfl1cROyN3XzE6b599JWHEkkwi6i4rHrpms87g!!/b&bo=kAEVAZABFQEDCC0!&rf=viewer_4"
         // 当前显示图片的http链接
       });
-    },
-    //分享小程序
-    onShareAppMessage: function() {
-      return {
-        title: this.config_base_list.share_title ? this.config_base_list.share_title : "推荐一款超好用的视频去水印工具，免费解析不限次，大家都在用",
-        path: "/pages/index/index",
-        imageUrl: this.config_base_list.share_imageUrl ? this.config_base_list.share_imageUrl : "/static/images/share.jpg",
-        success: function(e) {
-          common_vendor.index.showToast({
-            title: "分享成功",
-            icon: "success",
-            duration: 2e3
-          });
-        },
-        fail: function(e) {
-          common_vendor.index.showToast({
-            title: "分享失败",
-            icon: "none",
-            duration: 2e3
-          });
-        }
-      };
     }
   },
   created: function() {
   }
 };
 if (!Array) {
+  const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _component_video_tab_bar = common_vendor.resolveComponent("video-tab-bar");
-  _component_video_tab_bar();
+  (_easycom_uni_icons2 + _component_video_tab_bar)();
+}
+const _easycom_uni_icons = () => "../../../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
+if (!Math) {
+  _easycom_uni_icons();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: $data.hasUserInfo ? $data.userInfo.avatarUrl : "/static/images/my.png",
+    a: common_vendor.p({
+      type: "contact",
+      size: "50",
+      color: "#ccc"
+    }),
     b: !$data.hasUserInfo
   }, !$data.hasUserInfo ? {
     c: common_vendor.o((...args) => $options.getUserInfo && $options.getUserInfo(...args))
@@ -146,13 +115,52 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   } : {}, {
     f: common_vendor.t($data.dailyFreeParseNum),
     g: common_vendor.t($data.totalParseNum),
-    h: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args)),
+    h: common_vendor.p({
+      type: "download-filled",
+      size: "30",
+      color: "#00c8fd"
+    }),
     i: common_vendor.p({
+      type: "right",
+      size: "20",
+      color: "#8a8a8a"
+    }),
+    j: common_vendor.p({
+      type: "phone-filled",
+      size: "30",
+      color: "#00c8fd"
+    }),
+    k: common_vendor.p({
+      type: "right",
+      size: "20",
+      color: "#8a8a8a"
+    }),
+    l: common_vendor.p({
+      type: "redo-filled",
+      size: "30",
+      color: "#00c8fd"
+    }),
+    m: common_vendor.p({
+      type: "right",
+      size: "20",
+      color: "#8a8a8a"
+    }),
+    n: common_vendor.p({
+      type: "hand-up-filled",
+      size: "30",
+      color: "#00c8fd"
+    }),
+    o: common_vendor.p({
+      type: "right",
+      size: "20",
+      color: "#8a8a8a"
+    }),
+    p: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args)),
+    q: common_vendor.p({
       tabBar: $data.videoTabBars,
       activeIndex: 1
     })
   });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/mine/mine.vue"]]);
-_sfc_main.__runtimeHooks = 2;
 wx.createPage(MiniProgramPage);

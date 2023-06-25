@@ -1,11 +1,8 @@
 "use strict";
 const common_vendor = require("../../../../common/vendor.js");
-const icon = () => "./icon/index.js";
 var app = getApp();
 const _sfc_main = {
-  components: {
-    icon
-  },
+  components: {},
   data() {
     return {
       list: [],

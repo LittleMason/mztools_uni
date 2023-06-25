@@ -5,7 +5,8 @@
                 <view class="card-top">
                     <view class="user-top">
                         <view class="user-vip" style="position: relative">
-                            <image class="user-pic" :src="hasUserInfo ? userInfo.avatarUrl : '/static/images/my.png'"></image>
+							<uni-icons type="contact" size="50" color="#ccc"></uni-icons>
+                            <!-- <image class="user-pic" :src="hasUserInfo ? userInfo.avatarUrl : '/static/images/my.png'"></image> -->
                         </view>
                         <view class="user-board">
                             <button v-if="!hasUserInfo" class="user-name" open-type="getUserInfo" @getuserinfo="getUserInfo">点击登陆</button>
@@ -31,41 +32,38 @@
         </view>
         <view class="center-list">
             <navigator class="center-list-item" url="/pages/mine/history">
-                <icon class="icon1" color="#00c8fd" :size="50" type="download"></icon>
+                <uni-icons type="download-filled" size="30" color="#00c8fd"></uni-icons>
                 <text class="list-text">下载记录查询</text>
-                <icon class="icon2" color="#8a8a8a" :size="30" type="youjiantou"></icon>
+                <uni-icons type="right" size="20" color="#8a8a8a"></uni-icons>
             </navigator>
             <!-- navigator target="miniProgram"/ -->
             <button class="center-list-item" openType="contact">
-                <icon class="icon1" color="#00c8fd" :size="50" type="kefu"></icon>
+                <uni-icons type="phone-filled" size="30" color="#00c8fd"></uni-icons>
                 <text class="list-text">联系客服</text>
-                <icon class="icon2" color="#8a8a8a" :size="30" type="youjiantou"></icon>
+                <uni-icons type="right" size="20" color="#8a8a8a"></uni-icons>
             </button>
             <button class="center-list-item" openType="share">
-                <icon class="icon1" color="#00c8fd" :size="40" type="share"></icon>
+                <uni-icons type="redo-filled" size="30" color="#00c8fd"></uni-icons>
                 <text class="list-text">分享</text>
-                <icon class="icon2" color="#8a8a8a" :size="30" type="youjiantou"></icon>
+                <uni-icons type="right" size="20" color="#8a8a8a"></uni-icons>
             </button>
             <button @tap="showQrcode" open-type="navigate" class="center-list-item">
-                <icon class="icon1" color="#00c8fd" :size="50" type="zan1"></icon>
+                <uni-icons type="hand-up-filled" size="30" color="#00c8fd"></uni-icons>
                 <text class="list-text">赞赏支持</text>
-                <icon class="icon2" color="#8a8a8a" :size="30" type="youjiantou"></icon>
+                <uni-icons type="right" size="20" color="#8a8a8a"></uni-icons>
             </button>
         </view>
-        <view class="relief">© 2020 yaqi.wang</view>
 		<video-tab-bar :tabBar="videoTabBars" :activeIndex="1"/>
     </view>
 </template>
 
 <script>
-import icon from './icon/index';
 import util from '../../../../utils/util.js';
 import VideoTabBar from '../../../components/tabBar/index.vue';
 import { videoTabBars } from '../../../../utils/business.js'
 var app = getApp();
 export default {
     components: {
-        icon,
 		VideoTabBar
     },
     data() {
@@ -103,6 +101,8 @@ export default {
          * 授权登录
          */
         getUserInfo(e) {
+			this.$root.$options.setData('1111')
+			return false;
             if (e.detail.errMsg !== 'getUserInfo:ok') {
                 uni.showToast({
                     title: '未授权，登录失败',
@@ -158,33 +158,10 @@ export default {
         //打赏
         showQrcode() {
             uni.previewImage({
-                urls: ['https://m1-1253159997.image.myqcloud.com/images/f58330a41a41d8776db5a7860eb2c9b5.JPG'],
-                current: 'https://m1-1253159997.image.myqcloud.com/images/f58330a41a41d8776db5a7860eb2c9b5.JPG' // 当前显示图片的http链接
+                urls: ['http://photocq.photo.store.qq.com/psc?/V10npdo11GG6Tp/es2MkY2PTea.oVL6KUJJIFOSmcKTHd*Cuyf*6EvWFnIzJ.pRRfl1cROyN3XzE6b599JWHEkkwi6i4rHrpms87g!!/b&bo=kAEVAZABFQEDCC0!&rf=viewer_4'],
+                current: 'http://photocq.photo.store.qq.com/psc?/V10npdo11GG6Tp/es2MkY2PTea.oVL6KUJJIFOSmcKTHd*Cuyf*6EvWFnIzJ.pRRfl1cROyN3XzE6b599JWHEkkwi6i4rHrpms87g!!/b&bo=kAEVAZABFQEDCC0!&rf=viewer_4' // 当前显示图片的http链接
             });
         },
-
-        //分享小程序
-        onShareAppMessage: function () {
-            return {
-                title: this.config_base_list.share_title ? this.config_base_list.share_title : '推荐一款超好用的视频去水印工具，免费解析不限次，大家都在用',
-                path: '/pages/index/index',
-                imageUrl: this.config_base_list.share_imageUrl ? this.config_base_list.share_imageUrl : '/static/images/share.jpg',
-                success: function (e) {
-                    uni.showToast({
-                        title: '分享成功',
-                        icon: 'success',
-                        duration: 2000
-                    });
-                },
-                fail: function (e) {
-                    uni.showToast({
-                        title: '分享失败',
-                        icon: 'none',
-                        duration: 2000
-                    });
-                }
-            };
-        }
     },
     created: function () {}
 };
@@ -277,14 +254,13 @@ wx-button::after {
 
 .center .blue-top .user-card .card-top .user-top {
     width: 100%;
-    position: absolute;
-    top: -26rpx;
 }
 
 .center .blue-top .user-card .card-top .user-top .user-vip {
     width: 130rpx;
     height: 130rpx;
     margin: 0 auto;
+	text-align: center;
 }
 
 .center .blue-top .user-card .card-top .user-top .user-vip .user-pic {
@@ -307,11 +283,10 @@ wx-button::after {
     -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
-    margin-top: 20rpx;
 }
 
 .center .blue-top .user-card .card-top .user-top .user-board .user-name {
-    color: #1f1f1f;
+    color: #666;
     font-size: 36rpx;
     font-weight: bold;
 }
@@ -424,6 +399,7 @@ wx-button::after {
     border-bottom-width: 1px;
     border-color: #eee;
     border-bottom-style: solid;
+	align-items: center;
 }
 
 .center-list-item:last-child {
@@ -432,15 +408,13 @@ wx-button::after {
 
 .center-list-item .icon1 {
     display: block;
-    height: 114rpx;
     width: 50rpx;
-    line-height: 114rpx;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 50rpx 50rpx;
     color: #00c8fd;
     text-align: left;
-    margin-right: 18rpx;
+    margin-right: 28rpx;
 }
 
 .list-text {
@@ -453,6 +427,7 @@ wx-button::after {
     flex: 1;
     text-align: left;
     font-size: 28rpx;
+	margin-left: 15rpx;
 }
 
 .icon2 {

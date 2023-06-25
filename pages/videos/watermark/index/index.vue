@@ -57,7 +57,6 @@
             </view>
             <button @tap="submit" class="parsing" hoverClass="parsing-btn-hover">一键去除水印</button>
             <view style="height: 300px"></view>
-            <view class="center">@ yaqi.wang.com</view>
         </view>
 		<video-tab-bar :tabBar="videoTabBars" :activeIndex="0"/>
 	</view>

@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import icon from './icon/index';
 // pages/history/history.js
 var app = getApp();
 
@@ -45,7 +44,6 @@ var app = getApp();
 
 export default {
     components: {
-        icon
     },
     data() {
         return {

@@ -69,13 +69,12 @@ wx-button::after {
 }
 .center .blue-top .user-card .card-top .user-top {
     width: 100%;
-    position: absolute;
-    top: -26rpx;
 }
 .center .blue-top .user-card .card-top .user-top .user-vip {
     width: 130rpx;
     height: 130rpx;
     margin: 0 auto;
+	text-align: center;
 }
 .center .blue-top .user-card .card-top .user-top .user-vip .user-pic {
     overflow: hidden;
@@ -90,10 +89,9 @@ wx-button::after {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 20rpx;
 }
 .center .blue-top .user-card .card-top .user-top .user-board .user-name {
-    color: #1f1f1f;
+    color: #666;
     font-size: 36rpx;
     font-weight: bold;
 }
@@ -158,21 +156,20 @@ wx-button::after {
     border-bottom-width: 1px;
     border-color: #eee;
     border-bottom-style: solid;
+	align-items: center;
 }
 .center-list-item:last-child {
     border-bottom: 0;
 }
 .center-list-item .icon1 {
     display: block;
-    height: 114rpx;
     width: 50rpx;
-    line-height: 114rpx;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 50rpx 50rpx;
     color: #00c8fd;
     text-align: left;
-    margin-right: 18rpx;
+    margin-right: 28rpx;
 }
 .list-text {
     height: 114rpx;
@@ -181,6 +178,7 @@ wx-button::after {
     flex: 1;
     text-align: left;
     font-size: 28rpx;
+	margin-left: 15rpx;
 }
 .icon2 {
     display: block;
