@@ -79,9 +79,7 @@ const _sfc_main = {
       app.globalData.apiRequest({
         url: "/records/total",
         success: (res) => {
-          this.setData({
-            totalParseNum: res.data.total_num
-          });
+          this.totalParseNum = res.data.total_num;
         }
       });
     },

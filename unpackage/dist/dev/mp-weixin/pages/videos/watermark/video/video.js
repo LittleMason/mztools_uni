@@ -11,11 +11,9 @@ const _sfc_main = {
     };
   },
   onLoad: function(options) {
-    this.setData({
-      dataUrl: decodeURIComponent(options.url),
-      dataImage: decodeURIComponent(options.image),
-      preview: options.preview
-    });
+    this.dataUrl = decodeURIComponent(options.url);
+    this.dataImage = decodeURIComponent(options.image);
+    this.preview = options.preview;
   },
   onUnload: function() {
     if (n) {
