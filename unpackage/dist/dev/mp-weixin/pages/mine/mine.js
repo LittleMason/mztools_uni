@@ -1,20 +1,15 @@
 "use strict";
-const common_vendor = require("../../../../common/vendor.js");
-const utils_util = require("../../../../utils/util.js");
-const utils_business = require("../../../../utils/business.js");
-const VideoTabBar = () => "../../../components/tabBar/index.js";
+const common_vendor = require("../../common/vendor.js");
+const utils_util = require("../../utils/util.js");
 var app = getApp();
 const _sfc_main = {
-  components: {
-    VideoTabBar
-  },
+  components: {},
   data() {
     return {
       dailyFreeParseNum: "--",
       totalParseNum: "--",
       userInfo: null,
-      hasUserInfo: false,
-      videoTabBars: utils_business.videoTabBars
+      hasUserInfo: false
     };
   },
   /**
@@ -97,10 +92,9 @@ const _sfc_main = {
 };
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
-  const _component_video_tab_bar = common_vendor.resolveComponent("video-tab-bar");
-  (_easycom_uni_icons2 + _component_video_tab_bar)();
+  _easycom_uni_icons2();
 }
-const _easycom_uni_icons = () => "../../../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
+const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 if (!Math) {
   _easycom_uni_icons();
 }
@@ -166,12 +160,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       size: "20",
       color: "#8a8a8a"
     }),
-    r: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args)),
-    s: common_vendor.p({
-      tabBar: $data.videoTabBars,
-      activeIndex: 1
-    })
+    r: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/mine/mine.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/mine/mine.vue"]]);
 wx.createPage(MiniProgramPage);

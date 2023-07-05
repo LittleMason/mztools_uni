@@ -6,10 +6,9 @@ if (!Math) {
   "./pages/index/index.js";
   "./pages/sudokuClimp/sudokuClimp.js";
   "./pages/joinImages/joinImages.js";
+  "./pages/mine/mine.js";
   "./pages/videos/watermark/index/index.js";
-  "./pages/videos/watermark/mine/mine.js";
   "./pages/videos/watermark/video/video.js";
-  "./pages/videos/watermark/mine/history.js";
 }
 const _sfc_main = {
   onLaunch: function() {
@@ -129,7 +128,7 @@ const _sfc_main = {
       this.userInfo = null;
       common_vendor.index.removeStorageSync("token");
       common_vendor.index.showToast({
-        title: "请先登陆!",
+        title: "请先登录!",
         icon: "none",
         success: (res) => {
           common_vendor.index.switchTab({
@@ -160,7 +159,7 @@ const _sfc_main = {
     }
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mz/mztools_uni/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mztools_uni/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   app.mixin(utils_share.share);

@@ -1,16 +1,12 @@
 "use strict";
 const common_vendor = require("../../../../common/vendor.js");
 const utils_util = require("../../../../utils/util.js");
-const utils_business = require("../../../../utils/business.js");
 const app = getApp();
-const VideoTabBar = () => "../../../components/tabBar/index.js";
 const _sfc_main = {
-  components: { VideoTabBar },
   data() {
     return {
       userInfo: {},
-      videoUrl: "https://v.douyin.com/JxHkvPT/",
-      videoTabBars: utils_business.videoTabBars
+      videoUrl: "https://v.douyin.com/JxHkvPT/"
     };
   },
   onLoad: function() {
@@ -89,10 +85,6 @@ const _sfc_main = {
     }
   }
 };
-if (!Array) {
-  const _component_video_tab_bar = common_vendor.resolveComponent("video-tab-bar");
-  _component_video_tab_bar();
-}
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
     a: common_vendor.n("swiper-item " + _ctx.item),
@@ -102,12 +94,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     e: $data.videoUrl == ""
   }, $data.videoUrl == "" ? {} : {}, {
     f: common_vendor.o((...args) => $options.inputClear && $options.inputClear(...args)),
-    g: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
-    h: common_vendor.p({
-      tabBar: $data.videoTabBars,
-      activeIndex: 0
-    })
+    g: common_vendor.o((...args) => $options.submit && $options.submit(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/videos/watermark/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

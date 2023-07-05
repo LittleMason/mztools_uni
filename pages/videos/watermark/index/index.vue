@@ -58,7 +58,6 @@
             <button @tap="submit" class="parsing" hoverClass="parsing-btn-hover">一键去除水印</button>
             <view style="height: 300px"></view>
         </view>
-		<video-tab-bar :tabBar="videoTabBars" :activeIndex="0"/>
 	</view>
 </template>
 
@@ -67,15 +66,11 @@
 //获取应用实例
 const app = getApp();
 import util from '../../../../utils/util.js';
-import VideoTabBar from '../../../components/tabBar/index.vue';
-import { videoTabBars } from '../../../../utils/business.js'
 export default {
-	components:{VideoTabBar},
     data() {
         return {
             userInfo: {},
             videoUrl: 'https://v.douyin.com/JxHkvPT/',
-			videoTabBars:videoTabBars
         };
     },
     onLoad: function () {},

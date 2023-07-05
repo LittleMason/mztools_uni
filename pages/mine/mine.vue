@@ -53,18 +53,14 @@
                 <uni-icons type="right" size="20" color="#8a8a8a"></uni-icons>
             </button>
         </view>
-		<video-tab-bar :tabBar="videoTabBars" :activeIndex="1"/>
     </view>
 </template>
 
 <script>
-import util from '../../../../utils/util.js';
-import VideoTabBar from '../../../components/tabBar/index.vue';
-import { videoTabBars } from '../../../../utils/business.js'
+import util from '../../utils/util.js';
 var app = getApp();
 export default {
     components: {
-		VideoTabBar
     },
     data() {
         return {
@@ -72,7 +68,6 @@ export default {
             totalParseNum: '--',
             userInfo: null,
             hasUserInfo: false,
-			videoTabBars
         };
     },
     /**

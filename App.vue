@@ -131,7 +131,7 @@
 		        this.userInfo = null;
 		        uni.removeStorageSync('token');
 		        uni.showToast({
-		            title: '请先登陆!',
+		            title: '请先登录!',
 		            icon: 'none',
 		            success: (res) => {
 		                uni.switchTab({
