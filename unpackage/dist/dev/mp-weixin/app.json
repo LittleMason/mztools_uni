@@ -3,15 +3,16 @@
     "pages/index/index",
     "pages/sudokuClimp/sudokuClimp",
     "pages/joinImages/joinImages",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/mine/edit/edit",
+    "pages/mine/history"
   ],
   "subPackages": [
     {
       "root": "pages/videos/",
       "pages": [
         "watermark/index/index",
-        "watermark/video/video",
-        "watermark/mine/history"
+        "watermark/video/video"
       ]
     }
   ],

@@ -1,0 +1,18 @@
+.avator-box {
+  padding: 100rpx 0;
+}
+.avator-box .avator-btn .avatar-image {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto;
+}
+.form-item {
+  display: flex;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+  padding: 30rpx;
+}
+.form-item-label {
+  flex: 0 160rpx;
+}

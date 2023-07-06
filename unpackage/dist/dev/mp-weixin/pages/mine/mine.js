@@ -12,6 +12,11 @@ const _sfc_main = {
       hasUserInfo: false
     };
   },
+  computed: {
+    isLogin() {
+      return app.globalData.checkIsLogin();
+    }
+  },
   /**
    * 组件的方法列表
    */
@@ -26,8 +31,10 @@ const _sfc_main = {
         this.userInfo = app.globalData.userInfo;
         this.hasUserInfo = app.globalData.hasUserInfo;
       }
+      if (app.globalData.checkIsLogin()) {
+        this.getTotalParseNum();
+      }
       this.getDailyFreeParseNum();
-      this.getTotalParseNum();
     },
     /**
      * 授权登录
@@ -85,9 +92,15 @@ const _sfc_main = {
         current: "http://photocq.photo.store.qq.com/psc?/V10npdo11GG6Tp/es2MkY2PTea.oVL6KUJJIFOSmcKTHd*Cuyf*6EvWFnIzJ.pRRfl1cROyN3XzE6b599JWHEkkwi6i4rHrpms87g!!/b&bo=kAEVAZABFQEDCC0!&rf=viewer_4"
         // 当前显示图片的http链接
       });
+    },
+    handleEdit() {
+      common_vendor.index.navigateTo({
+        url: "/pages/mine/edit/edit"
+      });
     }
   },
   created: function() {
+    this.onShow();
   }
 };
 if (!Array) {
@@ -100,38 +113,32 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: !$data.hasUserInfo
+    a: $options.isLogin
+  }, $options.isLogin ? {
+    b: common_vendor.o((...args) => $options.handleEdit && $options.handleEdit(...args))
+  } : {}, {
+    c: !$data.hasUserInfo
   }, !$data.hasUserInfo ? {
-    b: common_vendor.p({
+    d: common_vendor.p({
       type: "contact",
       size: "50",
       color: "#ccc"
     })
   } : {
-    c: $data.userInfo.avatarUrl
+    e: $data.userInfo.avatarUrl
   }, {
-    d: !$data.hasUserInfo
+    f: !$data.hasUserInfo
   }, !$data.hasUserInfo ? {
-    e: common_vendor.o((...args) => $options.getUserInfo && $options.getUserInfo(...args))
+    g: common_vendor.o((...args) => $options.getUserInfo && $options.getUserInfo(...args))
   } : {}, {
-    f: $data.hasUserInfo
+    h: $data.hasUserInfo
   }, $data.hasUserInfo ? {
-    g: common_vendor.t($data.userInfo.nickName)
+    i: common_vendor.t($data.userInfo.nickName)
   } : {}, {
-    h: common_vendor.t($data.dailyFreeParseNum),
-    i: common_vendor.t($data.totalParseNum),
-    j: common_vendor.p({
-      type: "download-filled",
-      size: "30",
-      color: "#00c8fd"
-    }),
-    k: common_vendor.p({
-      type: "right",
-      size: "20",
-      color: "#8a8a8a"
-    }),
+    j: common_vendor.t($data.dailyFreeParseNum),
+    k: common_vendor.t($data.totalParseNum),
     l: common_vendor.p({
-      type: "phone-filled",
+      type: "download-filled",
       size: "30",
       color: "#00c8fd"
     }),
@@ -141,7 +148,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       color: "#8a8a8a"
     }),
     n: common_vendor.p({
-      type: "redo-filled",
+      type: "phone-filled",
       size: "30",
       color: "#00c8fd"
     }),
@@ -151,7 +158,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       color: "#8a8a8a"
     }),
     p: common_vendor.p({
-      type: "hand-up-filled",
+      type: "redo-filled",
       size: "30",
       color: "#00c8fd"
     }),
@@ -160,7 +167,17 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       size: "20",
       color: "#8a8a8a"
     }),
-    r: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args))
+    r: common_vendor.p({
+      type: "hand-up-filled",
+      size: "30",
+      color: "#00c8fd"
+    }),
+    s: common_vendor.p({
+      type: "right",
+      size: "20",
+      color: "#8a8a8a"
+    }),
+    t: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args))
   });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/mine/mine.vue"]]);

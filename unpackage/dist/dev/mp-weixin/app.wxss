@@ -2353,10 +2353,31 @@
   border-color: #e9e9eb;
 }
 page {
-  background-color: #f5f5f5;
+  background-color: #fff;
 }
 .example-info {
   font-size: 14px;
   color: #333;
   padding: 10px;
+}
+.mine wx-button,
+.mine-edit wx-button {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  -webkit-tap-highlight-color: transparent;
+  font-size: inherit;
+  text-align: inherit;
+  text-decoration: none;
+  line-height: inherit;
+  overflow: hidden;
+  color: inherit;
+  background-color: inherit;
+}
+.mine wx-button::after,
+.mine-edit wx-button::after {
+  border: none;
 }page{--status-bar-height:25px;--top-window-height:0px;--window-top:0px;--window-bottom:0px;--window-left:0px;--window-right:0px;--window-magin:0px}[data-c-h="true"]{display: none !important;}

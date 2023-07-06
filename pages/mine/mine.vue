@@ -1,15 +1,17 @@
 <template>
-    <view class="center">
+    <view class="center mine">
         <view class="blue-top">
             <view class="user-card">
                 <view class="card-top">
                     <view class="user-top">
+						<view class="user-top-tips">登录赠送100次解析次数!!</view>
+						<view class="edit-btn" @click="handleEdit" v-if="isLogin">编辑</view>
                         <view class="user-vip" style="position: relative">
 							<uni-icons type="contact" size="50" color="#ccc" v-if="!hasUserInfo"></uni-icons>
                             <image class="user-pic" :src="userInfo.avatarUrl" v-else/>
                         </view>
                         <view class="user-board">
-                            <button v-if="!hasUserInfo" class="user-name" open-type="getUserInfo" @getuserinfo="getUserInfo">点击登陆</button>
+                            <button v-if="!hasUserInfo" class="user-name" open-type="getUserInfo" @getuserinfo="getUserInfo">点击登录</button>
                             <view v-if="hasUserInfo" class="user-name">{{ userInfo.nickName }}</view>
                         </view>
                     </view>
@@ -70,6 +72,11 @@ export default {
             hasUserInfo: false,
         };
     },
+	computed:{
+		isLogin(){
+			return app.globalData.checkIsLogin()
+		}
+	},
     /**
      * 组件的方法列表
      */
@@ -83,10 +90,13 @@ export default {
 				this.userInfo = app.globalData.userInfo;
 				this.hasUserInfo = app.globalData.hasUserInfo;
             }
+			if(app.globalData.checkIsLogin()){
+				// 获取当前用户总解析次数
+				this.getTotalParseNum();
+			}
             // 获取每日剩余免费解析次数
             this.getDailyFreeParseNum();
-            // 获取当前用户总解析次数
-            this.getTotalParseNum();
+            
         },
         /**
          * 授权登录
@@ -145,11 +155,18 @@ export default {
                 current: 'http://photocq.photo.store.qq.com/psc?/V10npdo11GG6Tp/es2MkY2PTea.oVL6KUJJIFOSmcKTHd*Cuyf*6EvWFnIzJ.pRRfl1cROyN3XzE6b599JWHEkkwi6i4rHrpms87g!!/b&bo=kAEVAZABFQEDCC0!&rf=viewer_4' // 当前显示图片的http链接
             });
         },
+		handleEdit(){
+			uni.navigateTo({
+				url:'/pages/mine/edit/edit',
+			})
+		}
     },
-    created: function () {}
+    created: function () {
+		this.onShow();
+	}
 };
 </script>
-<style>
+<style lang="less">
 /* pages/mini/mini.wxss */
 
 page {
@@ -176,27 +193,6 @@ page {
     font-size: 1.5em;
 }
 
-wx-button {
-    position: relative;
-    display: block;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    border-radius: 0;
-    -webkit-tap-highlight-color: transparent;
-    font-size: inherit;
-    text-align: inherit;
-    text-decoration: none;
-    line-height: inherit;
-    overflow: hidden;
-    color: inherit;
-    background-color: inherit;
-}
-
-wx-button::after {
-    border: none;
-}
-
 .center {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -206,37 +202,32 @@ wx-button::after {
 }
 
 .center .blue-top {
-    width: 750rpx;
-    height: 230rpx;
+    width: 100%;
     background: #99ccff;
     border-radius: 0 0 350rpx 350rpx / 0 0 30rpx 30rpx;
-    margin-bottom: 160rpx;
+    padding-bottom: 160rpx;
 }
 
 .center .blue-top .user-card {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 686rpx;
-    height: 330rpx;
     background: #fff;
-    position: absolute;
-    left: 50%;
-    -webkit-transform: translate(-50%, 28rpx);
-    -ms-transform: translate(-50%, 28rpx);
-    transform: translate(-50%, 28rpx);
     border-radius: 20rpx;
+	margin: 0 auto;
 }
 
 .center .blue-top .user-card .card-top {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     border-bottom: 1px solid #eee;
-    height: 190rpx;
     position: relative;
+	padding: 20rpx 0 40rpx;
 }
 
 .center .blue-top .user-card .card-top .user-top {
     width: 100%;
+	position: relative;
 }
 
 .center .blue-top .user-card .card-top .user-top .user-vip {
@@ -353,7 +344,7 @@ wx-button::after {
     display: flex;
     background-color: #fff;
     margin-top: 20rpx;
-    width: 686rpx;
+    width: 100%;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
@@ -365,12 +356,9 @@ wx-button::after {
 }
 
 .center-list-item {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
+    display: flex !important;
     height: 114rpx;
-    width: 686rpx;
+    width: 100%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     -webkit-box-orient: horizontal;
@@ -378,7 +366,7 @@ wx-button::after {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
-    padding: 0rpx 32rpx;
+    padding: 0rpx 32rpx !important;
     border-bottom-width: 1px;
     border-color: #eee;
     border-bottom-style: solid;
@@ -427,5 +415,18 @@ wx-button::after {
     color: #999;
     text-align: center;
     padding-top: 30rpx;
+}
+.edit-btn{
+	position: absolute;
+	color: #00c8fd;
+	right: 10px;
+	top: 10px;
+}
+.user-top{
+	&-tips{
+		font-size: 24rpx;
+		color: #666;
+		padding: 10rpx 0 0 30rpx;
+	}
 }
 </style>

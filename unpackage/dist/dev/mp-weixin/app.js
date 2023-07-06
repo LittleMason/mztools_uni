@@ -7,6 +7,8 @@ if (!Math) {
   "./pages/sudokuClimp/sudokuClimp.js";
   "./pages/joinImages/joinImages.js";
   "./pages/mine/mine.js";
+  "./pages/mine/edit/edit.js";
+  "./pages/mine/history.js";
   "./pages/videos/watermark/index/index.js";
   "./pages/videos/watermark/video/video.js";
 }
@@ -22,13 +24,16 @@ const _sfc_main = {
     console.log("App Hide");
   },
   globalData: {
-    userInfo: null,
+    userInfo: {
+      avatarUrl: "https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0",
+      nickname: "小白"
+    },
     hasUserInfo: false,
     apiDomain: "http://127.0.0.1:8000/api",
     //生产
     downloadPrefix: "http://127.0.0.1:8000/download?url=",
     // 通过代理服务器中转（微信限制资源域名，不同平台cdn域名千变万化）
-    defaultDailyFreeParseNum: 10,
+    defaultDailyFreeParseNum: 3,
     /**
      * 登陆并获取用户信息、token
      * @param {*} callback
@@ -40,14 +45,9 @@ const _sfc_main = {
           common_vendor.index.getSetting({
             success: (res2) => {
               if (res2.authSetting["scope.userInfo"]) {
-                console.log(1);
                 common_vendor.index.getUserInfo({
                   success: (res3) => {
-                    console.log(2);
-                    this.userInfo = res3.userInfo;
-                    this.hasUserInfo = true;
                     if (!this.checkIsLogin()) {
-                      console.log(3);
                       this.getToken(code, res3.encryptedData, res3.iv);
                     }
                     if (callback) {
@@ -141,16 +141,24 @@ const _sfc_main = {
      * 获取token
      */
     getToken(code, encryptedData, iv, callback = null) {
+      const { nickname, avatarUrl } = this.userInfo;
       this.apiRequest({
         url: "/auth/login",
         method: "POST",
         data: {
+          nickname,
+          avatarUrl,
           code,
           data: encryptedData,
           iv
         },
         success: (res) => {
           common_vendor.index.setStorageSync("token", res.data.token);
+          this.userInfo = res.userInfo;
+          this.hasUserInfo = true;
+          common_vendor.index.showToast({
+            title: "登录成功！"
+          });
           if (callback) {
             callback();
           }

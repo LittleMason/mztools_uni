@@ -114,6 +114,8 @@ export default {
             } else {
                 num = uni.getStorageSync('dailyFreeParseNum');
             }
+			
+			
             if (num > 0) {
                 this.parseVideo();
             } else {

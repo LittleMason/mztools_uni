@@ -1,10 +1,12 @@
 {
-	"pages": [{
-		"path": "pages/index/index",
-		"style": {
-			"navigationBarTitleText": "曼珠工具箱"
-		}
-	}    ,{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "曼珠工具箱"
+			}
+		},
+		{
             "path" : "pages/sudokuClimp/sudokuClimp",
             "style" :                                                                                    
             {
@@ -12,8 +14,8 @@
                 "enablePullDownRefresh": false
             }
             
-        }
-        ,{
+        },
+        {
             "path" : "pages/joinImages/joinImages",
             "style" :                                                                                    
             {
@@ -27,8 +29,25 @@
 			"style": {
 				"navigationBarTitleText": "我的",
 				"navigationBarBackgroundColor": "#99CCFF",
-				"navigationBarTextStyle": "white",
-				"component": true
+				"navigationBarTextStyle": "white"
+			}
+		},
+        {
+            "path" : "pages/mine/edit/edit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "编辑信息"
+            }
+            
+        },
+		{
+			"path": "pages/mine/history",
+			"style": {
+				"component": true,
+				"backgroundTextStyle": "light",
+				"navigationBarBackgroundColor": "#f4f4f4",
+				"navigationBarTitleText": "我的下载",
+				"navigationBarTextStyle": "black"
 			}
 		}
     ],
@@ -52,17 +71,8 @@
 						"navigationBarBackgroundColor": "#fff",
 						"navigationBarTextStyle": "black"
 					}
-				},
-				{
-					"path": "watermark/mine/history",
-					"style": {
-						"component": true,
-						"backgroundTextStyle": "light",
-						"navigationBarBackgroundColor": "#f4f4f4",
-						"navigationBarTitleText": "我的下载",
-						"navigationBarTextStyle": "black"
-					}
 				}
+				
 			]
 		}
 	],
