@@ -54,55 +54,65 @@ const _sfc_main = {
         icon: "../../static/images/video-water.png"
       }
     ];
-    const hanleItem = (item) => {
+    const handle = (item) => {
       console.log("item:", item);
       common_vendor.index.navigateTo({
         url: item.path
       });
     };
+    const handleDemo = () => {
+      common_vendor.Ds.callFunction({
+        name: "demo",
+        data: { sex: "男" },
+        success(res) {
+          console.log("res:", res);
+        }
+      });
+    };
     return (_ctx, _cache) => {
       return {
         a: 5 * 1e3,
-        b: common_vendor.f(textArr, (item, index, i0) => {
+        b: common_vendor.o(handleDemo),
+        c: common_vendor.f(textArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
-            c: common_vendor.o(hanleItem, index),
+            c: common_vendor.o(handle, index),
             d: index,
             e: "1cf27b2a-1-" + i0 + ",1cf27b2a-0"
           };
         }),
-        c: common_vendor.p({
+        d: common_vendor.p({
           column: 4,
           showBorder: false
         }),
-        d: common_vendor.f(imgArr, (item, index, i0) => {
+        e: common_vendor.f(imgArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
             c: common_vendor.o(() => {
-              hanleItem(item);
+              handle(item);
             }, index),
             d: index,
             e: "1cf27b2a-3-" + i0 + ",1cf27b2a-2"
           };
         }),
-        e: common_vendor.p({
+        f: common_vendor.p({
           column: 4,
           showBorder: false
         }),
-        f: common_vendor.f(videoArr, (item, index, i0) => {
+        g: common_vendor.f(videoArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
             c: common_vendor.o(() => {
-              hanleItem(item);
+              handle(item);
             }, index),
             d: index,
             e: "1cf27b2a-5-" + i0 + ",1cf27b2a-4"
           };
         }),
-        g: common_vendor.p({
+        h: common_vendor.p({
           column: 4,
           showBorder: false
         })
@@ -110,5 +120,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/mztools_uni/pages/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/mz/mztools_uni/pages/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

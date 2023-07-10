@@ -10,6 +10,7 @@
      	{
      		"launchtype" : "local"
      	},
+     	"provider" : "tcb",
      	"type" : "uniCloud"
      }
     ]

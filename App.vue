@@ -1,14 +1,28 @@
 <script>
 	export default {
-		onLaunch: function() {
-			console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上！')
-			console.log('App Launch')
+		onLaunch: async function() {
+			// this.userDefaultLogin();
+			console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上 123123！')
+			console.log('App Launch');
 		},
 		onShow: function() {
 			console.log('App Show')
 		},
 		onHide: function() {
 			console.log('App Hide')
+		},
+		methods:{
+			userDefaultLogin:()=>{
+				uni.login({
+					async success(res) {
+						const uniIdCo = uniCloud.importObject('uni-id-co')
+						const logined = await uniIdCo.loginByWeixin({
+							code:res.code
+						})
+						console.log('logined:',logined);
+					}
+				})
+			}
 		},
 		globalData: {
 			userInfo: {

@@ -9,11 +9,14 @@
 				</swiper-item>
 			</swiper>
 		</view>
+		<view @click="handleDemo">
+			获取信息
+		</view>
 		<view class="block-wrapper">
 			<view class="block-wrapper-title">文本处理</view>
 			<uni-grid :column="4" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in textArr" :key="index">
-					<view class="item-block" @click="hanleItem">
+					<view class="item-block" @click="handle">
 						<image :src="item.icon" mode="widthFix"></image>
 						<view class="text">{{ item.text }}</view>
 					</view>
@@ -24,7 +27,7 @@
 			<view class="block-wrapper-title">图像处理</view>
 			<uni-grid :column="4" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in imgArr" :key="index">
-					<view class="item-block" @click="()=>{hanleItem(item)}">
+					<view class="item-block" @click="()=>{handle(item)}">
 						<image :src="item.icon" mode="widthFix"></image>
 						<view class="text">{{ item.text }}</view>
 					</view>
@@ -34,7 +37,7 @@
 			<view class="block-wrapper-title">视频处理</view>
 			<uni-grid :column="4" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in videoArr" :key="index">
-					<view class="item-block" @click="()=>{hanleItem(item)}">
+					<view class="item-block" @click="()=>{handle(item)}">
 						<image :src="item.icon" mode="widthFix"></image>
 						<view class="text">{{ item.text }}</view>
 					</view>
@@ -87,12 +90,22 @@ const videoArr = [
 		icon:'../../static/images/video-water.png'
 	}
 ]
-const hanleItem = (item)=>{
+const handle = (item)=>{
 	console.log('item:',item)
 	uni.navigateTo({
 		url:item.path
 	})
 	
+}
+const handleDemo = ()=>{
+	// let data = uniCloud.getCurrentUserInfo();
+	uniCloud.callFunction({
+		name:'demo',
+		data:{sex:'男'},
+		success(res) {
+			console.log('res:',res);
+		}
+	})
 }
 
 </script>

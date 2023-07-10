@@ -13,8 +13,8 @@ if (!Math) {
   "./pages/videos/watermark/video/video.js";
 }
 const _sfc_main = {
-  onLaunch: function() {
-    console.warn("当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上！");
+  onLaunch: async function() {
+    console.warn("当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上 123123！");
     console.log("App Launch");
   },
   onShow: function() {
@@ -22,6 +22,19 @@ const _sfc_main = {
   },
   onHide: function() {
     console.log("App Hide");
+  },
+  methods: {
+    userDefaultLogin: () => {
+      common_vendor.index.login({
+        async success(res) {
+          const uniIdCo = common_vendor.Ds.importObject("uni-id-co");
+          const logined = await uniIdCo.loginByWeixin({
+            code: res.code
+          });
+          console.log("logined:", logined);
+        }
+      });
+    }
   },
   globalData: {
     userInfo: {
@@ -167,7 +180,7 @@ const _sfc_main = {
     }
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mztools_uni/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mz/mztools_uni/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   app.mixin(utils_share.share);
