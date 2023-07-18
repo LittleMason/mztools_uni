@@ -7,12 +7,14 @@ const _sfc_main = {
     return {
       dataUrl: "",
       dataImage: "",
-      preview: 0
+      preview: 0,
+      title: ""
     };
   },
   onLoad: function(options) {
     this.dataUrl = decodeURIComponent(options.url);
     this.dataImage = decodeURIComponent(options.image);
+    this.title = decodeURIComponent(options.title);
     this.preview = options.preview;
   },
   onUnload: function() {
@@ -139,10 +141,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   } : {
     d: $data.dataImage
   }, {
-    e: common_vendor.o((...args) => $options.postSave && $options.postSave(...args)),
-    f: common_vendor.o((...args) => $options.copyUrl && $options.copyUrl(...args)),
-    g: common_vendor.o((...args) => $options.goBack && $options.goBack(...args))
+    e: common_vendor.t($data.title),
+    f: common_vendor.o((...args) => $options.postSave && $options.postSave(...args)),
+    g: common_vendor.o((...args) => $options.copyUrl && $options.copyUrl(...args)),
+    h: common_vendor.o((...args) => $options.goBack && $options.goBack(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/videos/watermark/video/video.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/video/video.vue"]]);
 wx.createPage(MiniProgramPage);

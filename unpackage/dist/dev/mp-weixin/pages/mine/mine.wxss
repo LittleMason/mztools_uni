@@ -52,6 +52,8 @@ page {
   height: 130rpx;
   margin: 0 auto;
   text-align: center;
+  position: relative;
+  margin-bottom: 10rpx;
 }
 .center .blue-top .user-card .card-top .user-top .user-vip .user-pic {
   overflow: hidden;

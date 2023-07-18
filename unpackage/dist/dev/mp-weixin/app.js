@@ -43,6 +43,8 @@ const _sfc_main = {
     },
     hasUserInfo: false,
     apiDomain: "http://127.0.0.1:8000/api",
+    txAPIToken: "TOMTWTRw2ZiZ0W",
+    txAPITokenSecret: "c10181f23359f4139a479723f04eb502",
     //生产
     downloadPrefix: "http://127.0.0.1:8000/download?url=",
     // 通过代理服务器中转（微信限制资源域名，不同平台cdn域名千变万化）
@@ -61,23 +63,29 @@ const _sfc_main = {
                 common_vendor.index.getUserInfo({
                   success: (res3) => {
                     if (!this.checkIsLogin()) {
-                      this.getToken(code, res3.encryptedData, res3.iv);
-                    }
-                    if (callback) {
-                      callback(res3);
+                      this.getToken(code, res3.encryptedData, res3.inviteCode).then((res4) => {
+                        if (callback) {
+                          common_vendor.index.hideLoading();
+                          callback({ code: 200 });
+                        }
+                      });
                     }
                   }
                 });
               }
             }
           });
+        },
+        complete() {
+          common_vendor.index.hideLoading();
         }
       });
     },
     //全局统一调用接口的方法
     apiRequest: function(options) {
+      const url = options.fullUrl ? options.fullUrl : this.apiDomain + options.url;
       common_vendor.index.request({
-        url: this.apiDomain + options.url,
+        url,
         method: options.method ? options.method : "GET",
         header: {
           Authorization: "Bearer " + common_vendor.index.getStorageSync("token"),
@@ -153,34 +161,27 @@ const _sfc_main = {
     /**
      * 获取token
      */
-    getToken(code, encryptedData, iv, callback = null) {
-      const { nickname, avatarUrl } = this.userInfo;
-      this.apiRequest({
-        url: "/auth/login",
-        method: "POST",
-        data: {
-          nickname,
-          avatarUrl,
-          code,
-          data: encryptedData,
-          iv
-        },
-        success: (res) => {
-          common_vendor.index.setStorageSync("token", res.data.token);
-          this.userInfo = res.userInfo;
-          this.hasUserInfo = true;
-          common_vendor.index.showToast({
-            title: "登录成功！"
-          });
-          if (callback) {
-            callback();
+    async getToken(code, encryptedData, inviteCode, callback = null) {
+      this.userInfo;
+      const uniCo = common_vendor.Ds.importObject("uni-id-co");
+      try {
+        const res = await uniCo.loginByWeixin({ code, inviteCode });
+        const { token } = res.newToken;
+        common_vendor.index.showToast({
+          title: "登录成功！",
+          icon: "success",
+          success: (res2) => {
+            common_vendor.index.setStorageSync("token", token);
           }
-        }
-      });
+        });
+        console.log("res:", res);
+      } catch (e) {
+        console.log("error:", e);
+      }
     }
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mz/mztools_uni/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mztools_uni/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   app.mixin(utils_share.share);

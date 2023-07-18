@@ -31,7 +31,8 @@
 			},
 			hasUserInfo: false,
 			apiDomain: 'http://127.0.0.1:8000/api',
-
+			txAPIToken:'TOMTWTRw2ZiZ0W',
+			txAPITokenSecret:'c10181f23359f4139a479723f04eb502',
 			//生产
 			downloadPrefix: 'http://127.0.0.1:8000/download?url=',
 
@@ -59,26 +60,30 @@
 
 											if (!this.checkIsLogin()) {
 												this.getToken(code, res
-													.encryptedData, res.iv);
-											}
-											// 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-											// 所以此处加入 callback 以防止这种情况
-											if (callback) {
-												callback(res);
+													.encryptedData, res.inviteCode).then(res=>{
+														if (callback) {
+															uni.hideLoading();
+															callback({code:200});
+														}
+													});
 											}
 										}
 									});
 								}
 							}
 						});
+					},
+					complete() {
+						uni.hideLoading();
 					}
 				});
 			},
 
 			//全局统一调用接口的方法
 			apiRequest: function(options) {
+				const url = options.fullUrl?options.fullUrl:this.apiDomain + options.url;
 				uni.request({
-					url: this.apiDomain + options.url,
+					url,
 					method: options.method ? options.method : 'GET',
 					header: {
 						Authorization: 'Bearer ' + uni.getStorageSync('token'),
@@ -157,31 +162,26 @@
 			/**
 			 * 获取token
 			 */
-			getToken(code, encryptedData, iv, callback = null) {
+			async getToken(code, encryptedData, inviteCode, callback = null) {
 				const {nickname,avatarUrl} = this.userInfo;
 				//调后端接口获取token
-				this.apiRequest({
-					url: '/auth/login',
-					method: 'POST',
-					data: {
-						nickname,
-						avatarUrl,
-						code: code,
-						data: encryptedData,
-						iv: iv
-					},
-					success: (res) => {
-						uni.setStorageSync('token', res.data.token);
-						this.userInfo = res.userInfo;
-						this.hasUserInfo = true;
-						uni.showToast({
-							title: '登录成功！'
-						})
-						if (callback) {
-							callback();
+				const uniCo = uniCloud.importObject('uni-id-co');
+				try{
+					const res = await uniCo.loginByWeixin({code,inviteCode});
+					const {token} = res.newToken;
+					uni.showToast({
+						title: '登录成功！',
+						icon: 'success',
+						success: (res) => {
+							uni.setStorageSync('token',token)
 						}
-					}
-				});
+					});
+					console.log('res:',res);
+				}catch(e){
+					//TODO handle the exception
+					console.log('error:',e);
+				}
+				
 			}
 		}
 	}

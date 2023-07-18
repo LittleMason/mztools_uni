@@ -4,15 +4,15 @@
             <view class="user-card">
                 <view class="card-top">
                     <view class="user-top">
-						<view class="user-top-tips">登录赠送100次解析次数!!</view>
+						<view class="user-top-tips" v-if="!isLogin">登录赠送100次解析次数!!</view>
 						<view class="edit-btn" @click="handleEdit" v-if="isLogin">编辑</view>
-                        <view class="user-vip" style="position: relative">
-							<uni-icons type="contact" size="50" color="#ccc" v-if="!hasUserInfo"></uni-icons>
-                            <image class="user-pic" :src="userInfo.avatarUrl" v-else/>
+                        <view class="user-vip">
+							<uni-icons type="contact" size="50" color="#ccc" v-if="!isLogin"></uni-icons>
+                            <image class="user-pic" :src="app.globalData.userInfo.avatarUrl" v-else/>
                         </view>
                         <view class="user-board">
-                            <button v-if="!hasUserInfo" class="user-name" open-type="getUserInfo" @getuserinfo="getUserInfo">点击登录</button>
-                            <view v-if="hasUserInfo" class="user-name">{{ userInfo.nickName }}</view>
+                            <button v-if="!isLogin" class="user-name" open-type="getUserInfo" @getuserinfo="getUserInfo">点击登录</button>
+                            <view v-if="isLogin" class="user-name">{{ app.globalData.userInfo.nickname }}</view>
                         </view>
                     </view>
                 </view>
@@ -68,29 +68,17 @@ export default {
         return {
             dailyFreeParseNum: '--',
             totalParseNum: '--',
-            userInfo: null,
-            hasUserInfo: false,
+			app,
+			isLogin:app.globalData.checkIsLogin()
         };
     },
-	computed:{
-		isLogin(){
-			return app.globalData.checkIsLogin()
-		}
-	},
     /**
      * 组件的方法列表
      */
     methods: {
         onLoad: function () {},
         onShow: function () {
-            if (!app.globalData.checkIsLogin()) {
-				this.hasUserInfo = false;
-            }
-            if (app.globalData.hasUserInfo) {
-				this.userInfo = app.globalData.userInfo;
-				this.hasUserInfo = app.globalData.hasUserInfo;
-            }
-			if(app.globalData.checkIsLogin()){
+			if(this.isLogin){
 				// 获取当前用户总解析次数
 				this.getTotalParseNum();
 			}
@@ -115,9 +103,8 @@ export default {
             });
             // 执行登录
             app.globalData.getUserInfo((res) => {
-				this.userInfo = app.globalData.userInfo;
-				this.hasUserInfo = app.globalData.hasUserInfo;
-                uni.hideLoading();
+				const {code} = res;
+				if(code===200)this.isLogin=true;
             });
         },
         /**
@@ -141,12 +128,7 @@ export default {
          * 获取总解析次数
          */
         getTotalParseNum() {
-            app.globalData.apiRequest({
-                url: '/records/total',
-                success: (res) => {
-					this.totalParseNum = res.data.total_num;
-                }
-            });
+            
         },
         //打赏
         showQrcode() {
@@ -235,6 +217,8 @@ page {
     height: 130rpx;
     margin: 0 auto;
 	text-align: center;
+	position: relative;
+	margin-bottom: 10rpx;
 }
 
 .center .blue-top .user-card .card-top .user-top .user-vip .user-pic {

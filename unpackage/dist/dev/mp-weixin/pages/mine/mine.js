@@ -8,14 +8,9 @@ const _sfc_main = {
     return {
       dailyFreeParseNum: "--",
       totalParseNum: "--",
-      userInfo: null,
-      hasUserInfo: false
+      app,
+      isLogin: app.globalData.checkIsLogin()
     };
-  },
-  computed: {
-    isLogin() {
-      return app.globalData.checkIsLogin();
-    }
   },
   /**
    * 组件的方法列表
@@ -24,14 +19,7 @@ const _sfc_main = {
     onLoad: function() {
     },
     onShow: function() {
-      if (!app.globalData.checkIsLogin()) {
-        this.hasUserInfo = false;
-      }
-      if (app.globalData.hasUserInfo) {
-        this.userInfo = app.globalData.userInfo;
-        this.hasUserInfo = app.globalData.hasUserInfo;
-      }
-      if (app.globalData.checkIsLogin()) {
+      if (this.isLogin) {
         this.getTotalParseNum();
       }
       this.getDailyFreeParseNum();
@@ -52,9 +40,9 @@ const _sfc_main = {
         mask: true
       });
       app.globalData.getUserInfo((res) => {
-        this.userInfo = app.globalData.userInfo;
-        this.hasUserInfo = app.globalData.hasUserInfo;
-        common_vendor.index.hideLoading();
+        const { code } = res;
+        if (code === 200)
+          this.isLogin = true;
       });
     },
     /**
@@ -63,7 +51,7 @@ const _sfc_main = {
      */
     getDailyFreeParseNum() {
       var num;
-      var today = utils_util.util.formatDate(new Date(), "");
+      var today = utils_util.util.formatDate(/* @__PURE__ */ new Date(), "");
       var lastParseDate = common_vendor.index.getStorageSync("lastParseDate");
       if (lastParseDate != today) {
         common_vendor.index.setStorageSync("lastParseDate", today);
@@ -78,12 +66,6 @@ const _sfc_main = {
      * 获取总解析次数
      */
     getTotalParseNum() {
-      app.globalData.apiRequest({
-        url: "/records/total",
-        success: (res) => {
-          this.totalParseNum = res.data.total_num;
-        }
-      });
     },
     //打赏
     showQrcode() {
@@ -113,72 +95,74 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: $options.isLogin
-  }, $options.isLogin ? {
-    b: common_vendor.o((...args) => $options.handleEdit && $options.handleEdit(...args))
+    a: !$data.isLogin
+  }, !$data.isLogin ? {} : {}, {
+    b: $data.isLogin
+  }, $data.isLogin ? {
+    c: common_vendor.o((...args) => $options.handleEdit && $options.handleEdit(...args))
   } : {}, {
-    c: !$data.hasUserInfo
-  }, !$data.hasUserInfo ? {
-    d: common_vendor.p({
+    d: !$data.isLogin
+  }, !$data.isLogin ? {
+    e: common_vendor.p({
       type: "contact",
       size: "50",
       color: "#ccc"
     })
   } : {
-    e: $data.userInfo.avatarUrl
+    f: $data.app.globalData.userInfo.avatarUrl
   }, {
-    f: !$data.hasUserInfo
-  }, !$data.hasUserInfo ? {
-    g: common_vendor.o((...args) => $options.getUserInfo && $options.getUserInfo(...args))
+    g: !$data.isLogin
+  }, !$data.isLogin ? {
+    h: common_vendor.o((...args) => $options.getUserInfo && $options.getUserInfo(...args))
   } : {}, {
-    h: $data.hasUserInfo
-  }, $data.hasUserInfo ? {
-    i: common_vendor.t($data.userInfo.nickName)
+    i: $data.isLogin
+  }, $data.isLogin ? {
+    j: common_vendor.t($data.app.globalData.userInfo.nickname)
   } : {}, {
-    j: common_vendor.t($data.dailyFreeParseNum),
-    k: common_vendor.t($data.totalParseNum),
-    l: common_vendor.p({
+    k: common_vendor.t($data.dailyFreeParseNum),
+    l: common_vendor.t($data.totalParseNum),
+    m: common_vendor.p({
       type: "download-filled",
       size: "30",
       color: "#00c8fd"
     }),
-    m: common_vendor.p({
+    n: common_vendor.p({
       type: "right",
       size: "20",
       color: "#8a8a8a"
     }),
-    n: common_vendor.p({
+    o: common_vendor.p({
       type: "phone-filled",
       size: "30",
       color: "#00c8fd"
     }),
-    o: common_vendor.p({
+    p: common_vendor.p({
       type: "right",
       size: "20",
       color: "#8a8a8a"
     }),
-    p: common_vendor.p({
+    q: common_vendor.p({
       type: "redo-filled",
       size: "30",
       color: "#00c8fd"
     }),
-    q: common_vendor.p({
+    r: common_vendor.p({
       type: "right",
       size: "20",
       color: "#8a8a8a"
     }),
-    r: common_vendor.p({
+    s: common_vendor.p({
       type: "hand-up-filled",
       size: "30",
       color: "#00c8fd"
     }),
-    s: common_vendor.p({
+    t: common_vendor.p({
       type: "right",
       size: "20",
       color: "#8a8a8a"
     }),
-    t: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args))
+    v: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/mine/mine.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/mine/mine.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -2,7 +2,7 @@
     <view class="wrap">
         <video class="video-box" :src="dataUrl" :poster="dataImage" v-if="preview != 0 && dataUrl != ''"></video>
         <image class="video-box" :src="dataImage" v-else></image>
-        <view style="font-size: 10px; text-align: center; color: #858585">服务器带宽较小，建议直接复制地址浏览器下载</view>
+        <view style="font-size: 10px; text-align: center; color: #858585">{{title}}</view>
         <button @getuserinfo="postSave" class="parsing" openType="getUserInfo">保存到相册</button>
         <button @tap="copyUrl" class="parsing copy-url">复制地址</button>
         <button @tap="goBack" class="parsing go-back">返回首页</button>
@@ -18,12 +18,14 @@ export default {
         return {
             dataUrl: '',
             dataImage: '',
-            preview: 0
+            preview: 0,
+			title:''
         };
     },
     onLoad: function (options) {
 		this.dataUrl = decodeURIComponent(options.url);
 		this.dataImage = decodeURIComponent(options.image);
+		this.title = decodeURIComponent(options.title);
 		this.preview = options.preview;
     },
     onUnload: function () {

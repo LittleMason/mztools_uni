@@ -6,7 +6,7 @@ const _sfc_main = {
   data() {
     return {
       userInfo: {},
-      videoUrl: "https://v.douyin.com/JxHkvPT/"
+      videoUrl: "https://v.douyin.com/iF1TAe2/"
     };
   },
   onLoad: function() {
@@ -39,7 +39,7 @@ const _sfc_main = {
     },
     submit: function() {
       var num;
-      var today = utils_util.util.formatDate(new Date(), "");
+      var today = utils_util.util.formatDate(/* @__PURE__ */ new Date(), "");
       var lastParseDate = common_vendor.index.getStorageSync("lastParseDate");
       if (lastParseDate != today) {
         common_vendor.index.setStorageSync("lastParseDate", today);
@@ -57,22 +57,69 @@ const _sfc_main = {
         });
       }
     },
+    parsePlatform(url) {
+      const domainArr = url.match(/:\/\/(.[^/]+)/)[1];
+      const domain = domainArr.split(":")[0];
+      const platKey = "douyin";
+      switch (domain) {
+        case "douyin.com":
+          platKey = "douyin";
+          break;
+        case "qq.com":
+          platKey = "qq";
+          break;
+        case "kuaishou.com":
+        case "chenzhongtech.com":
+        case "kuaishouapp.com":
+          platKey = "kuaishou";
+          break;
+        case "izuiyou.com":
+          platKey = "zuiyou";
+          break;
+        case "hulushequ.com":
+        case "pipix.com":
+          platKey = "pipixia";
+          break;
+        case "ippzone.com":
+          platKey = "pipixia";
+          break;
+        default:
+          platKey = "weizhi";
+      }
+      return platKey;
+    },
     // 视频解析
     parseVideo: function() {
+      const platforms = {
+        douyin: "http://api.txapi.cn/v1/parse_short_video/dy"
+      };
+      const platformKey = this.parsePlatform(this.videoUrl);
       app.globalData.apiRequest({
-        url: "/video-parse",
-        method: "POST",
+        fullUrl: platforms[platformKey],
+        method: "GET",
         data: {
+          token: app.globalData.txAPIToken,
           url: this.videoUrl
         },
         success: (res) => {
-          var noWaterUrl = encodeURIComponent(res.data.url);
-          var imageUrl = encodeURIComponent(res.data.image);
-          var preview = res.data.preview;
-          common_vendor.index.setStorageSync("dailyFreeParseNum", common_vendor.index.getStorageSync("dailyFreeParseNum") - 1);
-          common_vendor.index.navigateTo({
-            url: "../video/video?url=" + noWaterUrl + "&image=" + imageUrl + "&preview=" + preview
-          });
+          console.log("parseVideo-res:", res);
+          const {
+            code,
+            data
+          } = res.data;
+          if (code === 200) {
+            const {
+              cover_url,
+              video_url,
+              title
+            } = data;
+            common_vendor.index.setStorageSync("dailyFreeParseNum", common_vendor.index.getStorageSync(
+              "dailyFreeParseNum"
+            ) - 1);
+            common_vendor.index.navigateTo({
+              url: "../video/video?url=" + video_url + "&image=" + cover_url + "&preview=1&title=" + title
+            });
+          }
         },
         fail: (res) => {
           console.log("res:", res);
@@ -97,5 +144,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     g: common_vendor.o((...args) => $options.submit && $options.submit(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/videos/watermark/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/index/index.vue"]]);
 wx.createPage(MiniProgramPage);
