@@ -82,6 +82,7 @@
 			//全局统一调用接口的方法
 			apiRequest: function(options) {
 				const url = options.fullUrl?options.fullUrl:this.apiDomain + options.url;
+				console.log('url:',url);
 				uni.request({
 					url,
 					method: options.method ? options.method : 'GET',

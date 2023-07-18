@@ -39,7 +39,7 @@ const _sfc_main = {
     },
     submit: function() {
       var num;
-      var today = utils_util.util.formatDate(/* @__PURE__ */ new Date(), "");
+      var today = utils_util.util.formatDate(new Date(), "");
       var lastParseDate = common_vendor.index.getStorageSync("lastParseDate");
       if (lastParseDate != today) {
         common_vendor.index.setStorageSync("lastParseDate", today);
@@ -60,49 +60,52 @@ const _sfc_main = {
     parsePlatform(url) {
       const domainArr = url.match(/:\/\/(.[^/]+)/)[1];
       const domain = domainArr.split(":")[0];
-      const platKey = "douyin";
-      switch (domain) {
-        case "douyin.com":
-          platKey = "douyin";
-          break;
-        case "qq.com":
-          platKey = "qq";
-          break;
-        case "kuaishou.com":
-        case "chenzhongtech.com":
-        case "kuaishouapp.com":
-          platKey = "kuaishou";
-          break;
-        case "izuiyou.com":
-          platKey = "zuiyou";
-          break;
-        case "hulushequ.com":
-        case "pipix.com":
-          platKey = "pipixia";
-          break;
-        case "ippzone.com":
-          platKey = "pipixia";
-          break;
-        default:
-          platKey = "weizhi";
+      let platKey = "";
+      const platUrlMap = {
+        douyin: ["douyin.com"],
+        weishi: ["qq.com"],
+        kuaishou: ["kuaishou.com", "chenzhongtech.com", "kuaishouapp.com"],
+        zuiyou: ["izuiyou.com"],
+        pipixia: ["hulushequ.com", "pipix.com"],
+        pipigaoxiao: ["ippzone.com"]
+      };
+      for (let key in platUrlMap) {
+        const item = platUrlMap[key];
+        item.forEach((item2) => {
+          if (domain.indexOf(item2) > -1) {
+            platKey = key;
+          }
+        });
       }
       return platKey;
     },
     // 视频解析
     parseVideo: function() {
       const platforms = {
-        douyin: "http://api.txapi.cn/v1/parse_short_video/dy"
+        douyin: "http://api.txapi.cn/v1/parse_short_video/dy",
+        weishi: "http://api.txapi.cn/v1/parse_short_video/ws",
+        kuaishou: "http://api.txapi.cn/v1/parse_short_video/ks",
+        xiaohongshu: "http://api.txapi.cn/v1/parse_short_video/xhs",
+        pipixia: "http://api.txapi.cn/v1/c/parse_short_video/ppx",
+        zuiyou: "http://api.txapi.cn/v1/c/parse_short_video/zy"
       };
       const platformKey = this.parsePlatform(this.videoUrl);
+      const fullUrl = platforms[platformKey];
+      if (!fullUrl) {
+        common_vendor.index.showToast({
+          icon: "error",
+          title: "请输入正确的地址！"
+        });
+        return false;
+      }
       app.globalData.apiRequest({
-        fullUrl: platforms[platformKey],
+        fullUrl,
         method: "GET",
         data: {
           token: app.globalData.txAPIToken,
           url: this.videoUrl
         },
         success: (res) => {
-          console.log("parseVideo-res:", res);
           const {
             code,
             data
@@ -113,11 +116,9 @@ const _sfc_main = {
               video_url,
               title
             } = data;
-            common_vendor.index.setStorageSync("dailyFreeParseNum", common_vendor.index.getStorageSync(
-              "dailyFreeParseNum"
-            ) - 1);
+            common_vendor.index.setStorageSync("dailyFreeParseNum", common_vendor.index.getStorageSync("dailyFreeParseNum") - 1);
             common_vendor.index.navigateTo({
-              url: "../video/video?url=" + video_url + "&image=" + cover_url + "&preview=1&title=" + title
+              url: "../video/video?url=" + encodeURIComponent(video_url) + "&image=" + encodeURIComponent(cover_url) + "&preview=1&title=" + encodeURIComponent(title)
             });
           }
         },
@@ -144,5 +145,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     g: common_vendor.o((...args) => $options.submit && $options.submit(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/videos/watermark/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

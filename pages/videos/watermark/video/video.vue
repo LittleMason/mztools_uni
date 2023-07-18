@@ -2,7 +2,7 @@
     <view class="wrap">
         <video class="video-box" :src="dataUrl" :poster="dataImage" v-if="preview != 0 && dataUrl != ''"></video>
         <image class="video-box" :src="dataImage" v-else></image>
-        <view style="font-size: 10px; text-align: center; color: #858585">{{title}}</view>
+        <view class="video-title" style="">{{title}}</view>
         <button @getuserinfo="postSave" class="parsing" openType="getUserInfo">保存到相册</button>
         <button @tap="copyUrl" class="parsing copy-url">复制地址</button>
         <button @tap="goBack" class="parsing go-back">返回首页</button>
@@ -26,6 +26,7 @@ export default {
 		this.dataUrl = decodeURIComponent(options.url);
 		this.dataImage = decodeURIComponent(options.image);
 		this.title = decodeURIComponent(options.title);
+		console.log('options:',options);
 		this.preview = options.preview;
     },
     onUnload: function () {
@@ -155,6 +156,13 @@ export default {
     width: 560rpx;
     height: 700rpx;
     margin: 40rpx auto;
+}
+.video-title{
+	font-size: 28rpx; 
+	text-align: center; 
+	color: #858585;
+	margin-bottom: 40rpx;
+	padding: 0 10rpx;
 }
 
 .parsing {

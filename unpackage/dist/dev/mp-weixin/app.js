@@ -84,6 +84,7 @@ const _sfc_main = {
     //全局统一调用接口的方法
     apiRequest: function(options) {
       const url = options.fullUrl ? options.fullUrl : this.apiDomain + options.url;
+      console.log("url:", url);
       common_vendor.index.request({
         url,
         method: options.method ? options.method : "GET",
@@ -181,7 +182,7 @@ const _sfc_main = {
     }
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mztools_uni/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mz/mztools_uni/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   app.mixin(utils_share.share);

@@ -5,6 +5,13 @@
     height: 700rpx;
     margin: 40rpx auto;
 }
+.video-title{
+	font-size: 28rpx; 
+	text-align: center; 
+	color: #858585;
+	margin-bottom: 40rpx;
+	padding: 0 10rpx;
+}
 .parsing {
     overflow: hidden;
     display: block;

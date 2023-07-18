@@ -128,57 +128,53 @@
 			parsePlatform(url) {
 				const domainArr = url.match(/:\/\/(.[^/]+)/)[1];
 				const domain = domainArr.split(':')[0];
-				const platKey = 'douyin';
-				switch (domain) {
-					//抖音
-					case 'douyin.com':
-						platKey = 'douyin';
-						break;
-						//微视
-					case 'qq.com':
-						platKey = 'qq';
-						break;
-						//快手
-					case 'kuaishou.com':
-					case 'chenzhongtech.com':
-					case 'kuaishouapp.com':
-						platKey = 'kuaishou';
-						break;
-						//最右
-					case 'izuiyou.com':
-						platKey = 'zuiyou';
-						break;
-						//皮皮虾
-					case 'hulushequ.com':
-					case 'pipix.com':
-						platKey = 'pipixia';
-						break;
-						//皮皮搞笑
-					case 'ippzone.com':
-						platKey = 'pipixia';
-						break;
-					default:
-						platKey = 'weizhi';
+				let platKey = '';
+				const platUrlMap = {
+					douyin:['douyin.com'],
+					weishi:['qq.com'],
+					kuaishou:['kuaishou.com','chenzhongtech.com','kuaishouapp.com'],
+					zuiyou:['izuiyou.com'],
+					pipixia:['hulushequ.com','pipix.com'],
+					pipigaoxiao:['ippzone.com'],
+				}
+				for(let key in platUrlMap){
+					const item = platUrlMap[key];
+					item.forEach((item)=>{
+						if(domain.indexOf(item)>-1){
+							platKey = key;
+						}
+					})
 				}
 				return platKey
-
 			},
 
 			// 视频解析
 			parseVideo: function() {
 				const platforms = {
-					douyin: 'http://api.txapi.cn/v1/parse_short_video/dy'
+					douyin: 'http://api.txapi.cn/v1/parse_short_video/dy',
+					weishi: 'http://api.txapi.cn/v1/parse_short_video/ws',
+					kuaishou: 'http://api.txapi.cn/v1/parse_short_video/ks',
+					xiaohongshu: 'http://api.txapi.cn/v1/parse_short_video/xhs',
+					pipixia: 'http://api.txapi.cn/v1/c/parse_short_video/ppx',
+					zuiyou: 'http://api.txapi.cn/v1/c/parse_short_video/zy',
 				};
 				const platformKey = this.parsePlatform(this.videoUrl);
+				const fullUrl = platforms[platformKey];
+				if(!fullUrl){
+					uni.showToast({
+						icon:'error',
+						title:'请输入正确的地址！'
+					})
+					return false;
+				}
 				app.globalData.apiRequest({
-					fullUrl: platforms[platformKey],
+					fullUrl,
 					method: 'GET',
 					data: {
 						token: app.globalData.txAPIToken,
 						url: this.videoUrl
 					},
 					success: (res) => {
-						console.log('parseVideo-res:', res);
 						const {
 							code,
 							data
@@ -189,11 +185,10 @@
 								video_url,
 								title
 							} = data;
-							uni.setStorageSync('dailyFreeParseNum', uni.getStorageSync(
-								'dailyFreeParseNum') - 1);
+							uni.setStorageSync('dailyFreeParseNum', uni.getStorageSync('dailyFreeParseNum') - 1);
 							uni.navigateTo({
-								url: '../video/video?url=' + video_url + '&image=' + cover_url +
-									'&preview=1' + '&title=' + title
+								url: '../video/video?url=' + encodeURIComponent(video_url) + '&image=' + encodeURIComponent(cover_url) +
+									'&preview=1' + '&title=' + encodeURIComponent(title)
 							});
 						}
 					},
