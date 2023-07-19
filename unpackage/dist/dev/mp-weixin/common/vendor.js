@@ -7460,7 +7460,7 @@ class I {
 function S(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const b = true, k = "mp-weixin", T = S([]), P = k, A = S('{\n    "address": [\n        "127.0.0.1",\n        "192.168.126.89"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "C:/Users/40770/Downloads/HBuilderX.3.8.4.20230531/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), E = S('[{"provider":"tencent","spaceName":"manzhu-tools","spaceId":"tcb-ty4fre65zf6scim-8cga6faa693f"}]') || [];
+const b = true, k = "mp-weixin", T = S([]), P = k, A = S('{\n    "address": [\n        "127.0.0.1",\n        "192.168.2.230"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/360MoveData/Users/40770/Desktop/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), E = S('[{"provider":"tencent","spaceName":"manzhu-tools","spaceId":"tcb-ty4fre65zf6scim-8cga6faa693f"}]') || [];
 let x = "";
 try {
   x = "__UNI__DD59294";

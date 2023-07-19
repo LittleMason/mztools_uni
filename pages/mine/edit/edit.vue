@@ -24,6 +24,9 @@
 				nickname:'',
 			};
 		},
+		onShow:function(){
+			console.log('asda112');
+		},
 		methods: {
 			init() {
 				const {avatarUrl,nickname} = app.globalData.userInfo;
@@ -36,14 +39,31 @@
 				} = e.detail
 				app.globalData.userInfo.avatarUrl = avatarUrl; 
 			},
-			handleEditUser(){
+			async handleEditUser(){
 				const uniCo = uniCloud.importObject('uni-id-co'); 
 				const {uid} = uniCloud.getCurrentUserInfo();
-				console.log('uid:',uid);
-				uniCo.updateUser({uid,nickname:this.nickname,username:uid})
+				uniCo.updateUser({uid,nickname:this.nickname,username:uid}).then(async (res)=>{
+					const {errCode} = res;
+					if(!errCode){
+						const db = uniCloud.database();
+						const userRecord = await db.collection('uni-id-users').doc(uid).field({nickname:true,avatarUrl:true}).get();
+						const {data} = userRecord.result;
+						console.log('userRecord:',userRecord);
+						app.globalData.userInfo.nickname = data[0].nickname;
+						// app.globalData.userInfo.avatarUrl = data[0].avatarUrl;
+						uni.showToast({
+							icon:'success',
+							title:'编辑成功！',
+							success() {
+								uni.navigateBack();
+							}
+						})
+					}
+				})
 			}
 		},
 		created() {
+			console.log('asda');
 			this.init()
 		}
 	}

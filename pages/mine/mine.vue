@@ -84,7 +84,6 @@ export default {
 			}
             // 获取每日剩余免费解析次数
             this.getDailyFreeParseNum();
-            
         },
         /**
          * 授权登录
