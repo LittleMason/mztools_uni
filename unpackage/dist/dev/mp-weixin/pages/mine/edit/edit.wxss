@@ -1,18 +1,29 @@
-.avator-box {
+.mine-edit .enter-btn {
+  margin: 40rpx auto;
+  width: 90%;
+  background-color: #e64340;
+  color: #fff;
+  font-size: 36rpx;
+  text-align: center;
+  height: 92rpx;
+  line-height: 92rpx;
+  border-radius: 10rpx;
+}
+.mine-edit .avator-box {
   padding: 100rpx 0;
 }
-.avator-box .avator-btn .avatar-image {
+.mine-edit .avator-box .avator-btn .avatar-image {
   display: block;
   width: 56px;
   height: 56px;
   margin: 0 auto;
 }
-.form-item {
+.mine-edit .form-item {
   display: flex;
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   padding: 30rpx;
 }
-.form-item-label {
+.mine-edit .form-item-label {
   flex: 0 160rpx;
 }

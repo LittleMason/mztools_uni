@@ -39,7 +39,7 @@ const _sfc_main = {
     },
     submit: function() {
       var num;
-      var today = utils_util.util.formatDate(new Date(), "");
+      var today = utils_util.util.formatDate(/* @__PURE__ */ new Date(), "");
       var lastParseDate = common_vendor.index.getStorageSync("lastParseDate");
       if (lastParseDate != today) {
         common_vendor.index.setStorageSync("lastParseDate", today);
@@ -145,5 +145,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     g: common_vendor.o((...args) => $options.submit && $options.submit(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/videos/watermark/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

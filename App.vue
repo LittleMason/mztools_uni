@@ -1,4 +1,5 @@
 <script>
+import { error } from 'console';
 	export default {
 		onLaunch: async function() {
 			// this.userDefaultLogin();
@@ -6,7 +7,8 @@
 			console.log('App Launch');
 		},
 		onShow: function() {
-			console.log('App Show')
+			this.refreshToken();
+			console.log('App Show');
 		},
 		onHide: function() {
 			console.log('App Hide')
@@ -22,6 +24,29 @@
 						console.log('logined:',logined);
 					}
 				})
+			},
+			refreshToken(){
+				const tokenExpired = uni.getStorageSync('uni_id_token_expired') || 0;
+				const currentTime = Date.now();
+				const tokenIsExpired = tokenExpired - currentTime < 10*3600;
+				const uniCo = uniCloud.importObject('uni-id-co');
+				if(tokenIsExpired){
+					uniCo.refreshToken().then(res=>{
+						console.log('刷新token:',res);
+						const {newToken:{token,tokenExpired}} =res;
+						uni.setStorageSync('token',token);
+						uni.setStorageSync('uni_id_token',token);
+						uni.setStorageSync('uni_id_token_expired',tokenExpired);
+					},error=>{
+						console.log('刷新失败：',error);
+						uni.removeStorageSync('token');
+						uni.reLaunch({
+							url:'/pages/index/index'
+						})
+					});
+					
+				}
+				console.log('tokenIsExpired:',tokenIsExpired);
 			}
 		},
 		globalData: {
@@ -82,7 +107,6 @@
 			//全局统一调用接口的方法
 			apiRequest: function(options) {
 				const url = options.fullUrl?options.fullUrl:this.apiDomain + options.url;
-				console.log('url:',url);
 				uni.request({
 					url,
 					method: options.method ? options.method : 'GET',

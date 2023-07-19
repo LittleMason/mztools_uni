@@ -12,12 +12,18 @@ if (!Math) {
   "./pages/videos/watermark/index/index.js";
   "./pages/videos/watermark/video/video.js";
 }
+new Proxy({}, {
+  get(_, key) {
+    throw new Error(`Module "console" has been externalized for browser compatibility. Cannot access "console.${key}" in client code.  See http://vitejs.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.`);
+  }
+});
 const _sfc_main = {
   onLaunch: async function() {
     console.warn("当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上 123123！");
     console.log("App Launch");
   },
   onShow: function() {
+    this.refreshToken();
     console.log("App Show");
   },
   onHide: function() {
@@ -34,6 +40,28 @@ const _sfc_main = {
           console.log("logined:", logined);
         }
       });
+    },
+    refreshToken() {
+      const tokenExpired = common_vendor.index.getStorageSync("uni_id_token_expired") || 0;
+      const currentTime = Date.now();
+      const tokenIsExpired = tokenExpired - currentTime < 10 * 3600;
+      const uniCo = common_vendor.Ds.importObject("uni-id-co");
+      if (tokenIsExpired) {
+        uniCo.refreshToken().then((res) => {
+          console.log("刷新token:", res);
+          const { newToken: { token, tokenExpired: tokenExpired2 } } = res;
+          common_vendor.index.setStorageSync("token", token);
+          common_vendor.index.setStorageSync("uni_id_token", token);
+          common_vendor.index.setStorageSync("uni_id_token_expired", tokenExpired2);
+        }, (error) => {
+          console.log("刷新失败：", error);
+          common_vendor.index.removeStorageSync("token");
+          common_vendor.index.reLaunch({
+            url: "/pages/index/index"
+          });
+        });
+      }
+      console.log("tokenIsExpired:", tokenIsExpired);
     }
   },
   globalData: {
@@ -84,7 +112,6 @@ const _sfc_main = {
     //全局统一调用接口的方法
     apiRequest: function(options) {
       const url = options.fullUrl ? options.fullUrl : this.apiDomain + options.url;
-      console.log("url:", url);
       common_vendor.index.request({
         url,
         method: options.method ? options.method : "GET",
@@ -182,7 +209,7 @@ const _sfc_main = {
     }
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mz/mztools_uni/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mztools_uni/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   app.mixin(utils_share.share);
