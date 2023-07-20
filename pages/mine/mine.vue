@@ -72,6 +72,13 @@ export default {
 			isLogin:app.globalData.checkIsLogin()
         };
     },
+	onShow() {
+		// 注册事件监听
+		// uni.$on('updateGlobalData', () => {
+		//   this.app = app.globalData
+		// })
+		this.$forceUpdate()
+	},
     /**
      * 组件的方法列表
      */
@@ -144,7 +151,7 @@ export default {
     },
     created: function () {
 		this.onShow();
-	}
+	},
 };
 </script>
 <style lang="less">

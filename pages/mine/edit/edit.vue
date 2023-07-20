@@ -1,8 +1,8 @@
 <template>
 	<view class="mine-edit">
 		<view class="avator-box">
-			<button class="avator-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-				<image class="avatar-image" :src="avatarUrl"></image>
+			<button class="avator-btn" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
+				<image class="avatar-image" :src="avatar"></image>
 			</button>
 		</view>
 		<view class="form-item">
@@ -20,37 +20,59 @@
 	export default {
 		data() {
 			return {
-				avatarUrl: '',
+				avatar: '',
 				nickname:'',
+				uid:''
 			};
 		},
 		onShow:function(){
-			console.log('asda112');
+			
 		},
 		methods: {
-			init() {
-				const {avatarUrl,nickname} = app.globalData.userInfo;
-				this.avatarUrl = avatarUrl;
+			async init() {
+				const {avatar,nickname} = app.globalData.userInfo;
+				const uniCo = uniCloud.importObject('uni-id-co');
+				const {uid} = uniCloud.getCurrentUserInfo();
+				this.avatar = avatar;
 				this.nickname = nickname;
+				this.uid = uid;
 			},
 			onChooseAvatar(e) {
 				const {
-					avatarUrl
-				} = e.detail
-				app.globalData.userInfo.avatarUrl = avatarUrl; 
+					avatarUrl:avatar
+				} = e.detail;
+				const uniCo = uniCloud.importObject('uni-id-co');
+				console.log('avatar:',avatar);
+				uni.showLoading({
+					title:'头像上传中...'
+				})
+				uniCloud.uploadFile({
+					filePath:avatar,
+					cloudPath:`images/${Date.now()}.jpeg`,
+					success:(res)=>{
+						console.log('res:',res);
+						uni.hideLoading();
+						this.avatar = avatar;
+						app.globalData.userInfo.avatar = avatar;
+						const {fileID} =res;
+						uniCloud.database().collection('uni-id-users').doc(this.uid).update({avatar:fileID})
+					},
+					complete() {
+						uni.hideLoading()
+					}
+				})
 			},
 			async handleEditUser(){
-				const uniCo = uniCloud.importObject('uni-id-co'); 
-				const {uid} = uniCloud.getCurrentUserInfo();
-				uniCo.updateUser({uid,nickname:this.nickname,username:uid}).then(async (res)=>{
+				const uniCo = uniCloud.importObject('uni-id-co');
+				uniCo.updateUser({uid:this.uid,nickname:this.nickname,username:this.uid}).then(async (res)=>{
 					const {errCode} = res;
 					if(!errCode){
 						const db = uniCloud.database();
-						const userRecord = await db.collection('uni-id-users').doc(uid).field({nickname:true,avatarUrl:true}).get();
+						const userRecord = await db.collection('uni-id-users').doc(this.uid).field({nickname:true,avatar:true}).get();
 						const {data} = userRecord.result;
 						console.log('userRecord:',userRecord);
 						app.globalData.userInfo.nickname = data[0].nickname;
-						// app.globalData.userInfo.avatarUrl = data[0].avatarUrl;
+						// app.globalData.userInfo.avatar = data[0].avatar;
 						uni.showToast({
 							icon:'success',
 							title:'编辑成功！',
@@ -63,7 +85,7 @@
 			}
 		},
 		created() {
-			console.log('asda');
+			console.log('created');
 			this.init()
 		}
 	}

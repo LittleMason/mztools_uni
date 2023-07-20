@@ -3,10 +3,11 @@ import { error } from 'console';
 	export default {
 		onLaunch: async function() {
 			// this.userDefaultLogin();
+			this.initUserInfo();
 			console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上 123123！')
 			console.log('App Launch');
 		},
-		onShow: function() {
+		onShow:function() {
 			this.refreshToken();
 			console.log('App Show');
 		},
@@ -47,6 +48,24 @@ import { error } from 'console';
 					
 				}
 				console.log('tokenIsExpired:',tokenIsExpired);
+			},
+			async initUserInfo(){
+				const token = uni.getStorageSync('token');
+				console.log('token:',token);
+				if(token){
+					const uniCo = uniCloud.importObject('uni-id-co');
+					const {uid} = uniCloud.getCurrentUserInfo();
+					const db = uniCloud.database();
+					const userRecord = await db.collection('uni-id-users').doc(uid).field({nickname:true,avatar:true}).get();
+					const {data} = userRecord.result;
+					console.log('userRecord:',userRecord);
+					this.globalData.userInfo.nickname = data[0].nickname;
+					this.globalData.userInfo.avatar = data[0].avatar;
+					
+					let result = await uniCloud.downloadFile({
+					    fileID: 'cloud://tcb-ty4fre65zf6scim-8cga6faa693f.7463-tcb-ty4fre65zf6scim-8cga6faa693f-1319289999/images/8876382664aa9ab30006fd4a6adfb4de.jpeg'
+					})
+				}
 			}
 		},
 		globalData: {

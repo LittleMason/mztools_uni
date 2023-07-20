@@ -19,6 +19,7 @@ new Proxy({}, {
 });
 const _sfc_main = {
   onLaunch: async function() {
+    this.initUserInfo();
     console.warn("当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上 123123！");
     console.log("App Launch");
   },
@@ -62,6 +63,23 @@ const _sfc_main = {
         });
       }
       console.log("tokenIsExpired:", tokenIsExpired);
+    },
+    async initUserInfo() {
+      const token = common_vendor.index.getStorageSync("token");
+      console.log("token:", token);
+      if (token) {
+        common_vendor.Ds.importObject("uni-id-co");
+        const { uid } = common_vendor.Ds.getCurrentUserInfo();
+        const db = common_vendor.Ds.database();
+        const userRecord = await db.collection("uni-id-users").doc(uid).field({ nickname: true, avatar: true }).get();
+        const { data } = userRecord.result;
+        console.log("userRecord:", userRecord);
+        this.globalData.userInfo.nickname = data[0].nickname;
+        this.globalData.userInfo.avatar = data[0].avatar;
+        await common_vendor.Ds.downloadFile({
+          fileID: "cloud://tcb-ty4fre65zf6scim-8cga6faa693f.7463-tcb-ty4fre65zf6scim-8cga6faa693f-1319289999/images/8876382664aa9ab30006fd4a6adfb4de.jpeg"
+        });
+      }
     }
   },
   globalData: {

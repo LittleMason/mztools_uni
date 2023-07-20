@@ -12,6 +12,9 @@ const _sfc_main = {
       isLogin: app.globalData.checkIsLogin()
     };
   },
+  onShow() {
+    this.$forceUpdate();
+  },
   /**
    * 组件的方法列表
    */
