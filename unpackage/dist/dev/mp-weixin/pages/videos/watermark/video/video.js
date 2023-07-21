@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../../../common/vendor.js");
-var app = getApp();
+getApp();
 var n = "";
 const _sfc_main = {
   data() {
@@ -42,7 +42,7 @@ const _sfc_main = {
     },
     download: function() {
       var that = this;
-      var e = app.globalData.downloadPrefix + that.dataUrl;
+      var e = this.dataUrl;
       common_vendor.index.showLoading({
         title: "保存中 0%"
       });

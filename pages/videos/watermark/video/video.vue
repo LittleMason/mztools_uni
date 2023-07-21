@@ -55,7 +55,7 @@ export default {
 
         download: function () {
             var that = this;
-            var e = app.globalData.downloadPrefix + that.dataUrl; // 无法直接下载资源域下的资源，需要通过nginx中转一层
+            var e = this.dataUrl; // 无法直接下载资源域下的资源，需要通过nginx中转一层
             uni.showLoading({
                 title: '保存中 0%'
             });

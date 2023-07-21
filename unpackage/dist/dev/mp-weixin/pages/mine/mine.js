@@ -112,7 +112,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       color: "#ccc"
     })
   } : {
-    f: $data.app.globalData.userInfo.avatarUrl
+    f: $data.app.globalData.userInfo.avatar
   }, {
     g: !$data.isLogin
   }, !$data.isLogin ? {

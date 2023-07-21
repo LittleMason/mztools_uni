@@ -8,7 +8,7 @@
 						<view class="edit-btn" @click="handleEdit" v-if="isLogin">编辑</view>
                         <view class="user-vip">
 							<uni-icons type="contact" size="50" color="#ccc" v-if="!isLogin"></uni-icons>
-                            <image class="user-pic" :src="app.globalData.userInfo.avatarUrl" v-else/>
+                            <image class="user-pic" :src="app.globalData.userInfo.avatar" v-else/>
                         </view>
                         <view class="user-board">
                             <button v-if="!isLogin" class="user-name" open-type="getUserInfo" @getuserinfo="getUserInfo">点击登录</button>
@@ -73,10 +73,6 @@ export default {
         };
     },
 	onShow() {
-		// 注册事件监听
-		// uni.$on('updateGlobalData', () => {
-		//   this.app = app.globalData
-		// })
 		this.$forceUpdate()
 	},
     /**

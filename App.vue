@@ -59,18 +59,22 @@ import { error } from 'console';
 					const userRecord = await db.collection('uni-id-users').doc(uid).field({nickname:true,avatar:true}).get();
 					const {data} = userRecord.result;
 					console.log('userRecord:',userRecord);
+					const avatarUrl = data[0].avatar
 					this.globalData.userInfo.nickname = data[0].nickname;
-					this.globalData.userInfo.avatar = data[0].avatar;
-					
-					let result = await uniCloud.downloadFile({
-					    fileID: 'cloud://tcb-ty4fre65zf6scim-8cga6faa693f.7463-tcb-ty4fre65zf6scim-8cga6faa693f-1319289999/images/8876382664aa9ab30006fd4a6adfb4de.jpeg'
+					uniCloud.getTempFileURL({
+						fileList:['cloud://tcb-ty4fre65zf6scim-8cga6faa693f.7463-tcb-ty4fre65zf6scim-8cga6faa693f-1319289999/images/8876382664aa9ab30006fd4a6adfb4de.jpeg'],
+						success:(res)=>{
+							console.log('res:',res);
+							const {fileList} = res;
+							this.globalData.userInfo.avatar = fileList[0].download_url;
+						}
 					})
 				}
 			}
 		},
 		globalData: {
 			userInfo: {
-				avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
+				avatar: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
 				nickname: '小白'
 			},
 			hasUserInfo: false,

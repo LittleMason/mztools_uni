@@ -77,7 +77,9 @@
 							icon:'success',
 							title:'编辑成功！',
 							success() {
-								uni.navigateBack();
+								setTimeout(()=>{
+									uni.navigateBack();
+								},1000)
 							}
 						})
 					}

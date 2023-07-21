@@ -59,7 +59,9 @@ const _sfc_main = {
             icon: "success",
             title: "编辑成功！",
             success() {
-              common_vendor.index.navigateBack();
+              setTimeout(() => {
+                common_vendor.index.navigateBack();
+              }, 1e3);
             }
           });
         }

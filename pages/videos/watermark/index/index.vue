@@ -193,7 +193,6 @@
 						}
 					},
 					fail: (res) => {
-						console.log('res:', res);
 						uni.showToast({
 							title: res.errMsg,
 							icon: 'error'

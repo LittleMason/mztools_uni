@@ -123,7 +123,6 @@ const _sfc_main = {
           }
         },
         fail: (res) => {
-          console.log("res:", res);
           common_vendor.index.showToast({
             title: res.errMsg,
             icon: "error"
