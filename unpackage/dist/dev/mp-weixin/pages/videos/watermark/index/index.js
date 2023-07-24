@@ -44,6 +44,7 @@ const _sfc_main = {
     },
     parsePlatform(url) {
       const domainArr = url.match(/:\/\/(.[^/]+)/)[1];
+      console.log("domainArr:", domainArr);
       const domain = domainArr.split(":")[0];
       let platKey = "";
       const platUrlMap = {
@@ -64,10 +65,14 @@ const _sfc_main = {
       }
       return platKey;
     },
+    matchUrl(str) {
+      let match = str.match(/((https?|ftp):\/\/)?([A-Z0-9]+\.)+[A-Z]{2,6}(\/?[A-Z0-9]+\??([A-Z0-9]+\=[A-Z0-9]+(\&[A-Z0-9]+\=[A-Z0-9]+)*)?)*/gi);
+      return match ? match[0] : "";
+    },
     // 视频解析
     parseVideo: function() {
       const platforms = {
-        douyin: "https://api.txapi.cn/v1/parse_short_video/dy",
+        douyin: "http://api.txapi.cn/v1/parse_short_video/dy",
         weishi: "http://api.txapi.cn/v1/parse_short_video/ws",
         kuaishou: "http://api.txapi.cn/v1/parse_short_video/ks",
         xiaohongshu: "http://api.txapi.cn/v1/parse_short_video/xhs",
@@ -83,34 +88,25 @@ const _sfc_main = {
         });
         return false;
       }
-      app.globalData.apiRequest({
-        fullUrl,
-        method: "GET",
-        data: {
-          token: app.globalData.txAPIToken,
-          url: this.videoUrl
-        },
-        success: (res) => {
+      const uniCo = common_vendor.Ds.importObject("request-agent-middleware");
+      const datas = {
+        token: app.globalData.txAPIToken,
+        url: this.matchUrl(this.videoUrl)
+      };
+      uniCo.agent(fullUrl, datas, { method: "GET" }).then((res) => {
+        const {
+          code,
+          data
+        } = res.data;
+        if (code === 200) {
           const {
-            code,
-            data
-          } = res.data;
-          if (code === 200) {
-            const {
-              cover_url,
-              video_url,
-              title
-            } = data;
-            common_vendor.index.setStorageSync("dailyFreeParseNum", common_vendor.index.getStorageSync("dailyFreeParseNum") - 1);
-            common_vendor.index.navigateTo({
-              url: "../video/video?url=" + encodeURIComponent(video_url) + "&image=" + encodeURIComponent(cover_url) + "&preview=1&title=" + encodeURIComponent(title)
-            });
-          }
-        },
-        fail: (res) => {
-          common_vendor.index.showToast({
-            title: res.errMsg,
-            icon: "error"
+            cover_url,
+            video_url,
+            title
+          } = data;
+          common_vendor.index.setStorageSync("dailyFreeParseNum", common_vendor.index.getStorageSync("dailyFreeParseNum") - 1);
+          common_vendor.index.navigateTo({
+            url: "../video/video?url=" + encodeURIComponent(video_url) + "&image=" + encodeURIComponent(cover_url) + "&preview=1&title=" + encodeURIComponent(title)
           });
         }
       });
@@ -129,5 +125,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     g: common_vendor.o((...args) => $options.submit && $options.submit(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/videos/watermark/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

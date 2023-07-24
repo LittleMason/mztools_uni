@@ -105,8 +105,9 @@ export default {
             });
             // 执行登录
             app.globalData.getUserInfo((res) => {
-				const {code} = res;
+				const {code,data} = res;
 				if(code===200)this.isLogin=true;
+				this.$forceUpdate();
             });
         },
         /**

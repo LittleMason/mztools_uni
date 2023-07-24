@@ -13,7 +13,7 @@
 		"oauth" : {
 			"weixin" : {
 				"appid" : "wx1127d1a3c0f9beb8",
-				"appsecret" : "c7b0860ce7ed0df959b8b207b56f9b89"
+				"appsecret" : "62f79da454753ec033136502ffd782dc"
 			}
 		}
 	},
@@ -21,7 +21,7 @@
 		"oauth" : {
 			"weixin" : {
 				"appid" : "wx1127d1a3c0f9beb8",
-				"appsecret" : "c7b0860ce7ed0df959b8b207b56f9b89"
+				"appsecret" : "62f79da454753ec033136502ffd782dc"
 			}
 		}
 	},

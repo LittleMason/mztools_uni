@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
+const utils_business = require("./utils/business.js");
 const utils_share = require("./utils/share.js");
 if (!Math) {
   "./pages/index/index.js";
@@ -20,7 +21,7 @@ new Proxy({}, {
 });
 const _sfc_main = {
   onLaunch: async function() {
-    this.initUserInfo();
+    utils_business.initUserInfo.call(this);
     console.warn("当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上 123123！");
     console.log("App Launch");
   },
@@ -45,15 +46,17 @@ const _sfc_main = {
     },
     refreshToken() {
       const tokenExpired = common_vendor.index.getStorageSync("uni_id_token_expired") || 0;
+      const token = common_vendor.index.getStorageSync("token");
       const currentTime = Date.now();
       const tokenIsExpired = tokenExpired - currentTime < 10 * 3600;
+      console.log("tokenIsExpired:", tokenIsExpired);
       const uniCo = common_vendor.Ds.importObject("uni-id-co");
-      if (tokenIsExpired) {
+      if (tokenIsExpired && token) {
         uniCo.refreshToken().then((res) => {
           console.log("刷新token:", res);
-          const { newToken: { token, tokenExpired: tokenExpired2 } } = res;
-          common_vendor.index.setStorageSync("token", token);
-          common_vendor.index.setStorageSync("uni_id_token", token);
+          const { newToken: { token: token2, tokenExpired: tokenExpired2 } } = res;
+          common_vendor.index.setStorageSync("token", token2);
+          common_vendor.index.setStorageSync("uni_id_token", token2);
           common_vendor.index.setStorageSync("uni_id_token_expired", tokenExpired2);
         }, (error) => {
           console.log("刷新失败：", error);
@@ -64,28 +67,6 @@ const _sfc_main = {
         });
       }
       console.log("tokenIsExpired:", tokenIsExpired);
-    },
-    async initUserInfo() {
-      const token = common_vendor.index.getStorageSync("token");
-      console.log("token:", token);
-      if (token) {
-        common_vendor.Ds.importObject("uni-id-co");
-        const { uid } = common_vendor.Ds.getCurrentUserInfo();
-        const db = common_vendor.Ds.database();
-        const userRecord = await db.collection("uni-id-users").doc(uid).field({ nickname: true, avatar: true }).get();
-        const { data } = userRecord.result;
-        console.log("userRecord:", userRecord);
-        data[0].avatar;
-        this.globalData.userInfo.nickname = data[0].nickname;
-        common_vendor.Ds.getTempFileURL({
-          fileList: ["cloud://tcb-ty4fre65zf6scim-8cga6faa693f.7463-tcb-ty4fre65zf6scim-8cga6faa693f-1319289999/images/8876382664aa9ab30006fd4a6adfb4de.jpeg"],
-          success: (res) => {
-            console.log("res:", res);
-            const { fileList } = res;
-            this.globalData.userInfo.avatar = fileList[0].download_url;
-          }
-        });
-      }
     }
   },
   globalData: {
@@ -100,7 +81,7 @@ const _sfc_main = {
     //生产
     downloadPrefix: "http://127.0.0.1:8000/download?url=",
     // 通过代理服务器中转（微信限制资源域名，不同平台cdn域名千变万化）
-    defaultDailyFreeParseNum: 3,
+    defaultDailyFreeParseNum: 30,
     /**
      * 登陆并获取用户信息、token
      * @param {*} callback
@@ -118,7 +99,7 @@ const _sfc_main = {
                       this.getToken(code, res3.encryptedData, res3.inviteCode).then((res4) => {
                         if (callback) {
                           common_vendor.index.hideLoading();
-                          callback({ code: 200 });
+                          callback({ code: 200, data: res4 });
                         }
                       });
                     }
@@ -219,6 +200,9 @@ const _sfc_main = {
       try {
         const res = await uniCo.loginByWeixin({ code, inviteCode });
         const { token } = res.newToken;
+        console.log("this-getToken:", this);
+        const tempFiles = await utils_business.initUserInfo.call(this, token);
+        console.log("tempFiles:", tempFiles);
         common_vendor.index.showToast({
           title: "登录成功！",
           icon: "success",
@@ -226,6 +210,7 @@ const _sfc_main = {
             common_vendor.index.setStorageSync("token", token);
           }
         });
+        return tempFiles;
         console.log("res:", res);
       } catch (e) {
         console.log("error:", e);
@@ -233,7 +218,7 @@ const _sfc_main = {
     }
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mz/mztools_uni/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mztools_uni/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   app.mixin(utils_share.share);

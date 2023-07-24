@@ -127,6 +127,7 @@
 			},
 			parsePlatform(url) {
 				const domainArr = url.match(/:\/\/(.[^/]+)/)[1];
+				console.log('domainArr:',domainArr);
 				const domain = domainArr.split(':')[0];
 				let platKey = '';
 				const platUrlMap = {
@@ -147,11 +148,15 @@
 				}
 				return platKey
 			},
-
+			
+			matchUrl(str) {
+			    let match = str.match(/((https?|ftp):\/\/)?([A-Z0-9]+\.)+[A-Z]{2,6}(\/?[A-Z0-9]+\??([A-Z0-9]+\=[A-Z0-9]+(\&[A-Z0-9]+\=[A-Z0-9]+)*)?)*/gi);
+			    return match ? match[0] : '';
+			},
 			// 视频解析
 			parseVideo: function() {
 				const platforms = {
-					douyin: 'https://api.txapi.cn/v1/parse_short_video/dy',
+					douyin: 'http://api.txapi.cn/v1/parse_short_video/dy',
 					weishi: 'http://api.txapi.cn/v1/parse_short_video/ws',
 					kuaishou: 'http://api.txapi.cn/v1/parse_short_video/ks',
 					xiaohongshu: 'http://api.txapi.cn/v1/parse_short_video/xhs',
@@ -167,38 +172,29 @@
 					})
 					return false;
 				}
-				app.globalData.apiRequest({
-					fullUrl,
-					method: 'GET',
-					data: {
+				const uniCo = uniCloud.importObject('request-agent-middleware');
+				const datas = {
 						token: app.globalData.txAPIToken,
-						url: this.videoUrl
-					},
-					success: (res) => {
+						url: this.matchUrl(this.videoUrl)
+				}
+				uniCo.agent(fullUrl,datas,{method: 'GET'}).then(res=>{
+					const {
+						code,
+						data
+					} = res.data;
+					if (code === 200) {
 						const {
-							code,
-							data
-						} = res.data;
-						if (code === 200) {
-							const {
-								cover_url,
-								video_url,
-								title
-							} = data;
-							uni.setStorageSync('dailyFreeParseNum', uni.getStorageSync('dailyFreeParseNum') - 1);
-							uni.navigateTo({
-								url: '../video/video?url=' + encodeURIComponent(video_url) + '&image=' + encodeURIComponent(cover_url) +
-									'&preview=1' + '&title=' + encodeURIComponent(title)
-							});
-						}
-					},
-					fail: (res) => {
-						uni.showToast({
-							title: res.errMsg,
-							icon: 'error'
-						})
+							cover_url,
+							video_url,
+							title
+						} = data;
+						uni.setStorageSync('dailyFreeParseNum', uni.getStorageSync('dailyFreeParseNum') - 1);
+						uni.navigateTo({
+							url: '../video/video?url=' + encodeURIComponent(video_url) + '&image=' + encodeURIComponent(cover_url) +
+								'&preview=1' + '&title=' + encodeURIComponent(title)
+						});
 					}
-				});
+				})
 			}
 		}
 	};

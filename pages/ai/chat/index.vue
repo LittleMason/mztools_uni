@@ -14,11 +14,11 @@
 					<uni-icons @click="send" color="#d22" type="refresh-filled" class="retries-icon"></uni-icons>
 				</view>
 				<view class="tip-ai-ing" v-else-if="msgList.length">
-					<text>uni-ai正在思考中...</text>
-					<view v-if="NODE_ENV == 'development' && !enableStream">
+					<text>人工智能正在思考中...</text>
+<!-- 					<view v-if="NODE_ENV == 'development' && !enableStream">
 						如需提速，请开通<uni-link class="uni-link" href="https://uniapp.dcloud.net.cn/uniCloud/uni-ai-chat.html"
 							text="[流式响应]"></uni-link>
-					</view>
+					</view> -->
 				</view>
 			</template>
 			<view v-if="adpid" class="open-ad-btn-box">
@@ -51,7 +51,7 @@
 				</view>
 				<view class="textarea-box">
 					<textarea v-model="content" :cursor-spacing="15" class="textarea" :auto-height="!isWidescreen"
-						placeholder="请输入要发给uni-ai的内容" :maxlength="-1" :adjust-position="false"
+						placeholder="请输入要发给人工智能的内容" :maxlength="-1" :adjust-position="false"
 						:disable-default-padding="false" placeholder-class="input-placeholder"></textarea>
 				</view>
 				<view class="send-btn-box" :title="(msgList.length && msgList.length%2 !== 0) ? 'ai正在回复中不能发送':''">

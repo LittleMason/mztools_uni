@@ -46,8 +46,7 @@ const _sfc_main = {
       });
     },
     async handleEditUser() {
-      const uniCo = common_vendor.Ds.importObject("uni-id-co");
-      uniCo.updateUser({ uid: this.uid, nickname: this.nickname, username: this.uid }).then(async (res) => {
+      common_vendor.Ds.database().collection("uni-id-users").doc(this.uid).update({ nickname: this.nickname }).then(async (res) => {
         const { errCode } = res;
         if (!errCode) {
           const db = common_vendor.Ds.database();
@@ -59,9 +58,7 @@ const _sfc_main = {
             icon: "success",
             title: "编辑成功！",
             success() {
-              setTimeout(() => {
-                common_vendor.index.navigateBack();
-              }, 1e3);
+              common_vendor.index.navigateBack();
             }
           });
         }
@@ -82,5 +79,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     e: common_vendor.o((...args) => $options.handleEditUser && $options.handleEditUser(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/mine/edit/edit.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/mine/edit/edit.vue"]]);
 wx.createPage(MiniProgramPage);

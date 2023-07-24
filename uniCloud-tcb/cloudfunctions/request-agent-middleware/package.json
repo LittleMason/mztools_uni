@@ -1,0 +1,7 @@
+{
+  "name": "request-agent-middleware",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

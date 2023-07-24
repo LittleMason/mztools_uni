@@ -1,9 +1,9 @@
 <script>
 import { error } from 'console';
+import { initUserInfo } from '@/utils/business.js';
 	export default {
 		onLaunch: async function() {
-			// this.userDefaultLogin();
-			this.initUserInfo();
+			initUserInfo.call(this);
 			console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上 123123！')
 			console.log('App Launch');
 		},
@@ -28,10 +28,12 @@ import { error } from 'console';
 			},
 			refreshToken(){
 				const tokenExpired = uni.getStorageSync('uni_id_token_expired') || 0;
+				const token = uni.getStorageSync('token');
 				const currentTime = Date.now();
 				const tokenIsExpired = tokenExpired - currentTime < 10*3600;
+				console.log('tokenIsExpired:',tokenIsExpired);
 				const uniCo = uniCloud.importObject('uni-id-co');
-				if(tokenIsExpired){
+				if(tokenIsExpired && token){
 					uniCo.refreshToken().then(res=>{
 						console.log('刷新token:',res);
 						const {newToken:{token,tokenExpired}} =res;
@@ -48,28 +50,6 @@ import { error } from 'console';
 					
 				}
 				console.log('tokenIsExpired:',tokenIsExpired);
-			},
-			async initUserInfo(){
-				const token = uni.getStorageSync('token');
-				console.log('token:',token);
-				if(token){
-					const uniCo = uniCloud.importObject('uni-id-co');
-					const {uid} = uniCloud.getCurrentUserInfo();
-					const db = uniCloud.database();
-					const userRecord = await db.collection('uni-id-users').doc(uid).field({nickname:true,avatar:true}).get();
-					const {data} = userRecord.result;
-					console.log('userRecord:',userRecord);
-					const avatarUrl = data[0].avatar
-					this.globalData.userInfo.nickname = data[0].nickname;
-					uniCloud.getTempFileURL({
-						fileList:['cloud://tcb-ty4fre65zf6scim-8cga6faa693f.7463-tcb-ty4fre65zf6scim-8cga6faa693f-1319289999/images/8876382664aa9ab30006fd4a6adfb4de.jpeg'],
-						success:(res)=>{
-							console.log('res:',res);
-							const {fileList} = res;
-							this.globalData.userInfo.avatar = fileList[0].download_url;
-						}
-					})
-				}
 			}
 		},
 		globalData: {
@@ -85,8 +65,7 @@ import { error } from 'console';
 			downloadPrefix: 'http://127.0.0.1:8000/download?url=',
 
 			// 通过代理服务器中转（微信限制资源域名，不同平台cdn域名千变万化）
-			defaultDailyFreeParseNum: 3,
-
+			defaultDailyFreeParseNum: 30,
 			/**
 			 * 登陆并获取用户信息、token
 			 * @param {*} callback
@@ -111,7 +90,7 @@ import { error } from 'console';
 													.encryptedData, res.inviteCode).then(res=>{
 														if (callback) {
 															uni.hideLoading();
-															callback({code:200});
+															callback({code:200,data:res});
 														}
 													});
 											}
@@ -217,13 +196,17 @@ import { error } from 'console';
 				try{
 					const res = await uniCo.loginByWeixin({code,inviteCode});
 					const {token} = res.newToken;
+					console.log('this-getToken:',this);
+					const tempFiles = await initUserInfo.call(this,token);
+					console.log('tempFiles:',tempFiles);
 					uni.showToast({
 						title: '登录成功！',
 						icon: 'success',
 						success: (res) => {
-							uni.setStorageSync('token',token)
+							uni.setStorageSync('token',token);
 						}
 					});
+					return tempFiles
 					console.log('res:',res);
 				}catch(e){
 					//TODO handle the exception

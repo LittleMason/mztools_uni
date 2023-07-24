@@ -504,14 +504,12 @@ const _sfc_main = {
 if (!Array) {
   const _component_uni_ai_msg = common_vendor.resolveComponent("uni-ai-msg");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
-  const _easycom_uni_link2 = common_vendor.resolveComponent("uni-link");
   const _component_llm_config = common_vendor.resolveComponent("llm-config");
-  (_component_uni_ai_msg + _easycom_uni_icons2 + _easycom_uni_link2 + _component_llm_config)();
+  (_component_uni_ai_msg + _easycom_uni_icons2 + _component_llm_config)();
 }
 const _easycom_uni_icons = () => "../../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
-const _easycom_uni_link = () => "../../../uni_modules/uni-link/components/uni-link/uni-link.js";
 if (!Math) {
-  (_easycom_uni_icons + _easycom_uni_link)();
+  _easycom_uni_icons();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
@@ -519,13 +517,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   }, $data.msgList.length === 0 ? {} : {}, {
     b: common_vendor.f($data.msgList, (msg, index, i0) => {
       return {
-        a: common_vendor.sr("msg", "431d3c40-0-" + i0, {
+        a: common_vendor.sr("msg", "1a8ce57c-0-" + i0, {
           "f": 1
         }),
         b: index,
         c: common_vendor.o($options.changeAnswer, index),
         d: common_vendor.o(($event) => $options.removeMsg(index), index),
-        e: "431d3c40-0-" + i0,
+        e: "1a8ce57c-0-" + i0,
         f: common_vendor.p({
           msg,
           ["show-cursor"]: index == $data.msgList.length - 1 && $data.msgList.length % 2 === 0 && $data.sseIndex,
@@ -542,42 +540,35 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       color: "#d22",
       type: "refresh-filled"
     })
-  } : $data.msgList.length ? common_vendor.e({
-    h: $options.NODE_ENV == "development" && !$data.enableStream
-  }, $options.NODE_ENV == "development" && !$data.enableStream ? {
-    i: common_vendor.p({
-      href: "https://uniapp.dcloud.net.cn/uniCloud/uni-ai-chat.html",
-      text: "[流式响应]"
-    })
-  } : {}) : {}, {
+  } : $data.msgList.length ? {} : {}, {
     g: $data.msgList.length
   }) : {}, {
-    j: $data.adpid
+    h: $data.adpid
   }, $data.adpid ? {} : {}, {
-    k: $data.sseIndex
+    i: $data.sseIndex
   }, $data.sseIndex ? {
-    l: common_vendor.o((...args) => $options.closeSseChannel && $options.closeSseChannel(...args))
+    j: common_vendor.o((...args) => $options.closeSseChannel && $options.closeSseChannel(...args))
   } : {}, {
-    m: $data.scrollIntoView,
-    n: !$data.isWidescreen
+    k: $data.scrollIntoView,
+    l: !$data.isWidescreen
   }, !$data.isWidescreen ? {
-    o: common_vendor.o($options.clearAllMsg),
-    p: common_vendor.p({
+    m: common_vendor.o($options.clearAllMsg),
+    n: common_vendor.p({
       type: "trash",
       size: "24",
       color: "#888"
     })
   } : {}, {
-    q: !$data.isWidescreen,
-    r: -1,
-    s: $data.content,
-    t: common_vendor.o(($event) => $data.content = $event.detail.value),
-    v: common_vendor.o((...args) => $options.beforeSend && $options.beforeSend(...args)),
-    w: $options.inputBoxDisabled || !$data.content,
-    x: $data.msgList.length && $data.msgList.length % 2 !== 0 ? "ai正在回复中不能发送" : "",
-    y: $options.footBoxPaddingBottom,
-    z: common_vendor.sr("llm-config", "431d3c40-4")
+    o: !$data.isWidescreen,
+    p: -1,
+    q: $data.content,
+    r: common_vendor.o(($event) => $data.content = $event.detail.value),
+    s: common_vendor.o((...args) => $options.beforeSend && $options.beforeSend(...args)),
+    t: $options.inputBoxDisabled || !$data.content,
+    v: $data.msgList.length && $data.msgList.length % 2 !== 0 ? "ai正在回复中不能发送" : "",
+    w: $options.footBoxPaddingBottom,
+    x: common_vendor.sr("llm-config", "1a8ce57c-3")
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mz/mztools_uni/pages/ai/chat/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/ai/chat/index.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -13,28 +13,6 @@ if (!Math) {
 const _sfc_main = {
   __name: "index",
   setup(__props) {
-    const textArr = [
-      {
-        text: "文字九宫格",
-        path: "",
-        icon: "../../static/images/text-night-climp.png"
-      },
-      {
-        text: "文字转图片",
-        path: "",
-        icon: "../../static/images/text-text-to-image.png"
-      },
-      {
-        text: "翅膀昵称",
-        path: "",
-        icon: "../../static/images/text-wing-nickname.png"
-      },
-      {
-        text: "花式字体",
-        path: "",
-        icon: "../../static/images/text-flower.png"
-      }
-    ];
     const imgArr = [
       {
         text: "九宫格切图",
@@ -56,7 +34,7 @@ const _sfc_main = {
     ];
     const AIArr = [
       {
-        text: "chatAI",
+        text: "智能聊天",
         path: "/pages/ai/chat/index",
         icon: "../../static/images/ai.png"
       }
@@ -70,11 +48,13 @@ const _sfc_main = {
     return (_ctx, _cache) => {
       return {
         a: 5 * 1e3,
-        b: common_vendor.f(textArr, (item, index, i0) => {
+        b: common_vendor.f(imgArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
-            c: common_vendor.o(handle, index),
+            c: common_vendor.o(() => {
+              handle(item);
+            }, index),
             d: index,
             e: "1cf27b2a-1-" + i0 + ",1cf27b2a-0"
           };
@@ -83,7 +63,7 @@ const _sfc_main = {
           column: 4,
           showBorder: false
         }),
-        d: common_vendor.f(imgArr, (item, index, i0) => {
+        d: common_vendor.f(AIArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
@@ -112,25 +92,10 @@ const _sfc_main = {
         g: common_vendor.p({
           column: 4,
           showBorder: false
-        }),
-        h: common_vendor.f(AIArr, (item, index, i0) => {
-          return {
-            a: item.icon,
-            b: common_vendor.t(item.text),
-            c: common_vendor.o(() => {
-              handle(item);
-            }, index),
-            d: index,
-            e: "1cf27b2a-7-" + i0 + ",1cf27b2a-6"
-          };
-        }),
-        i: common_vendor.p({
-          column: 4,
-          showBorder: false
         })
       };
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/mz/mztools_uni/pages/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/mztools_uni/pages/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

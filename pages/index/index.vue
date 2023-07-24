@@ -12,7 +12,7 @@
 <!-- 		<view @click="handleDemo">
 			获取信息
 		</view> -->
-		<view class="block-wrapper">
+<!-- 		<view class="block-wrapper">
 			<view class="block-wrapper-title">文本处理</view>
 			<uni-grid :column="4" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in textArr" :key="index">
@@ -22,22 +22,11 @@
 					</view>
 				</uni-grid-item>
 			</uni-grid>
-		</view>
+		</view> -->
 		<view class="block-wrapper">
 			<view class="block-wrapper-title">图像处理</view>
 			<uni-grid :column="4" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in imgArr" :key="index">
-					<view class="item-block" @click="()=>{handle(item)}">
-						<image :src="item.icon" mode="widthFix"></image>
-						<view class="text">{{ item.text }}</view>
-					</view>
-				</uni-grid-item>
-			</uni-grid>
-		</view>
-		<view class="block-wrapper">
-			<view class="block-wrapper-title">视频处理</view>
-			<uni-grid :column="4" :showBorder="false">
-				<uni-grid-item v-for="(item,index) in videoArr" :key="index">
 					<view class="item-block" @click="()=>{handle(item)}">
 						<image :src="item.icon" mode="widthFix"></image>
 						<view class="text">{{ item.text }}</view>
@@ -56,6 +45,18 @@
 				</uni-grid-item>
 			</uni-grid>
 		</view>
+		<view class="block-wrapper">
+			<view class="block-wrapper-title">视频处理</view>
+			<uni-grid :column="4" :showBorder="false">
+				<uni-grid-item v-for="(item,index) in videoArr" :key="index">
+					<view class="item-block" @click="()=>{handle(item)}">
+						<image :src="item.icon" mode="widthFix"></image>
+						<view class="text">{{ item.text }}</view>
+					</view>
+				</uni-grid-item>
+			</uni-grid>
+		</view>
+
 	</view>
 </template>
 
@@ -104,7 +105,7 @@ const videoArr = [
 ]
 const AIArr = [
 	{
-		text:'chatAI',
+		text:'智能聊天',
 		path:'/pages/ai/chat/index',
 		icon:'../../static/images/ai.png'
 	}
@@ -114,7 +115,6 @@ const handle = (item)=>{
 	uni.navigateTo({
 		url:item.path
 	})
-	
 }
 const handleDemo = ()=>{
 	// let data = uniCloud.getCurrentUserInfo();

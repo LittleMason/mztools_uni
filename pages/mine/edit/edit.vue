@@ -63,8 +63,7 @@
 				})
 			},
 			async handleEditUser(){
-				const uniCo = uniCloud.importObject('uni-id-co');
-				uniCo.updateUser({uid:this.uid,nickname:this.nickname,username:this.uid}).then(async (res)=>{
+				uniCloud.database().collection('uni-id-users').doc(this.uid).update({nickname:this.nickname}).then(async (res)=>{
 					const {errCode} = res;
 					if(!errCode){
 						const db = uniCloud.database();
@@ -72,14 +71,11 @@
 						const {data} = userRecord.result;
 						console.log('userRecord:',userRecord);
 						app.globalData.userInfo.nickname = data[0].nickname;
-						// app.globalData.userInfo.avatar = data[0].avatar;
 						uni.showToast({
 							icon:'success',
 							title:'编辑成功！',
 							success() {
-								setTimeout(()=>{
-									uni.navigateBack();
-								},1000)
+								uni.navigateBack();
 							}
 						})
 					}
