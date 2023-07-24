@@ -12,21 +12,6 @@ const _sfc_main = {
   onLoad: function() {
   },
   onShow() {
-    common_vendor.index.getClipboardData({
-      success: (res) => {
-        var str = res.data.trim();
-        if (this.regUrl(str)) {
-          common_vendor.index.showModal({
-            title: "检测到剪切板有视频地址，是否自动填入？",
-            success: (res2) => {
-              if (res2.confirm) {
-                this.videoUrl = str;
-              }
-            }
-          });
-        }
-      }
-    });
   },
   methods: {
     // 清空输入框
@@ -82,7 +67,7 @@ const _sfc_main = {
     // 视频解析
     parseVideo: function() {
       const platforms = {
-        douyin: "http://api.txapi.cn/v1/parse_short_video/dy",
+        douyin: "https://api.txapi.cn/v1/parse_short_video/dy",
         weishi: "http://api.txapi.cn/v1/parse_short_video/ws",
         kuaishou: "http://api.txapi.cn/v1/parse_short_video/ks",
         xiaohongshu: "http://api.txapi.cn/v1/parse_short_video/xhs",

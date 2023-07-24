@@ -133,28 +133,42 @@
 		// 	}
 		// }
 	],
-	"subPackages": [{
-		"root": "pages/videos/",
-		"pages": [{
-				"path": "watermark/index/index",
-				"style": {
-					"navigationBarTitleText": "短视频去水印小帮手",
-					"navigationBarBackgroundColor": "#99CCFF",
-					"navigationBarTextStyle": "white"
+	"subPackages": [
+		{
+			"root": "pages/videos/",
+			"pages": [
+				{
+					"path": "watermark/index/index",
+					"style": {
+						"navigationBarTitleText": "短视频去水印小帮手",
+						"navigationBarBackgroundColor": "#99CCFF",
+						"navigationBarTextStyle": "white"
+					}
+				},
+				{
+					"path": "watermark/video/video",
+					"style": {
+						"navigationBarTitleText": "无水印视频预览",
+						"navigationBarBackgroundColor": "#fff",
+						"navigationBarTextStyle": "black"
+					}
 				}
-			},
-
-			{
-				"path": "watermark/video/video",
-				"style": {
-					"navigationBarTitleText": "无水印视频预览",
-					"navigationBarBackgroundColor": "#fff",
-					"navigationBarTextStyle": "black"
+			]
+		},
+		{
+			"root": "pages/ai/",
+			"pages": [
+				{
+					"path": "chat/index",
+					"style": {
+						"navigationBarTitleText": "智能聊天",
+						"navigationBarBackgroundColor": "#99CCFF",
+						"navigationBarTextStyle": "white"
+					}
 				}
-			}
-
-		]
-	}],
+			]
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

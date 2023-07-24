@@ -42,7 +42,7 @@ const _sfc_main = {
         icon: "../../static/images/img-night-climp.png"
       },
       {
-        text: "长图拼接",
+        text: "长图拼接1",
         path: "/pages/joinImages/joinImages",
         icon: "../../static/images/img-climp-join.png"
       }
@@ -54,26 +54,23 @@ const _sfc_main = {
         icon: "../../static/images/video-water.png"
       }
     ];
+    const AIArr = [
+      {
+        text: "chatAI",
+        path: "/pages/ai/chat/index",
+        icon: "../../static/images/ai.png"
+      }
+    ];
     const handle = (item) => {
       console.log("item:", item);
       common_vendor.index.navigateTo({
         url: item.path
       });
     };
-    const handleDemo = () => {
-      common_vendor.Ds.callFunction({
-        name: "demo",
-        data: { sex: "男" },
-        success(res) {
-          console.log("res:", res);
-        }
-      });
-    };
     return (_ctx, _cache) => {
       return {
         a: 5 * 1e3,
-        b: common_vendor.o(handleDemo),
-        c: common_vendor.f(textArr, (item, index, i0) => {
+        b: common_vendor.f(textArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
@@ -82,11 +79,11 @@ const _sfc_main = {
             e: "1cf27b2a-1-" + i0 + ",1cf27b2a-0"
           };
         }),
-        d: common_vendor.p({
+        c: common_vendor.p({
           column: 4,
           showBorder: false
         }),
-        e: common_vendor.f(imgArr, (item, index, i0) => {
+        d: common_vendor.f(imgArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
@@ -97,11 +94,11 @@ const _sfc_main = {
             e: "1cf27b2a-3-" + i0 + ",1cf27b2a-2"
           };
         }),
-        f: common_vendor.p({
+        e: common_vendor.p({
           column: 4,
           showBorder: false
         }),
-        g: common_vendor.f(videoArr, (item, index, i0) => {
+        f: common_vendor.f(videoArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
@@ -112,7 +109,22 @@ const _sfc_main = {
             e: "1cf27b2a-5-" + i0 + ",1cf27b2a-4"
           };
         }),
-        h: common_vendor.p({
+        g: common_vendor.p({
+          column: 4,
+          showBorder: false
+        }),
+        h: common_vendor.f(AIArr, (item, index, i0) => {
+          return {
+            a: item.icon,
+            b: common_vendor.t(item.text),
+            c: common_vendor.o(() => {
+              handle(item);
+            }, index),
+            d: index,
+            e: "1cf27b2a-7-" + i0 + ",1cf27b2a-6"
+          };
+        }),
+        i: common_vendor.p({
           column: 4,
           showBorder: false
         })

@@ -76,21 +76,21 @@
 		onLoad: function() {},
 		onShow() {
 			// 如果剪切板内有内容则尝试自动填充
-			uni.getClipboardData({
-				success: (res) => {
-					var str = res.data.trim();
-					if (this.regUrl(str)) {
-						uni.showModal({
-							title: '检测到剪切板有视频地址，是否自动填入？',
-							success: (res) => {
-								if (res.confirm) {
-									this.videoUrl = str;
-								}
-							}
-						});
-					}
-				}
-			});
+			// uni.getClipboardData({
+			// 	success: (res) => {
+			// 		var str = res.data.trim();
+			// 		if (this.regUrl(str)) {
+			// 			uni.showModal({
+			// 				title: '检测到剪切板有视频地址，是否自动填入？',
+			// 				success: (res) => {
+			// 					if (res.confirm) {
+			// 						this.videoUrl = str;
+			// 					}
+			// 				}
+			// 			});
+			// 		}
+			// 	}
+			// });
 		},
 		methods: {
 			// 清空输入框
@@ -151,7 +151,7 @@
 			// 视频解析
 			parseVideo: function() {
 				const platforms = {
-					douyin: 'http://api.txapi.cn/v1/parse_short_video/dy',
+					douyin: 'https://api.txapi.cn/v1/parse_short_video/dy',
 					weishi: 'http://api.txapi.cn/v1/parse_short_video/ws',
 					kuaishou: 'http://api.txapi.cn/v1/parse_short_video/ks',
 					xiaohongshu: 'http://api.txapi.cn/v1/parse_short_video/xhs',

@@ -9,9 +9,9 @@
 				</swiper-item>
 			</swiper>
 		</view>
-		<view @click="handleDemo">
+<!-- 		<view @click="handleDemo">
 			获取信息
-		</view>
+		</view> -->
 		<view class="block-wrapper">
 			<view class="block-wrapper-title">文本处理</view>
 			<uni-grid :column="4" :showBorder="false">
@@ -33,10 +33,22 @@
 					</view>
 				</uni-grid-item>
 			</uni-grid>
-		</view><view class="block-wrapper">
+		</view>
+		<view class="block-wrapper">
 			<view class="block-wrapper-title">视频处理</view>
 			<uni-grid :column="4" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in videoArr" :key="index">
+					<view class="item-block" @click="()=>{handle(item)}">
+						<image :src="item.icon" mode="widthFix"></image>
+						<view class="text">{{ item.text }}</view>
+					</view>
+				</uni-grid-item>
+			</uni-grid>
+		</view>
+		<view class="block-wrapper">
+			<view class="block-wrapper-title">AI模块</view>
+			<uni-grid :column="4" :showBorder="false">
+				<uni-grid-item v-for="(item,index) in AIArr" :key="index">
 					<view class="item-block" @click="()=>{handle(item)}">
 						<image :src="item.icon" mode="widthFix"></image>
 						<view class="text">{{ item.text }}</view>
@@ -78,7 +90,7 @@ const imgArr = [
 		icon:'../../static/images/img-night-climp.png'
 	},
 	{
-		text:'长图拼接',
+		text:'长图拼接1',
 		path:'/pages/joinImages/joinImages',
 		icon:'../../static/images/img-climp-join.png'
 	},
@@ -88,6 +100,13 @@ const videoArr = [
 		text:'视频去水印',
 		path:'/pages/videos/watermark/index/index',
 		icon:'../../static/images/video-water.png'
+	}
+]
+const AIArr = [
+	{
+		text:'chatAI',
+		path:'/pages/ai/chat/index',
+		icon:'../../static/images/ai.png'
 	}
 ]
 const handle = (item)=>{

@@ -11,6 +11,7 @@ if (!Math) {
   "./pages/mine/history.js";
   "./pages/videos/watermark/index/index.js";
   "./pages/videos/watermark/video/video.js";
+  "./pages/ai/chat/index.js";
 }
 new Proxy({}, {
   get(_, key) {

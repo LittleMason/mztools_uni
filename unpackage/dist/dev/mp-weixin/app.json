@@ -14,6 +14,12 @@
         "watermark/index/index",
         "watermark/video/video"
       ]
+    },
+    {
+      "root": "pages/ai/",
+      "pages": [
+        "chat/index"
+      ]
     }
   ],
   "window": {
@@ -43,6 +49,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }
