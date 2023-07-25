@@ -99,10 +99,11 @@ export async function initUserInfo(postToken){
 		const db = uniCloud.database();
 		const userRecord = await db.collection('uni-id-users').doc(uid).field({nickname:true,avatar:true}).get();
 		const {data} = userRecord.result;
+		console.log('data:',data);
 		const avatarUrl = data[0].avatar
 		selfData.userInfo.nickname = data[0].nickname;
 		const tempFiles = await uniCloud.getTempFileURL({
-			fileList:['cloud://tcb-ty4fre65zf6scim-8cga6faa693f.7463-tcb-ty4fre65zf6scim-8cga6faa693f-1319289999/images/8876382664aa9ab30006fd4a6adfb4de.jpeg']
+			fileList:[avatarUrl]
 		})
 		const {fileList} = tempFiles;
 		selfData.userInfo.avatar = fileList[0].download_url;

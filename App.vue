@@ -117,7 +117,7 @@ import { initUserInfo } from '@/utils/business.js';
 						Accept: 'application/json'
 					},
 					dataType: 'json',
-					data: options.data,
+					data: {...options.data,token:'TOMTWTRw2ZiZ0W'},
 					success: (res) => {
 						switch (res.statusCode) {
 							case 200:

@@ -37,6 +37,16 @@ const _sfc_main = {
         text: "智能聊天",
         path: "/pages/ai/chat/index",
         icon: "../../static/images/ai.png"
+      },
+      {
+        text: "油价查询",
+        path: "/pages/ai/capability/capability",
+        icon: "../../static/images/oil-price.png"
+      },
+      {
+        text: "周公解梦",
+        path: "/pages/ai/fortune-telling/fortune-telling",
+        icon: "../../static/images/fortune-telling.png"
       }
     ];
     const handle = (item) => {
@@ -60,7 +70,7 @@ const _sfc_main = {
           };
         }),
         c: common_vendor.p({
-          column: 4,
+          column: 3,
           showBorder: false
         }),
         d: common_vendor.f(AIArr, (item, index, i0) => {
@@ -75,7 +85,7 @@ const _sfc_main = {
           };
         }),
         e: common_vendor.p({
-          column: 4,
+          column: 3,
           showBorder: false
         }),
         f: common_vendor.f(videoArr, (item, index, i0) => {
@@ -90,7 +100,7 @@ const _sfc_main = {
           };
         }),
         g: common_vendor.p({
-          column: 4,
+          column: 3,
           showBorder: false
         })
       };

@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/sudokuClimp/sudokuClimp",
+    "pages/joinImages/joinImages",
+    "pages/mine/mine",
+    "pages/mine/edit/edit",
+    "pages/mine/history"
+  ],
+  "subPackages": [
+    {
+      "root": "pages/videos/",
+      "pages": [
+        "watermark/index/index",
+        "watermark/video/video"
+      ]
+    },
+    {
+      "root": "pages/ai/",
+      "pages": [
+        "chat/index"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "custom": false,
+    "color": "#dbdbdb",
+    "selectedColor": "#337AFF",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/images/icon-home.png",
+        "selectedIconPath": "static/images/icon-home-selected.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "static/images/icon-me.png",
+        "selectedIconPath": "static/images/icon-me-selected.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

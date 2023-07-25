@@ -25,7 +25,7 @@
 		</view> -->
 		<view class="block-wrapper">
 			<view class="block-wrapper-title">图像处理</view>
-			<uni-grid :column="4" :showBorder="false">
+			<uni-grid :column="3" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in imgArr" :key="index">
 					<view class="item-block" @click="()=>{handle(item)}">
 						<image :src="item.icon" mode="widthFix"></image>
@@ -36,7 +36,7 @@
 		</view>
 		<view class="block-wrapper">
 			<view class="block-wrapper-title">AI模块</view>
-			<uni-grid :column="4" :showBorder="false">
+			<uni-grid :column="3" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in AIArr" :key="index">
 					<view class="item-block" @click="()=>{handle(item)}">
 						<image :src="item.icon" mode="widthFix"></image>
@@ -47,7 +47,7 @@
 		</view>
 		<view class="block-wrapper">
 			<view class="block-wrapper-title">视频处理</view>
-			<uni-grid :column="4" :showBorder="false">
+			<uni-grid :column="3" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in videoArr" :key="index">
 					<view class="item-block" @click="()=>{handle(item)}">
 						<image :src="item.icon" mode="widthFix"></image>
@@ -108,7 +108,15 @@ const AIArr = [
 		text:'智能聊天',
 		path:'/pages/ai/chat/index',
 		icon:'../../static/images/ai.png'
-	}
+	},{
+		text:'油价查询',
+		path:'/pages/ai/capability/capability',
+		icon:'../../static/images/oil-price.png'
+	},{
+		text:'周公解梦',
+		path:'/pages/ai/fortune-telling/fortune-telling',
+		icon:'../../static/images/fortune-telling.png'
+	},
 ]
 const handle = (item)=>{
 	console.log('item:',item)

@@ -1,0 +1,1 @@
+"use strict";const t=t=>(t=t.toString())[1]?t:"0"+t,e={formatTime:e=>{const o=e.getFullYear(),n=e.getMonth()+1,a=e.getDate(),g=e.getHours(),r=e.getMinutes(),i=e.getSeconds();return[o,n,a].map(t).join("/")+" "+[g,r,i].map(t).join(":")},formatDate:(e,o="/")=>[e.getFullYear(),e.getMonth()+1,e.getDate()].map(t).join(o)};exports.util=e;

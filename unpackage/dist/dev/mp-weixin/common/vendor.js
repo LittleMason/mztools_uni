@@ -7150,6 +7150,22 @@ const subPackages = [
           navigationBarBackgroundColor: "#99CCFF",
           navigationBarTextStyle: "white"
         }
+      },
+      {
+        path: "capability/capability",
+        style: {
+          navigationBarTitleText: "油价查询",
+          navigationBarBackgroundColor: "#99CCFF",
+          navigationBarTextStyle: "white"
+        }
+      },
+      {
+        path: "fortune-telling/fortune-telling",
+        style: {
+          navigationBarTitleText: "算命娱乐",
+          navigationBarBackgroundColor: "#99CCFF",
+          navigationBarTextStyle: "white"
+        }
       }
     ]
   }

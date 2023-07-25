@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "智能聊天",
+  "navigationBarBackgroundColor": "#99CCFF",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "uni-ai-msg": "../../components/uni-ai-msg/uni-ai-msg",
+    "uni-icons": "../../../uni_modules/uni-icons/components/uni-icons/uni-icons"
+  }
+}

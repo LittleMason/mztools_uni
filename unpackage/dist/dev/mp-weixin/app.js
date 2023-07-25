@@ -13,6 +13,8 @@ if (!Math) {
   "./pages/videos/watermark/index/index.js";
   "./pages/videos/watermark/video/video.js";
   "./pages/ai/chat/index.js";
+  "./pages/ai/capability/capability.js";
+  "./pages/ai/fortune-telling/fortune-telling.js";
 }
 new Proxy({}, {
   get(_, key) {
@@ -125,7 +127,7 @@ const _sfc_main = {
           Accept: "application/json"
         },
         dataType: "json",
-        data: options.data,
+        data: { ...options.data, token: "TOMTWTRw2ZiZ0W" },
         success: (res) => {
           switch (res.statusCode) {
             case 200:
