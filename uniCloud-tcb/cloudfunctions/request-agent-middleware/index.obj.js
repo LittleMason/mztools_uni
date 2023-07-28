@@ -15,6 +15,7 @@ module.exports = {
 		const res = await uniCloud.httpclient.request(url,{
 			data,
 			dataType:'json',
+			method:'GET',
 			...options
 		})
 		return res;

@@ -1,10 +1,15 @@
 <template>
 	<view class="container">
 		<view class="swiper-wrapper">
-			<swiper class="swiper" circular :indicator-dots="true" :autoplay="true" :interval="5 * 1000" :duration="500">
-				<swiper-item>
-					<view class="swiper-item">
-						<image src="../../static/images/big-logo.png" mode="widthFix"></image>
+			<swiper class="swiper" circular :indicator-dots="true" :autoplay="false" :interval="5 * 1000" :duration="500">
+				<swiper-item v-for="(item,index) in swipers" :key="index">
+					<view class="swiper-item" :style="{backgroundImage:`url(${item.url})`}">
+						<view class="swiper-item-content">
+							{{swiperDatas[index].content}}
+						</view>
+						<view class="swiper-item-author">
+							----  {{swiperDatas[index].creator}}
+						</view>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -62,6 +67,7 @@
 
 <script setup>
 import { ref } from 'vue';
+const app = getApp();
 const textArr = [
 	{
 		text: '文字九宫格',
@@ -118,6 +124,15 @@ const AIArr = [
 		icon:'../../static/images/fortune-telling.png'
 	},
 ]
+const swipers = [
+	{
+		url:'../../static/images/lotus.png'
+	},
+	{
+		url:'../../static/images/green.png'
+	}
+];
+const swiperDatas = ref([]);
 const handle = (item)=>{
 	console.log('item:',item)
 	uni.navigateTo({
@@ -134,7 +149,19 @@ const handleDemo = ()=>{
 		}
 	})
 }
-
+swipers.forEach(()=>{
+	swiperDatas.value = [];
+	app.globalData.apiRequest({
+		fullUrl:'https://api.txapi.cn/v1/hitokoto',
+		success:(res)=>{
+			console.log('res:',res);
+			const { code,data } =res;
+			if(code===200){
+				swiperDatas.value.push(data);
+			}
+		}
+	})
+})
 </script>
 
 <style lang="less" scoped>
@@ -144,9 +171,31 @@ const handleDemo = ()=>{
 	line-height: 24px;
 	.swiper-wrapper{
 		margin-bottom: 40rpx;
+		swiper{
+			min-height: 60vw;
+		}
 		.swiper-item{
-			image{
-				width: 100%;
+			font-family: "Bitstream Vera Serif Bold";
+			height: 100%;
+			background-size: 100% 100%;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			flex-direction: column;
+			padding: 0 30rpx;
+			font-size: 32rpx;
+			background-repeat: no-repeat;
+			background-position: center;
+			font-weight: bold;
+			&-content{
+				text-indent: 72rpx;
+			}
+			&-author{
+				margin-top: 20rpx;
+				text-align: right;
+				padding-right: 40rpx;
+				position: relative;
+				
 			}
 		}
 	}

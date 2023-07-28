@@ -18,10 +18,15 @@
 }
 .page-oil-price-table-tr {
   display: flex;
+  flex-direction: row-reverse;
 }
 .page-oil-price-table-td {
   width: 20%;
   padding: 20rpx 0;
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
+}
+.page-oil-price-table .placeName {
+  background-color: #ff8902;
+  color: white;
 }

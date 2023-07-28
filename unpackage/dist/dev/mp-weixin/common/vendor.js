@@ -7162,7 +7162,7 @@ const subPackages = [
       {
         path: "fortune-telling/fortune-telling",
         style: {
-          navigationBarTitleText: "算命娱乐",
+          navigationBarTitleText: "周公解梦",
           navigationBarBackgroundColor: "#99CCFF",
           navigationBarTextStyle: "white"
         }

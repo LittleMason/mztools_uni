@@ -13,6 +13,7 @@ if (!Math) {
 const _sfc_main = {
   __name: "index",
   setup(__props) {
+    const app = getApp();
     const imgArr = [
       {
         text: "九宫格切图",
@@ -49,16 +50,46 @@ const _sfc_main = {
         icon: "../../static/images/fortune-telling.png"
       }
     ];
+    const swipers = [
+      {
+        url: "../../static/images/lotus.png"
+      },
+      {
+        url: "../../static/images/green.png"
+      }
+    ];
+    const swiperDatas = common_vendor.ref([]);
     const handle = (item) => {
       console.log("item:", item);
       common_vendor.index.navigateTo({
         url: item.path
       });
     };
+    swipers.forEach(() => {
+      swiperDatas.value = [];
+      app.globalData.apiRequest({
+        fullUrl: "https://api.txapi.cn/v1/hitokoto",
+        success: (res) => {
+          console.log("res:", res);
+          const { code, data } = res;
+          if (code === 200) {
+            swiperDatas.value.push(data);
+          }
+        }
+      });
+    });
     return (_ctx, _cache) => {
       return {
-        a: 5 * 1e3,
-        b: common_vendor.f(imgArr, (item, index, i0) => {
+        a: common_vendor.f(swipers, (item, index, i0) => {
+          return {
+            a: common_vendor.t(swiperDatas.value[index].content),
+            b: common_vendor.t(swiperDatas.value[index].creator),
+            c: `url(${item.url})`,
+            d: index
+          };
+        }),
+        b: 5 * 1e3,
+        c: common_vendor.f(imgArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
@@ -69,11 +100,11 @@ const _sfc_main = {
             e: "1cf27b2a-1-" + i0 + ",1cf27b2a-0"
           };
         }),
-        c: common_vendor.p({
+        d: common_vendor.p({
           column: 3,
           showBorder: false
         }),
-        d: common_vendor.f(AIArr, (item, index, i0) => {
+        e: common_vendor.f(AIArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
@@ -84,11 +115,11 @@ const _sfc_main = {
             e: "1cf27b2a-3-" + i0 + ",1cf27b2a-2"
           };
         }),
-        e: common_vendor.p({
+        f: common_vendor.p({
           column: 3,
           showBorder: false
         }),
-        f: common_vendor.f(videoArr, (item, index, i0) => {
+        g: common_vendor.f(videoArr, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
@@ -99,7 +130,7 @@ const _sfc_main = {
             e: "1cf27b2a-5-" + i0 + ",1cf27b2a-4"
           };
         }),
-        g: common_vendor.p({
+        h: common_vendor.p({
           column: 3,
           showBorder: false
         })

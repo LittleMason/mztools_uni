@@ -5,13 +5,13 @@
 		</view>
 		<view class="page-oil-price-table">
 			<view class="page-oil-price-table-th">
-				<view v-for="(item,index) in columns" :key="index" class="page-oil-price-table-td">
+				<view v-for="(item,index) in columns" :key="index" class="page-oil-price-table-td" :class="{'placeName':index===0}">
 					{{item}}
 				</view>
 			</view>
 			<view class="page-oil-price-table-tr" v-for="(item,index) in datas" :key="'tr'+index">
-				<view class="page-oil-price-table-td" v-for="(item,key,index) in item" :key="'td'+index">
-					{{item}}
+				<view class="page-oil-price-table-td" v-for="(item1,key,index1) in item" :key="'td'+index" :class="{'placeName':index1===4}">
+					{{item1}}
 				</view>
 			</view>
 		</view>
@@ -23,7 +23,7 @@
 	export default {
 		data() {
 			return {
-				columns:['地区','#92','#95','#98','#0'].reverse(),
+				columns:['地区','#92','#95','#98','#0'],
 				datas:[]
 			}
 		},
@@ -33,7 +33,7 @@
 					fullUrl:'http://api.txapi.cn/v1/oil_price',
 					success:(res)=>{
 						console.log('res:',res);
-						const {data:{code,data}} = res;
+						const {code,data} = res;
 						if(code===200){
 							this.datas = data;
 						}
@@ -55,7 +55,7 @@
 		line-height: 92rpx;
 		text-align: center;
 		font-size: 24rpx;
-		color: #b6b6b6;
+		color: #b6b6b6;  
 	}
 	&-table{
 		&-th{
@@ -67,12 +67,17 @@
 		}
 		&-tr{
 			display: flex;
+			flex-direction: row-reverse;
 		}
 		&-td{
 			width: 20%;
 			padding: 20rpx 0;
 			text-align: center;
 			border-bottom: 1px solid #e5e5e5;
+		}
+		.placeName{
+			background-color: #ff8902;
+			color: white;
 		}
 	}
 }

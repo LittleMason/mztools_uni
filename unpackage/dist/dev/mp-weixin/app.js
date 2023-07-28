@@ -131,7 +131,7 @@ const _sfc_main = {
         success: (res) => {
           switch (res.statusCode) {
             case 200:
-              options.success(res);
+              options.success(res.data);
               break;
             case 401:
               this.toLogin();

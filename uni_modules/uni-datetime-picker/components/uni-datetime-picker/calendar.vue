@@ -586,6 +586,7 @@
 				this.tempSingleDate = this.calendar.fullDate
 				const beforeDate = new Date(this.cale.multipleStatus.before).getTime()
 				const afterDate = new Date(this.cale.multipleStatus.after).getTime()
+        // 如果先选择结束日期，后选择开始日期，需要交换
 				if (beforeDate > afterDate && afterDate) {
 					this.tempRange.before = this.cale.multipleStatus.after
 					this.tempRange.after = this.cale.multipleStatus.before

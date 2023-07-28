@@ -1,0 +1,11 @@
+.fortune-telling .analysis-btn.data-v-9a97b4a0 {
+  margin-top: 24rpx;
+}
+.fortune-telling .dream-analysis.data-v-9a97b4a0 {
+  padding: 40rpx;
+}
+.fortune-telling .dream-analysis .item.data-v-9a97b4a0 {
+  font-size: 28rpx;
+  text-indent: 56rpx;
+  margin-bottom: 30rpx;
+}
