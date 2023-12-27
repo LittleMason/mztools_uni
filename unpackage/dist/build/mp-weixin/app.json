@@ -18,7 +18,9 @@
     {
       "root": "pages/ai/",
       "pages": [
-        "chat/index"
+        "chat/index",
+        "capability/capability",
+        "fortune-telling/fortune-telling"
       ]
     }
   ],
