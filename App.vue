@@ -231,6 +231,7 @@ import { initUserInfo } from '@/utils/business.js';
 <style lang="scss">
 	/*每个页面公共css */
 	@import '@/uni_modules/uni-scss/index.scss';
+	@import '@/customer.css';
 	/* #ifndef APP-NVUE */
 	@import '@/static/customicons.css';
 

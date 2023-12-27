@@ -3,7 +3,12 @@
 		<view class="swiper-wrapper">
 			<swiper class="swiper" circular :indicator-dots="true" :autoplay="false" :interval="5 * 1000" :duration="500">
 				<swiper-item v-for="(item,index) in swipers" :key="index">
-					<view class="swiper-item" :style="{backgroundImage:`url(${item.url})`}">
+					<view class="swiper-item">
+						<image
+							:src="item.url"
+							mode="widthFix"
+							class="mock-bg"
+						/>
 						<view class="swiper-item-content">
 							{{swiperDatas[index].content}}
 						</view>
@@ -15,7 +20,7 @@
 			</swiper>
 		</view>
 		<view class="block-wrapper">
-			<view class="block-wrapper-title">图像处理</view>
+			<view class="block-wrapper-title demo">图像处理</view>
 			<uni-grid :column="3" :showBorder="false">
 				<uni-grid-item v-for="(item,index) in imgArr" :key="index">
 					<view class="item-block" @click="()=>{handle(item)}">
@@ -53,9 +58,6 @@
 
 <script setup>
 	import { ref } from 'vue';
-	const app = getApp();
-	const cnUrl = 'https://api.xygeng.cn/one';
-	const enUrl = 'https://api.quotable.io/random';
 	//文字模块功能 待开发
 	// const textArr = [
 	// 	{
@@ -125,27 +127,16 @@
 	];
 	const swiperDatas = ref([]);
 	const handle = (item)=>{
-		console.log('item:',item)
 		uni.navigateTo({
 			url:item.path
 		})
 	}
-	//forEach to swpiers
-	//then send a request to get data
-	//the request url is different,it based on the key in item for lang,if lang is cn,the url is cnUrl,else enUrl
-	//then set the data to swiperDatas
-	swipers.forEach((item,index)=>{
-		app.globalData.apiRequest({
-			url:item.lang === 'cn' ? cnUrl : enUrl,
-			noToken:true,
-			success:(res)=>{
-				if(item.lang === 'cn'){
-					res.data.author = res.data.name;
-				}
-				swiperDatas.value[index] = (item.lang === 'cn' ? res.data : res);
-			}
-		})
-	})
+	//request api to get random sentence
+	const middlewareNet = uniCloud.importObject('middleware-net');
+	middlewareNet.getRandomSentence().then(sentences=>{
+		swiperDatas.value = sentences;
+	});
+	
 </script>
 
 <style lang="less" scoped>

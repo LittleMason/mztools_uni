@@ -1,0 +1,7 @@
+{
+  "name": "middleware-net",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

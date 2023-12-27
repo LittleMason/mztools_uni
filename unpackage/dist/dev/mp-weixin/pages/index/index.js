@@ -13,9 +13,6 @@ if (!Math) {
 const _sfc_main = {
   __name: "index",
   setup(__props) {
-    const app = getApp();
-    const cnUrl = "https://api.xygeng.cn/one";
-    const enUrl = "https://api.quotable.io/random";
     const imgArr = [
       {
         text: "九宫格切图",
@@ -64,30 +61,21 @@ const _sfc_main = {
     ];
     const swiperDatas = common_vendor.ref([]);
     const handle = (item) => {
-      console.log("item:", item);
       common_vendor.index.navigateTo({
         url: item.path
       });
     };
-    swipers.forEach((item, index) => {
-      app.globalData.apiRequest({
-        url: item.lang === "cn" ? cnUrl : enUrl,
-        noToken: true,
-        success: (res) => {
-          if (item.lang === "cn") {
-            res.data.author = res.data.name;
-          }
-          swiperDatas.value[index] = item.lang === "cn" ? res.data : res;
-        }
-      });
+    const middlewareNet = common_vendor.Bs.importObject("middleware-net");
+    middlewareNet.getRandomSentence().then((sentences) => {
+      swiperDatas.value = sentences;
     });
     return (_ctx, _cache) => {
       return {
         a: common_vendor.f(swipers, (item, index, i0) => {
           return {
-            a: common_vendor.t(swiperDatas.value[index].content),
-            b: common_vendor.t(swiperDatas.value[index].author),
-            c: `url(${item.url})`,
+            a: item.url,
+            b: common_vendor.t(swiperDatas.value[index].content),
+            c: common_vendor.t(swiperDatas.value[index].author),
             d: index
           };
         }),

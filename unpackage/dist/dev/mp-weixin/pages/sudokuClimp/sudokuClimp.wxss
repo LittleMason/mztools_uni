@@ -12,14 +12,6 @@
   margin-bottom: 1px;
   z-index: -1;
 }
-.sudoku-climp-container .climp-imgs-wrapper-bg {
-  width: 100% !important;
-  height: 100% !important;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2 !important;
-}
 .sudoku-climp-container #sudokuSource {
   width: 100%;
   position: absolute;

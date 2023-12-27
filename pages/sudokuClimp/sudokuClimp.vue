@@ -5,7 +5,7 @@
 			<image
 				:src="previewBgSrc"
 				mode="widthFix"
-				class="climp-imgs-wrapper-bg"
+				class="mock-bg"
 			/>
 			<image v-for="item in clipImgDatas" :src="item" mode="widthFix" :key="item"></image>
 		</view>
@@ -168,14 +168,6 @@
 				width: 33%;
 				margin-bottom: 1px;
 				z-index: -1;
-			}
-			&-bg{
-				width: 100% !important;
-				height: 100% !important;
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: 2 !important;
 			}
 		}
 		#sudokuSource {
