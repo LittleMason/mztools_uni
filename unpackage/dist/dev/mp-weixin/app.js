@@ -38,7 +38,7 @@ const _sfc_main = {
     userDefaultLogin: () => {
       common_vendor.index.login({
         async success(res) {
-          const uniIdCo = common_vendor.Ds.importObject("uni-id-co");
+          const uniIdCo = common_vendor.Bs.importObject("uni-id-co");
           const logined = await uniIdCo.loginByWeixin({
             code: res.code
           });
@@ -52,7 +52,7 @@ const _sfc_main = {
       const currentTime = Date.now();
       const tokenIsExpired = tokenExpired - currentTime < 10 * 3600;
       console.log("tokenIsExpired:", tokenIsExpired);
-      const uniCo = common_vendor.Ds.importObject("uni-id-co");
+      const uniCo = common_vendor.Bs.importObject("uni-id-co");
       if (tokenIsExpired && token) {
         uniCo.refreshToken().then((res) => {
           console.log("刷新token:", res);
@@ -93,15 +93,17 @@ const _sfc_main = {
         success: (res) => {
           var code = res.code;
           common_vendor.index.getSetting({
-            success: (res2) => {
-              if (res2.authSetting["scope.userInfo"]) {
+            success: (settingRes) => {
+              if (settingRes.authSetting["scope.userInfo"]) {
                 common_vendor.index.getUserInfo({
-                  success: (res3) => {
+                  success: (userInfo) => {
+                    console.log("getUserInfo:", userInfo);
                     if (!this.checkIsLogin()) {
-                      this.getToken(code, res3.encryptedData, res3.inviteCode).then((res4) => {
+                      this.getToken(code, userInfo.encryptedData, userInfo.inviteCode).then((tokenRes) => {
                         if (callback) {
                           common_vendor.index.hideLoading();
-                          callback({ code: 200, data: res4 });
+                          console.log("发送给后台解码出 unionId:", tokenRes);
+                          callback({ code: 200, data: tokenRes });
                         }
                       });
                     }
@@ -118,7 +120,10 @@ const _sfc_main = {
     },
     //全局统一调用接口的方法
     apiRequest: function(options) {
-      const url = options.fullUrl ? options.fullUrl : this.apiDomain + options.url;
+      let url = options.url;
+      if (!url.startsWith("http")) {
+        url = this.apiDomain + url;
+      }
       common_vendor.index.request({
         url,
         method: options.method ? options.method : "GET",
@@ -127,7 +132,10 @@ const _sfc_main = {
           Accept: "application/json"
         },
         dataType: "json",
-        data: { ...options.data, token: "TOMTWTRw2ZiZ0W" },
+        //if options.noToken is true,then don't add token to data
+        data: options.noToken ? options.data : Object.assign({
+          token: common_vendor.index.getStorageSync("token")
+        }, options.data),
         success: (res) => {
           switch (res.statusCode) {
             case 200:
@@ -198,11 +206,14 @@ const _sfc_main = {
      */
     async getToken(code, encryptedData, inviteCode, callback = null) {
       this.userInfo;
-      const uniCo = common_vendor.Ds.importObject("uni-id-co");
+      console.log("this.userInfo:", this.userInfo);
+      const uniCo = common_vendor.Bs.importObject("uni-id-co");
+      console.log("code:", code);
+      console.log("inviteCode:", inviteCode);
       try {
         const res = await uniCo.loginByWeixin({ code, inviteCode });
         const { token } = res.newToken;
-        console.log("this-getToken:", this);
+        console.log("this-getToken:", token);
         const tempFiles = await utils_business.initUserInfo.call(this, token);
         console.log("tempFiles:", tempFiles);
         common_vendor.index.showToast({
@@ -213,14 +224,13 @@ const _sfc_main = {
           }
         });
         return tempFiles;
-        console.log("res:", res);
       } catch (e) {
         console.log("error:", e);
       }
     }
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mztools_uni/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/workspace/mztools_uni/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   app.mixin(utils_share.share);

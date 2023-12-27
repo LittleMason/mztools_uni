@@ -90,24 +90,24 @@ function saveImage2Photo(key, params) {
   });
 }
 async function initUserInfo(postToken) {
+  let tempFiles;
   const token = postToken || common_vendor.index.getStorageSync("token");
   const selfData = this.globalData ? this.globalData : this;
   if (token) {
-    common_vendor.Ds.importObject("uni-id-co");
-    const { uid } = common_vendor.Ds.getCurrentUserInfo();
-    const db = common_vendor.Ds.database();
+    const { uid } = common_vendor.Bs.getCurrentUserInfo();
+    const db = common_vendor.Bs.database();
     const userRecord = await db.collection("uni-id-users").doc(uid).field({ nickname: true, avatar: true }).get();
     const { data } = userRecord.result;
-    console.log("data:", data);
-    const avatarUrl = data[0].avatar;
-    selfData.userInfo.nickname = data[0].nickname;
-    const tempFiles = await common_vendor.Ds.getTempFileURL({
-      fileList: [avatarUrl]
-    });
-    const { fileList } = tempFiles;
-    selfData.userInfo.avatar = fileList[0].download_url;
-    return tempFiles;
+    console.log("userRecord:", data);
+    if (data[0].nickname) {
+      selfData.userInfo.nickname = data[0].nickname;
+    }
+    if (data[0].avatar) {
+      const avatarUrl = data[0].avatar;
+      selfData.userInfo.avatar = avatarUrl;
+    }
   }
+  return tempFiles;
 }
 exports.initUserInfo = initUserInfo;
 exports.saveImage2Photo = saveImage2Photo;

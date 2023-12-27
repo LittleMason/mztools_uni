@@ -64,6 +64,7 @@ const _sfc_main = {
       } else {
         num = common_vendor.index.getStorageSync("dailyFreeParseNum");
       }
+      console.log("app.globalData.", app.globalData.userInfo);
       this.dailyFreeParseNum = num;
     },
     /**
@@ -168,5 +169,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     v: common_vendor.o((...args) => $options.showQrcode && $options.showQrcode(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/mine/mine.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/workspace/mztools_uni/pages/mine/mine.vue"]]);
 wx.createPage(MiniProgramPage);

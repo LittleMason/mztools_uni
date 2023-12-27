@@ -31,7 +31,6 @@
 		methods: {
 			async init() {
 				const {avatar,nickname} = app.globalData.userInfo;
-				const uniCo = uniCloud.importObject('uni-id-co');
 				const {uid} = uniCloud.getCurrentUserInfo();
 				this.avatar = avatar;
 				this.nickname = nickname;
@@ -67,6 +66,7 @@
 					const {errCode} = res;
 					if(!errCode){
 						const db = uniCloud.database();
+						console.log('this.uid:',this.uid);
 						const userRecord = await db.collection('uni-id-users').doc(this.uid).field({nickname:true,avatar:true}).get();
 						const {data} = userRecord.result;
 						console.log('userRecord:',userRecord);
@@ -83,8 +83,7 @@
 			}
 		},
 		created() {
-			console.log('created');
-			this.init()
+			this.init();
 		}
 	}
 </script>

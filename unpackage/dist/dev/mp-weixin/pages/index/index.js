@@ -14,6 +14,8 @@ const _sfc_main = {
   __name: "index",
   setup(__props) {
     const app = getApp();
+    const cnUrl = "https://api.xygeng.cn/one";
+    const enUrl = "https://api.quotable.io/random";
     const imgArr = [
       {
         text: "九宫格切图",
@@ -52,10 +54,12 @@ const _sfc_main = {
     ];
     const swipers = [
       {
-        url: "../../static/images/lotus.png"
+        url: "../../static/images/lotus.png",
+        lang: "cn"
       },
       {
-        url: "../../static/images/green.png"
+        url: "../../static/images/green.png",
+        lang: "en"
       }
     ];
     const swiperDatas = common_vendor.ref([]);
@@ -65,16 +69,15 @@ const _sfc_main = {
         url: item.path
       });
     };
-    swipers.forEach(() => {
-      swiperDatas.value = [];
+    swipers.forEach((item, index) => {
       app.globalData.apiRequest({
-        fullUrl: "https://api.txapi.cn/v1/hitokoto",
+        url: item.lang === "cn" ? cnUrl : enUrl,
+        noToken: true,
         success: (res) => {
-          console.log("res:", res);
-          const { code, data } = res;
-          if (code === 200) {
-            swiperDatas.value.push(data);
+          if (item.lang === "cn") {
+            res.data.author = res.data.name;
           }
+          swiperDatas.value[index] = item.lang === "cn" ? res.data : res;
         }
       });
     });
@@ -83,7 +86,7 @@ const _sfc_main = {
         a: common_vendor.f(swipers, (item, index, i0) => {
           return {
             a: common_vendor.t(swiperDatas.value[index].content),
-            b: common_vendor.t(swiperDatas.value[index].creator),
+            b: common_vendor.t(swiperDatas.value[index].author),
             c: `url(${item.url})`,
             d: index
           };
@@ -138,5 +141,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/mztools_uni/pages/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/workspace/mztools_uni/pages/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

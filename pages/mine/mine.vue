@@ -125,6 +125,7 @@ export default {
             } else {
                 num = uni.getStorageSync('dailyFreeParseNum');
             }
+			console.log('app.globalData.',app.globalData.userInfo);
 			this.dailyFreeParseNum = num;
         },
         /**

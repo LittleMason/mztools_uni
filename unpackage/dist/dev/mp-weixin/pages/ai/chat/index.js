@@ -87,11 +87,11 @@ const _sfc_main = {
   beforeMount() {
   },
   async mounted() {
-    if (this.adpid && common_vendor.Ds.getCurrentUserInfo().tokenExpired > Date.now()) {
-      let db = common_vendor.Ds.databaseForJQL();
+    if (this.adpid && common_vendor.Bs.getCurrentUserInfo().tokenExpired > Date.now()) {
+      let db = common_vendor.Bs.databaseForJQL();
       let res = await db.collection("uni-id-users").where({
         // 当前用户id
-        "_id": common_vendor.Ds.getCurrentUserInfo().uid
+        "_id": common_vendor.Bs.getCurrentUserInfo().uid
       }).field("score").get();
       console.log("当前用户有多少积分:", res.data[0] && res.data[0].score);
     }
@@ -162,7 +162,7 @@ const _sfc_main = {
         });
         let myIntive = setInterval(async (e2) => {
           i++;
-          const db = common_vendor.Ds.database();
+          const db = common_vendor.Bs.database();
           let res = await db.collection("uni-id-users").where('"_id" == $cloudEnv_uid').field("score").get();
           let {
             score
@@ -301,7 +301,7 @@ const _sfc_main = {
       await this.checkIsOpenPush();
       let sseEnd, requestEnd;
       if (this.enableStream) {
-        sseChannel = new common_vendor.Ds.SSEChannel();
+        sseChannel = new common_vendor.Bs.SSEChannel();
         this.sliceMsgToLastMsg = new pages_ai_chat_SliceMsgToLastMsg.SliceMsgToLastMsg(this);
         sseChannel.on("message", (message) => {
           if (this.sseIndex === 0) {
@@ -517,13 +517,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   }, $data.msgList.length === 0 ? {} : {}, {
     b: common_vendor.f($data.msgList, (msg, index, i0) => {
       return {
-        a: common_vendor.sr("msg", "1a8ce57c-0-" + i0, {
+        a: common_vendor.sr("msg", "c91a967c-0-" + i0, {
           "f": 1
         }),
         b: index,
         c: common_vendor.o($options.changeAnswer, index),
         d: common_vendor.o(($event) => $options.removeMsg(index), index),
-        e: "1a8ce57c-0-" + i0,
+        e: "c91a967c-0-" + i0,
         f: common_vendor.p({
           msg,
           ["show-cursor"]: index == $data.msgList.length - 1 && $data.msgList.length % 2 === 0 && $data.sseIndex,
@@ -567,8 +567,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     t: $options.inputBoxDisabled || !$data.content,
     v: $data.msgList.length && $data.msgList.length % 2 !== 0 ? "ai正在回复中不能发送" : "",
     w: $options.footBoxPaddingBottom,
-    x: common_vendor.sr("llm-config", "1a8ce57c-3")
+    x: common_vendor.sr("llm-config", "c91a967c-3")
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/ai/chat/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/workspace/mztools_uni/pages/ai/chat/index.vue"]]);
 wx.createPage(MiniProgramPage);

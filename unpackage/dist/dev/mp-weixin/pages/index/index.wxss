@@ -25,6 +25,12 @@
 }
 .container .swiper-wrapper .swiper-item-content.data-v-1cf27b2a {
   text-indent: 72rpx;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .container .swiper-wrapper .swiper-item-author.data-v-1cf27b2a {
   margin-top: 20rpx;

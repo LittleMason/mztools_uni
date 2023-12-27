@@ -4,7 +4,9 @@ const utils_business = require("../../utils/business.js");
 const _sfc_main = {
   __name: "sudokuClimp",
   setup(__props) {
-    const successUpload = common_vendor.ref(true);
+    const loading = common_vendor.ref(false);
+    const previewBgSrc = common_vendor.ref("");
+    const successUpload = common_vendor.ref(false);
     const imgs = common_vendor.ref([]);
     const adapterH = common_vendor.ref(0);
     const adapterW = common_vendor.ref(0);
@@ -24,27 +26,31 @@ const _sfc_main = {
         src: "../../static/images/border-horizontal-cloud.png"
       }
     ]);
-    common_vendor.ref(null);
     const sourceSrc = common_vendor.ref(null);
+    const clipImgDatas = common_vendor.ref([]);
     const savaImgDatas = common_vendor.ref([]);
     for (let i = 0; i < 9; i++) {
       imgs.value.push(i);
     }
-    function drawSudokuImg(coverSrc) {
+    function drawSudokuImg(isSetBackground) {
+      loading.value = true;
       const {
         screenWidth
       } = common_vendor.index.getWindowInfo();
       adapterW.value = screenWidth;
       adapterH.value = parseInt(adapterW.value / selectWHPercent.value);
       ctx.drawImage(sourceSrc.value, 0, 0, adapterW.value, adapterH.value);
-      if (coverSrc) {
+      if (previewBgSrc.value) {
         ctx.globalCompositeOperation = "source-over";
-        ctx.drawImage(coverSrc, 0, 0, adapterW.value, adapterH.value);
+        ctx.drawImage(previewBgSrc.value, 0, 0, adapterW.value, adapterH.value);
       }
       ctx.draw(false, () => {
         const offsetPxRow = parseInt(adapterW.value / 3);
         const offsetPxCol = parseInt(adapterH.value / 3);
+        console.log("offsetPxRow:", offsetPxRow);
+        console.log("offsetPxCol:", offsetPxCol);
         savaImgDatas.value = [];
+        !isSetBackground && (clipImgDatas.value = []);
         for (let col = 0; col < 3; col++) {
           for (let row = 0; row < 3; row++) {
             common_vendor.index.canvasToTempFilePath({
@@ -57,10 +63,16 @@ const _sfc_main = {
                 const {
                   tempFilePath
                 } = res;
+                !isSetBackground && clipImgDatas.value.push(tempFilePath);
                 savaImgDatas.value.push(tempFilePath);
+                loading.value = false;
               },
               fail(err) {
                 console.log("err:", err);
+                loading.value = false;
+                if (col == 2 && row == 2) {
+                  drawSudokuImg(isSetBackground);
+                }
               }
             });
           }
@@ -71,7 +83,8 @@ const _sfc_main = {
       if (!savaImgDatas.value.length) {
         return false;
       }
-      drawSudokuImg(coverSrc);
+      previewBgSrc.value = coverSrc;
+      drawSudokuImg(true);
     };
     const handleChoseImage = () => {
       common_vendor.index.chooseImage({
@@ -90,6 +103,7 @@ const _sfc_main = {
               } = imgInfo;
               selectWHPercent.value = (width / height).toFixed(2);
               sourceSrc.value = res.tempFilePaths[0];
+              previewBgSrc.value = null;
               drawSudokuImg();
             }
           });
@@ -100,12 +114,13 @@ const _sfc_main = {
       utils_business.saveImage2Photo("canvas", savaImgDatas.value);
     };
     return (_ctx, _cache) => {
-      return common_vendor.e({
-        a: common_vendor.o(handleChoseImage),
-        b: adapterH.value + "px",
-        c: common_vendor.f(savaImgDatas.value, (item, k0, i0) => {
+      return {
+        a: adapterH.value + "px",
+        b: previewBgSrc.value,
+        c: common_vendor.f(clipImgDatas.value, (item, k0, i0) => {
           return {
-            a: item
+            a: item,
+            b: item
           };
         }),
         d: common_vendor.f(coverImages.value, (item, k0, i0) => {
@@ -113,15 +128,16 @@ const _sfc_main = {
             a: item.src,
             b: common_vendor.o(() => {
               handleChangeCoverImage(item.src);
-            })
+            }, item.src),
+            c: item.src
           };
         }),
-        e: successUpload.value
-      }, successUpload.value ? {
-        f: common_vendor.o(handleSaveImage)
-      } : {});
+        e: common_vendor.o(handleSaveImage),
+        f: !successUpload.value,
+        g: common_vendor.o(handleChoseImage)
+      };
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/mztools_uni/pages/sudokuClimp/sudokuClimp.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/workspace/mztools_uni/pages/sudokuClimp/sudokuClimp.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -13,7 +13,7 @@ const _sfc_main = {
   methods: {
     //http://api.txapi.cn/v1/c/duke_zhou_oneiromancy
     async handleQuery() {
-      const uniCo = common_vendor.Ds.importObject("request-agent-middleware");
+      const uniCo = common_vendor.Bs.importObject("request-agent-middleware");
       const reg = /^梦见(有|了)?/;
       const kw = this.dream.replace(reg, "");
       console.log("kw", kw);
@@ -70,5 +70,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     h: common_vendor.t($data.emptyText)
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-9a97b4a0"], ["__file", "D:/mztools_uni/pages/ai/fortune-telling/fortune-telling.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-9a97b4a0"], ["__file", "D:/workspace/mztools_uni/pages/ai/fortune-telling/fortune-telling.vue"]]);
 wx.createPage(MiniProgramPage);

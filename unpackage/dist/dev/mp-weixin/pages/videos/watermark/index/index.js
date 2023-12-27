@@ -88,7 +88,7 @@ const _sfc_main = {
         });
         return false;
       }
-      const uniCo = common_vendor.Ds.importObject("request-agent-middleware");
+      const uniCo = common_vendor.Bs.importObject("request-agent-middleware");
       const datas = {
         token: app.globalData.txAPIToken,
         url: this.matchUrl(this.videoUrl)
@@ -125,5 +125,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     g: common_vendor.o((...args) => $options.submit && $options.submit(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/mztools_uni/pages/videos/watermark/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/workspace/mztools_uni/pages/videos/watermark/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

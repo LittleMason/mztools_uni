@@ -77,5 +77,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     c: $props.borderColor
   };
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-07acefee"], ["__file", "D:/mztools_uni/uni_modules/uni-grid/components/uni-grid/uni-grid.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-07acefee"], ["__file", "D:/workspace/mztools_uni/uni_modules/uni-grid/components/uni-grid/uni-grid.vue"]]);
 wx.createComponent(Component);

@@ -1,19 +1,26 @@
 <template>
-	<view class="sudoku-climp-container">
-		<button @tap="handleChoseImage" type="warn">选择相片</button>
+	<view class="sudoku-climp-container">	
 		<canvas id="sudokuSource" canvas-id="sudokuSource" :style="{height:adapterH+'px'}"></canvas>
 		<view class="climp-imgs-wrapper">
-			<image v-for="item in savaImgDatas" :src="item" mode="widthFix"></image>
+			<image
+				:src="previewBgSrc"
+				mode="widthFix"
+				class="climp-imgs-wrapper-bg"
+			/>
+			<image v-for="item in clipImgDatas" :src="item" mode="widthFix" :key="item"></image>
 		</view>
 		<view class="adpater-title">
-			边框修饰
+			边框装饰
 		</view>
 		<view class="bks-wrapper">
-			<view v-for="item in coverImages" class="bks-item" @click="()=>{handleChangeCoverImage(item.src)}">
+			<view v-for="item in coverImages" class="bks-item" @click="()=>{handleChangeCoverImage(item.src)}" :key="item.src">
 				<image :src="item.src" mode="widthFix"></image>
 			</view>
 		</view>
-		<button @tap="handleSaveImage" type="warn" v-if="successUpload">保存图片</button>
+		<view class="sudoku-climp-container-bt-wrapper">
+			<button @tap="handleSaveImage" type="primary" :disabled="!successUpload">保存图片</button>
+			<button @tap="handleChoseImage" type="warn">选择相片</button>
+		</view>
 	</view>
 </template>
 
@@ -24,8 +31,9 @@
 	import {
 		business
 	} from '../../utils/index.js';
-
-	const successUpload = ref(true);
+	const loading = ref(false); // the status of draw image 
+	const previewBgSrc = ref('');
+	const successUpload = ref(false);
 	const imgs = ref([]);
 	const adapterH = ref(0); //适配后的高度
 	const adapterW = ref(0); //适配后的宽度
@@ -44,17 +52,16 @@
 			src: '../../static/images/border-horizontal-cloud.png',
 		},
 	]);
-	const cacheImageInfo = ref(null);
 	const sourceSrc = ref(null);
-
-	const savaImgDatas = ref([]);
+	const clipImgDatas = ref([]); // only save nine images
+	const savaImgDatas = ref([]); //the finally datas contain nine images and background image
 	//填充九宫格占位
 	for (let i = 0; i < 9; i++) {
 		imgs.value.push(i);
 	}
 
-
-	function drawSudokuImg(coverSrc) {
+	function drawSudokuImg(isSetBackground) {
+		loading.value = true;
 		const {
 			screenWidth
 		} = uni.getWindowInfo();
@@ -65,15 +72,17 @@
 		ctx.drawImage(sourceSrc.value, 0, 0, adapterW.value, adapterH.value);
 		// ctx.draw();
 		// return false;
-		if (coverSrc) {
+		if (previewBgSrc.value) {
 			ctx.globalCompositeOperation = 'source-over';
-			ctx.drawImage(coverSrc, 0, 0, adapterW.value, adapterH.value);
+			ctx.drawImage(previewBgSrc.value, 0, 0, adapterW.value, adapterH.value);
 		}
 		ctx.draw(false, () => {
 			const offsetPxRow = parseInt(adapterW.value / 3);
 			const offsetPxCol = parseInt(adapterH.value / 3);
-			let q = 0;
+			console.log('offsetPxRow:',offsetPxRow);
+			console.log('offsetPxCol:',offsetPxCol);
 			savaImgDatas.value = [];
+			!isSetBackground && (clipImgDatas.value = []);
 			for (let col = 0; col < 3; col++) {
 				for (let row = 0; row < 3; row++) {
 					uni.canvasToTempFilePath({
@@ -86,10 +95,17 @@
 							const {
 								tempFilePath
 							} = res;
+							!isSetBackground && clipImgDatas.value.push(tempFilePath);
 							savaImgDatas.value.push(tempFilePath);
+							loading.value=false;
 						},
 						fail(err) {
 							console.log('err:', err);
+							loading.value=false;
+							//in the low performance phone, should be draw again
+							if(col==2 && row==2){
+								drawSudokuImg(isSetBackground);
+							}
 						}
 					})
 				}
@@ -102,7 +118,8 @@
 		if(!savaImgDatas.value.length){
 			return false;
 		}
-		drawSudokuImg(coverSrc);
+		previewBgSrc.value = coverSrc;
+		drawSudokuImg(true);
 	}
 
 	//选择图片
@@ -121,6 +138,7 @@
 						} = imgInfo;
 						selectWHPercent.value = (width / height).toFixed(2);
 						sourceSrc.value = res.tempFilePaths[0];
+						previewBgSrc.value = null; //clear the background image
 						drawSudokuImg();
 					}
 				})
@@ -137,27 +155,36 @@
 <style lang="less">
 	.sudoku-climp-container {
 		.climp-imgs-wrapper {
+			//use layout of flex
+			//each line set three children elements of 'image' and each child element's gap is 10px
+			margin: 30rpx 0;
 			display: flex;
-			justify-content: space-between;
 			flex-wrap: wrap;
-			margin-bottom: 40rpx;
-			image{
-				width: 32%;
-				margin-bottom: 1%;
+			justify-content: space-between;
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			position: relative;
+			image {
+				width: 33%;
+				margin-bottom: 1px;
+				z-index: -1;
+			}
+			&-bg{
+				width: 100% !important;
+				height: 100% !important;
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 2 !important;
 			}
 		}
-
-		button {
-			margin: 40rpx auto;
-			width: 90%;
-		}
-
 		#sudokuSource {
 			width: 100%;
-			opacity: 0;
 			position: absolute;
+			top: 0;
+			left: 0;
+			transform: translateY(-200%);
 		}
-
 		canvas[id^="img-"] {
 			width: 100px;
 			height: 100px;
@@ -165,15 +192,15 @@
 			margin-bottom: 20rpx;
 		}
 		.adpater-title{
-			padding-left: 5%;
+			padding-left: 18rpx;
 			font-weight: bold;
-			font-size: 40rpx;
-			color: #333;
+			font-size: 36rpx;
+			color: #ec226f;
+			margin-bottom: 30rpx;
 		}
 		.bks-wrapper {
 			display: flex;
 			justify-content: space-around;
-			margin-top: 40rpx;
 			.bks-item {
 				width: 23vw;
 				background-size: cover;
@@ -185,6 +212,15 @@
 					height: 100%;
 				}
 
+			}
+		}
+		&-bt-wrapper{
+			display: flex;
+			justify-content: space-between;
+			button{
+				width: 45%;
+				margin: 30rpx auto;
+				font-size: 32rpx;
 			}
 		}
 	}

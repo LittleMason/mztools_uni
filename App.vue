@@ -78,19 +78,20 @@ import { initUserInfo } from '@/utils/business.js';
 						var code = res.code;
 						// 获取用户信息
 						uni.getSetting({
-							success: (res) => {
-								if (res.authSetting['scope.userInfo']) {
+							success: (settingRes) => {
+								if (settingRes.authSetting['scope.userInfo']) {
 									// 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
 									uni.getUserInfo({
-										success: (res) => {
-											// 可以将 res 发送给后台解码出 unionId
-
+										success: (userInfo) => {
+											// 可以将 userInfo 发送给后台解码出 unionId
+											console.log('getUserInfo:',userInfo);
 											if (!this.checkIsLogin()) {
-												this.getToken(code, res
-													.encryptedData, res.inviteCode).then(res=>{
+												this.getToken(code, userInfo
+													.encryptedData, userInfo.inviteCode).then(tokenRes=>{
 														if (callback) {
 															uni.hideLoading();
-															callback({code:200,data:res});
+															console.log('发送给后台解码出 unionId:',tokenRes);
+															callback({code:200,data:tokenRes});
 														}
 													});
 											}
@@ -108,7 +109,11 @@ import { initUserInfo } from '@/utils/business.js';
 
 			//全局统一调用接口的方法
 			apiRequest: function(options) {
-				const url = options.fullUrl?options.fullUrl:this.apiDomain + options.url;
+				//if options.url is not start with http,then add apiDomain before it
+				let url = options.url;
+				if (!url.startsWith('http')) {
+					url = this.apiDomain + url;
+				}
 				uni.request({
 					url,
 					method: options.method ? options.method : 'GET',
@@ -117,7 +122,10 @@ import { initUserInfo } from '@/utils/business.js';
 						Accept: 'application/json'
 					},
 					dataType: 'json',
-					data: {...options.data,token:'TOMTWTRw2ZiZ0W'},
+					//if options.noToken is true,then don't add token to data
+					data: options.noToken ? options.data : Object.assign({
+						token: uni.getStorageSync('token')
+					}, options.data),
 					success: (res) => {
 						switch (res.statusCode) {
 							case 200:
@@ -191,12 +199,15 @@ import { initUserInfo } from '@/utils/business.js';
 			 */
 			async getToken(code, encryptedData, inviteCode, callback = null) {
 				const {nickname,avatarUrl} = this.userInfo;
+				console.log('this.userInfo:',this.userInfo);
 				//调后端接口获取token
 				const uniCo = uniCloud.importObject('uni-id-co');
+				console.log('code:',code);
+				console.log('inviteCode:',inviteCode);
 				try{
 					const res = await uniCo.loginByWeixin({code,inviteCode});
 					const {token} = res.newToken;
-					console.log('this-getToken:',this);
+					console.log('this-getToken:',token);
 					const tempFiles = await initUserInfo.call(this,token);
 					console.log('tempFiles:',tempFiles);
 					uni.showToast({
@@ -207,7 +218,6 @@ import { initUserInfo } from '@/utils/business.js';
 						}
 					});
 					return tempFiles
-					console.log('res:',res);
 				}catch(e){
 					//TODO handle the exception
 					console.log('error:',e);

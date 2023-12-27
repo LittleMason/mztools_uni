@@ -91,44 +91,29 @@ export function saveImage2Photo(key,params) {
 }
 
 export async function initUserInfo(postToken){
+	let tempFiles;
 	const token = postToken || uni.getStorageSync('token');
 	const selfData = this.globalData?this.globalData:this;
 	if(token){
-		const uniCo = uniCloud.importObject('uni-id-co');
 		const {uid} = uniCloud.getCurrentUserInfo();
 		const db = uniCloud.database();
 		const userRecord = await db.collection('uni-id-users').doc(uid).field({nickname:true,avatar:true}).get();
 		const {data} = userRecord.result;
-		console.log('data:',data);
-		const avatarUrl = data[0].avatar
-		selfData.userInfo.nickname = data[0].nickname;
-		const tempFiles = await uniCloud.getTempFileURL({
-			fileList:[avatarUrl]
-		})
-		const {fileList} = tempFiles;
-		selfData.userInfo.avatar = fileList[0].download_url;
-		return tempFiles;
+		console.log('userRecord:',data);
+		if(data[0].nickname){
+			selfData.userInfo.nickname = data[0].nickname;
+		}
+		if(data[0].avatar){
+			const avatarUrl = data[0].avatar
+			//阿里云的处理方式：
+			selfData.userInfo.avatar = avatarUrl;
+			//腾讯云的处理方式：
+			// tempFiles = await uniCloud.getTempFileURL({
+			// 	fileList:[avatarUrl]
+			// })
+			// const {fileList} = tempFiles;
+			// selfData.userInfo.avatar = fileList[0].download_url;
+		}
 	}
+	return tempFiles;
 }
-
-export const videoTabBars = {
-		"custom": false,
-		"color": "#dbdbdb",
-		"selectedColor": "#337AFF",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"list": [
-			{
-				"pagePath": "/pages/videos/watermark/index/index",
-				"text": "首页",
-				"iconPath": "/static/images/icon-home.png",
-				"selectedIconPath": "/static/images/icon-home-selected.png"
-			},
-			{
-				"pagePath": "/pages/videos/watermark/mine/mine",
-				"text": "我的",
-				"iconPath": "/static/images/icon-me.png",
-				"selectedIconPath": "/static/images/icon-me-selected.png"
-			}
-		]
-	}

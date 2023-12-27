@@ -29,9 +29,6 @@ export default {
     return {
     }
   },
-  created() {
-  	console.log('1111:',this.tabBar);
-  },
   methods: {
     handleTabClick(index) {
       if (index === this.activeIndex) {
