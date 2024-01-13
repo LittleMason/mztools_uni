@@ -88,7 +88,7 @@
 			icon:'../../static/images/img-night-climp.png'
 		},
 		{
-			text:'长图拼接1',
+			text:'长图拼接',
 			path:'/pages/joinImages/joinImages',
 			icon:'../../static/images/img-climp-join.png'
 		},

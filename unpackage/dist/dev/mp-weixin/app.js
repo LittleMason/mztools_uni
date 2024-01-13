@@ -10,6 +10,7 @@ if (!Math) {
   "./pages/mine/mine.js";
   "./pages/mine/edit/edit.js";
   "./pages/mine/history.js";
+  "./pages/joinImages/joinPreview.js";
   "./pages/videos/watermark/index/index.js";
   "./pages/videos/watermark/video/video.js";
   "./pages/ai/chat/index.js";
@@ -38,7 +39,7 @@ const _sfc_main = {
     userDefaultLogin: () => {
       common_vendor.index.login({
         async success(res) {
-          const uniIdCo = common_vendor.Bs.importObject("uni-id-co");
+          const uniIdCo = common_vendor.Ws.importObject("uni-id-co");
           const logined = await uniIdCo.loginByWeixin({
             code: res.code
           });
@@ -52,7 +53,7 @@ const _sfc_main = {
       const currentTime = Date.now();
       const tokenIsExpired = tokenExpired - currentTime < 10 * 3600;
       console.log("tokenIsExpired:", tokenIsExpired);
-      const uniCo = common_vendor.Bs.importObject("uni-id-co");
+      const uniCo = common_vendor.Ws.importObject("uni-id-co");
       if (tokenIsExpired && token) {
         uniCo.refreshToken().then((res) => {
           console.log("刷新token:", res);
@@ -207,7 +208,7 @@ const _sfc_main = {
     async getToken(code, encryptedData, inviteCode, callback = null) {
       this.userInfo;
       console.log("this.userInfo:", this.userInfo);
-      const uniCo = common_vendor.Bs.importObject("uni-id-co");
+      const uniCo = common_vendor.Ws.importObject("uni-id-co");
       console.log("code:", code);
       console.log("inviteCode:", inviteCode);
       try {

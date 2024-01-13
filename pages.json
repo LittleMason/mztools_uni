@@ -45,6 +45,14 @@
 				"navigationBarTitleText": "我的下载",
 				"navigationBarTextStyle": "black"
 			}
+		},
+		{
+			"path" : "pages/joinImages/joinPreview",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 		// {
 		// 	"path": "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",

@@ -1,5 +1,8 @@
 {
   "navigationBarTitleText": "长图拼接",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "drag": "../../components/drag/drag",
+    "icons": "../../components/icons/icons"
+  }
 }

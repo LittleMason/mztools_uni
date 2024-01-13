@@ -1,0 +1,19 @@
+{
+  "name": "mztools_uni",
+  "version": "1.0.0",
+  "description": "a integration of tools for customer use",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "svgicon": "node ./uni_modules/zui-svg-icon/tools/generate-svg-icon.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "svgo": "^3.0.5",
+    "vuedraggable": "^2.24.3"
+  }
+}

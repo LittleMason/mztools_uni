@@ -49,9 +49,28 @@ function downLoadImg(params) {
   });
 }
 function canvasToTempFilePath(filePaths) {
-  filePaths.forEach((item) => {
+  if (Array.isArray(filePaths)) {
+    filePaths.forEach((item) => {
+      common_vendor.index.saveImageToPhotosAlbum({
+        filePath: item,
+        success: function() {
+          common_vendor.index.showToast({
+            title: "保存成功",
+            icon: "none"
+          });
+        },
+        fail: function() {
+          console.log("保存失败：", item);
+          common_vendor.index.showToast({
+            title: "保存失败，请稍后重试",
+            icon: "none"
+          });
+        }
+      });
+    });
+  } else {
     common_vendor.index.saveImageToPhotosAlbum({
-      filePath: item,
+      filePath: filePaths,
       success: function() {
         common_vendor.index.showToast({
           title: "保存成功",
@@ -59,14 +78,14 @@ function canvasToTempFilePath(filePaths) {
         });
       },
       fail: function() {
-        console.log("保存失败：", item);
+        console.log("保存失败：", filePaths);
         common_vendor.index.showToast({
           title: "保存失败，请稍后重试",
           icon: "none"
         });
       }
     });
-  });
+  }
 }
 function saveImage2Photo(key, params) {
   common_vendor.index.authorize({
@@ -94,8 +113,8 @@ async function initUserInfo(postToken) {
   const token = postToken || common_vendor.index.getStorageSync("token");
   const selfData = this.globalData ? this.globalData : this;
   if (token) {
-    const { uid } = common_vendor.Bs.getCurrentUserInfo();
-    const db = common_vendor.Bs.database();
+    const { uid } = common_vendor.Ws.getCurrentUserInfo();
+    const db = common_vendor.Ws.database();
     const userRecord = await db.collection("uni-id-users").doc(uid).field({ nickname: true, avatar: true }).get();
     const { data } = userRecord.result;
     console.log("userRecord:", data);

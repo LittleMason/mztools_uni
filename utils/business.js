@@ -47,9 +47,29 @@ export function downLoadImg(params) {
 	})
 }
 function canvasToTempFilePath(filePaths){
-	filePaths.forEach(item=>{
+	if(Array.isArray(filePaths)){
+		filePaths.forEach(item=>{
+			uni.saveImageToPhotosAlbum({
+				filePath:item,
+				success: function() {
+					uni.showToast({
+						title: "保存成功",
+						icon: "none"
+					});
+				},
+				fail: function() {
+					console.log('保存失败：',item);
+					uni.showToast({
+						title: "保存失败，请稍后重试",
+						icon: "none"
+					});
+				}
+			});
+		})
+	}else{
+		// if filePaths is string
 		uni.saveImageToPhotosAlbum({
-			filePath:item,
+			filePath:filePaths,
 			success: function() {
 				uni.showToast({
 					title: "保存成功",
@@ -57,15 +77,22 @@ function canvasToTempFilePath(filePaths){
 				});
 			},
 			fail: function() {
-				console.log('保存失败：',item);
+				console.log('保存失败：',filePaths);
 				uni.showToast({
 					title: "保存失败，请稍后重试",
 					icon: "none"
 				});
 			}
 		});
-	})
+	}
 }
+
+//保存图片到相册功能
+/**
+ * 
+ * @param { string } key //保存到相册的模式，是canvas还是url
+ * @param { Array,string } params //回调函数的参数
+ */
 export function saveImage2Photo(key,params) {
 	uni.authorize({
 		scope: 'scope.writePhotosAlbum',

@@ -88,7 +88,7 @@ const _sfc_main = {
         });
         return false;
       }
-      const uniCo = common_vendor.Bs.importObject("request-agent-middleware");
+      const uniCo = common_vendor.Ws.importObject("request-agent-middleware");
       const datas = {
         token: app.globalData.txAPIToken,
         url: this.matchUrl(this.videoUrl)

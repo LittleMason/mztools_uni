@@ -5,7 +5,8 @@
     "pages/joinImages/joinImages",
     "pages/mine/mine",
     "pages/mine/edit/edit",
-    "pages/mine/history"
+    "pages/mine/history",
+    "pages/joinImages/joinPreview"
   ],
   "subPackages": [
     {

@@ -14,7 +14,7 @@ const _sfc_main = {
   methods: {
     async init() {
       const { avatar, nickname } = app.globalData.userInfo;
-      const { uid } = common_vendor.Bs.getCurrentUserInfo();
+      const { uid } = common_vendor.Ws.getCurrentUserInfo();
       this.avatar = avatar;
       this.nickname = nickname;
       this.uid = uid;
@@ -23,12 +23,12 @@ const _sfc_main = {
       const {
         avatarUrl: avatar
       } = e.detail;
-      common_vendor.Bs.importObject("uni-id-co");
+      common_vendor.Ws.importObject("uni-id-co");
       console.log("avatar:", avatar);
       common_vendor.index.showLoading({
         title: "头像上传中..."
       });
-      common_vendor.Bs.uploadFile({
+      common_vendor.Ws.uploadFile({
         filePath: avatar,
         cloudPath: `images/${Date.now()}.jpeg`,
         success: (res) => {
@@ -37,7 +37,7 @@ const _sfc_main = {
           this.avatar = avatar;
           app.globalData.userInfo.avatar = avatar;
           const { fileID } = res;
-          common_vendor.Bs.database().collection("uni-id-users").doc(this.uid).update({ avatar: fileID });
+          common_vendor.Ws.database().collection("uni-id-users").doc(this.uid).update({ avatar: fileID });
         },
         complete() {
           common_vendor.index.hideLoading();
@@ -45,10 +45,10 @@ const _sfc_main = {
       });
     },
     async handleEditUser() {
-      common_vendor.Bs.database().collection("uni-id-users").doc(this.uid).update({ nickname: this.nickname }).then(async (res) => {
+      common_vendor.Ws.database().collection("uni-id-users").doc(this.uid).update({ nickname: this.nickname }).then(async (res) => {
         const { errCode } = res;
         if (!errCode) {
-          const db = common_vendor.Bs.database();
+          const db = common_vendor.Ws.database();
           console.log("this.uid:", this.uid);
           const userRecord = await db.collection("uni-id-users").doc(this.uid).field({ nickname: true, avatar: true }).get();
           const { data } = userRecord.result;

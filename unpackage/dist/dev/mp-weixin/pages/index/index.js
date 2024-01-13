@@ -20,7 +20,7 @@ const _sfc_main = {
         icon: "../../static/images/img-night-climp.png"
       },
       {
-        text: "长图拼接1",
+        text: "长图拼接",
         path: "/pages/joinImages/joinImages",
         icon: "../../static/images/img-climp-join.png"
       }
@@ -65,7 +65,7 @@ const _sfc_main = {
         url: item.path
       });
     };
-    const middlewareNet = common_vendor.Bs.importObject("middleware-net");
+    const middlewareNet = common_vendor.Ws.importObject("middleware-net");
     middlewareNet.getRandomSentence().then((sentences) => {
       swiperDatas.value = sentences;
     });

@@ -13,7 +13,7 @@ const _sfc_main = {
   methods: {
     //http://api.txapi.cn/v1/c/duke_zhou_oneiromancy
     async handleQuery() {
-      const uniCo = common_vendor.Bs.importObject("request-agent-middleware");
+      const uniCo = common_vendor.Ws.importObject("request-agent-middleware");
       const reg = /^梦见(有|了)?/;
       const kw = this.dream.replace(reg, "");
       console.log("kw", kw);

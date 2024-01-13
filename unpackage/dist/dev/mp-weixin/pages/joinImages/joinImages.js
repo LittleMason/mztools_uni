@@ -6,60 +6,103 @@ const _sfc_main = {
     return {
       imgUrlArr: [],
       // 存放选择的图片路径数组
+      dragSrcIndex: null,
       drawImgs: [],
       successUpload: false,
-      canvasHeight: 0,
-      canvasWidth: 0,
-      savaImgDatas: []
+      canvasHeight: 100,
+      canvasWidth: 100,
+      savaImgDatas: [],
+      concatImage: "",
+      //生成后的图片,
+      previewImgMode: "aspectFit"
     };
   },
   methods: {
-    chooseImage() {
-      common_vendor.index.chooseImage({
-        success: (res) => {
-          this.imgUrlArr = [...this.imgUrlArr, ...res.tempFilePaths];
-          console.log("this.imgUrlArr:", this.imgUrlArr);
-          this.canvasHeight = 0;
-          this.loadImg();
-        }
-      });
-    },
     saveImage() {
+      utils_business.saveImage2Photo("canvas", this.concatImage);
+    },
+    //canvas转图片
+    canvasToImg() {
       common_vendor.index.canvasToTempFilePath({
-        canvasId: "imgBed",
+        canvasId: "joinCanvas",
         fileType: "jpg",
         x: 0,
         y: 0,
         width: this.canvasWidth,
         height: this.canvasHeight,
         success: (res) => {
-          this.savaImgDatas.push(res.tempFilePath);
-          utils_business.saveImage2Photo("canvas", this.savaImgDatas);
-          common_vendor.index.showToast({
-            title: "图片保存成功"
-          });
+          this.concatImage = res.tempFilePath;
         },
         fail: (res) => {
-          common_vendor.index.showToast({
-            title: "图片保存失败"
-          });
+          console.log("canvas转换图片失败");
         }
       }, this);
     },
-    loadImg() {
+    horizonConcat() {
+      this.previewImgMode = "aspectFit";
+      this.drawImgs = [];
       common_vendor.index.getWindowInfo();
       const query = common_vendor.index.createSelectorQuery().in(this);
-      query.select("#imgBed").boundingClientRect((res) => {
-        const ctx = common_vendor.index.createCanvasContext("imgBed", this);
+      query.select("#joinCanvas").boundingClientRect((res) => {
+        const ctx = common_vendor.index.createCanvasContext("joinCanvas", this);
         for (let i = 0; i < this.imgUrlArr.length; i++) {
           common_vendor.index.getImageInfo({
             src: this.imgUrlArr[i],
             success: (res2) => {
               let imgWidth = res2.width;
               let imgHeight = res2.height;
-              const {
-                screenWidth
-              } = common_vendor.index.getWindowInfo();
+              const drawH = 500;
+              this.canvasHeight = drawH;
+              const selectWHPercent = (imgWidth / imgHeight).toFixed(2);
+              const drawW = parseInt(drawH * selectWHPercent);
+              this.drawImgs[i] = { height: drawH, path: this.imgUrlArr[i], width: drawW };
+              if (i === this.imgUrlArr.length - 1) {
+                const imgWidths = this.drawImgs.map((item) => {
+                  return item.width;
+                });
+                const fullWidth = imgWidths.reduce((pre, cur) => {
+                  return pre + cur;
+                }, 0);
+                console.log("fullWidth:", fullWidth);
+                this.canvasWidth = fullWidth;
+                this.$nextTick(() => {
+                  this.drawImgs.forEach((item, inx) => {
+                    const { height, path, width } = item;
+                    const previewImgsWidth = this.drawImgs.slice(0, inx).map((item2) => {
+                      return item2.width;
+                    });
+                    const currentX = previewImgsWidth.reduce((pre, cur) => {
+                      return pre + cur;
+                    }, 0);
+                    ctx.drawImage(path, currentX, 0, width, height);
+                  });
+                  ctx.draw();
+                  this.canvasToImg();
+                });
+              }
+            },
+            fail: (res2) => {
+              console.log("获取图片信息失败");
+            }
+          });
+        }
+      }).exec();
+    },
+    verticalConcat() {
+      this.previewImgMode = "aspectFit";
+      this.drawImgs = [];
+      const {
+        screenWidth
+      } = common_vendor.index.getWindowInfo();
+      const query = common_vendor.index.createSelectorQuery().in(this);
+      query.select("#joinCanvas").boundingClientRect((res) => {
+        const ctx = common_vendor.index.createCanvasContext("joinCanvas", this);
+        for (let i = 0; i < this.imgUrlArr.length; i++) {
+          common_vendor.index.getImageInfo({
+            src: this.imgUrlArr[i],
+            success: (res2) => {
+              let imgWidth = res2.width;
+              let imgHeight = res2.height;
               const drawW = parseInt(screenWidth * 0.95);
               this.canvasWidth = drawW;
               const selectWHPercent = (imgWidth / imgHeight).toFixed(2);
@@ -74,18 +117,21 @@ const _sfc_main = {
                 }, 0);
                 console.log("fullHeight:", fullHeight);
                 this.canvasHeight = fullHeight;
-                this.drawImgs.forEach((item, inx) => {
-                  const { height, path, width } = item;
-                  const previewImgsHeight = this.drawImgs.slice(0, inx).map((item2) => {
-                    return item2.height;
+                this.$nextTick(() => {
+                  this.drawImgs.forEach((item, inx) => {
+                    const { height, path, width } = item;
+                    const previewImgsHeight = this.drawImgs.slice(0, inx).map((item2) => {
+                      return item2.height;
+                    });
+                    const currentY = previewImgsHeight.reduce((pre, cur) => {
+                      return pre + cur;
+                    }, 0);
+                    ctx.drawImage(path, 0, currentY, width, height);
                   });
-                  const currentY = previewImgsHeight.reduce((pre, cur) => {
-                    return pre + cur;
-                  }, 0);
-                  ctx.drawImage(path, 0, currentY, width, height);
+                  ctx.draw();
+                  this.canvasToImg();
+                  this.successUpload = true;
                 });
-                ctx.draw();
-                this.successUpload = true;
               }
             }
           });
@@ -94,13 +140,41 @@ const _sfc_main = {
     }
   }
 };
+if (!Array) {
+  const _easycom_drag2 = common_vendor.resolveComponent("drag");
+  const _easycom_icons2 = common_vendor.resolveComponent("icons");
+  (_easycom_drag2 + _easycom_icons2)();
+}
+const _easycom_drag = () => "../../components/drag/drag.js";
+const _easycom_icons = () => "../../components/icons/icons.js";
+if (!Math) {
+  (_easycom_drag + _easycom_icons)();
+}
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: $data.canvasHeight + "px",
-    b: common_vendor.o((...args) => $options.chooseImage && $options.chooseImage(...args)),
-    c: common_vendor.o((...args) => $options.saveImage && $options.saveImage(...args)),
-    d: $data.successUpload
+    a: common_vendor.o(($event) => $data.imgUrlArr = $event),
+    b: common_vendor.p({
+      modelValue: $data.imgUrlArr
+    }),
+    c: common_vendor.p({
+      type: "icon-add",
+      size: "40",
+      color: "#fff"
+    }),
+    d: common_vendor.o((...args) => $options.horizonConcat && $options.horizonConcat(...args)),
+    e: common_vendor.p({
+      type: "icon-save",
+      size: "40",
+      color: "#fff"
+    }),
+    f: common_vendor.o((...args) => $options.verticalConcat && $options.verticalConcat(...args)),
+    g: $data.successUpload,
+    h: $data.concatImage,
+    i: $data.concatImage,
+    j: $data.previewImgMode,
+    k: common_vendor.o((...args) => _ctx.handlePreview && _ctx.handlePreview(...args)),
+    l: common_vendor.s("width: " + $data.canvasWidth + "px; height:" + $data.canvasHeight + "px;")
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/workspace/mztools_uni/pages/joinImages/joinImages.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-5bb3e2c2"], ["__file", "D:/workspace/mztools_uni/pages/joinImages/joinImages.vue"]]);
 wx.createPage(MiniProgramPage);
