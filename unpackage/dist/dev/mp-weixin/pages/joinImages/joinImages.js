@@ -1,7 +1,11 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const utils_business = require("../../utils/business.js");
+const Preview = () => "./joinPreview2.js";
 const _sfc_main = {
+  components: {
+    Preview
+  },
   data() {
     return {
       imgUrlArr: [],
@@ -17,7 +21,13 @@ const _sfc_main = {
       previewImgMode: "aspectFit"
     };
   },
+  mounted() {
+    this.openPreview();
+  },
   methods: {
+    openPreview() {
+      this.$refs.preview.open("center");
+    },
     saveImage() {
       utils_business.saveImage2Photo("canvas", this.concatImage);
     },
@@ -143,7 +153,8 @@ const _sfc_main = {
 if (!Array) {
   const _easycom_drag2 = common_vendor.resolveComponent("drag");
   const _easycom_icons2 = common_vendor.resolveComponent("icons");
-  (_easycom_drag2 + _easycom_icons2)();
+  const _component_preview = common_vendor.resolveComponent("preview");
+  (_easycom_drag2 + _easycom_icons2 + _component_preview)();
 }
 const _easycom_drag = () => "../../components/drag/drag.js";
 const _easycom_icons = () => "../../components/icons/icons.js";
@@ -173,7 +184,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     i: $data.concatImage,
     j: $data.previewImgMode,
     k: common_vendor.o((...args) => _ctx.handlePreview && _ctx.handlePreview(...args)),
-    l: common_vendor.s("width: " + $data.canvasWidth + "px; height:" + $data.canvasHeight + "px;")
+    l: common_vendor.s("width: " + $data.canvasWidth + "px; height:" + $data.canvasHeight + "px;"),
+    m: common_vendor.sr("preview", "5bb3e2c2-3")
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-5bb3e2c2"], ["__file", "D:/workspace/mztools_uni/pages/joinImages/joinImages.vue"]]);

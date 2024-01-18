@@ -2,6 +2,7 @@
   "navigationBarTitleText": "长图拼接",
   "enablePullDownRefresh": false,
   "usingComponents": {
+    "preview": "./joinPreview",
     "drag": "../../components/drag/drag",
     "icons": "../../components/icons/icons"
   }

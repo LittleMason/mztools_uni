@@ -16,6 +16,7 @@
 			</view>
 		</view>
 		<view class="preview-tip" v-show="concatImage">点击图片可以查看预览图</view>
+		
 		<image
 			:src="concatImage"
 			:mode="previewImgMode"
@@ -27,6 +28,7 @@
 		id="joinCanvas" 
 		canvas-id="joinCanvas" 
 		class="join-canvas"></canvas>
+		<preview  ref='preview'/>
 	</view>
 </template>
 
@@ -34,7 +36,11 @@
 	import {
 		business
 	} from '../../utils/index.js';
+	import Preview from './joinPreview.vue'
 	export default {
+		components:{
+			Preview
+		},
 		data() {
 			return {
 				imgUrlArr: [], // 存放选择的图片路径数组
@@ -48,7 +54,13 @@
 				previewImgMode:'aspectFit',
 			}
 		},
+		mounted(){
+			this.openPreview();
+		},
 		methods: {
+			openPreview(){ 
+				this.$refs.preview.open('center');
+			},
 			saveImage(){
 				business.saveImage2Photo('canvas', this.concatImage);
 			},

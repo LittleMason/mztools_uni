@@ -40,6 +40,11 @@
           >
             <image class="pre-image" :src="item.src" mode="aspectFill"></image>
             <view
+            class="index"
+            >
+              {{ item.num + 1 }}
+            </view>
+            <view
               class="del-con"
               @click="delImages(item, index)"
               @touchstart.stop="delImageMp(item, index)"
@@ -161,6 +166,7 @@ export default {
   data() {
     return {
       imageList: [],
+      cacheResult:[],
       width: 0,
       add: {
         x: 0,
@@ -329,7 +335,6 @@ export default {
               });
             }, 0);
           }
-          // console.log('bbb', JSON.parse(JSON.stringify(item)));
           this.sortList();
         }
       }
@@ -370,6 +375,18 @@ export default {
       item.y = item.oldY;
       item.offset = 0;
       item.moveEnd = false;
+      console.log('this.cacheResult:',this.cacheResult);
+      
+      //compare cacheResult and imageList,if cacheResult's item equal the property 'src' of imageList's item；
+      //add the property 'num' to imageList's item,the value is cacheResult's item's index
+      for(let i=0;i<this.cacheResult.length;i++){
+        for(let j=0;j<this.imageList.length;j++){
+          if(this.cacheResult[i]==this.imageList[j].src){
+            this.imageList[j].num=i
+          }
+        }
+      }
+      console.log('this.imageList:',this.imageList);
       setTimeout(() => {
         this.$nextTick(() => {
           item.x = item.absX * this.viewWidth;
@@ -377,9 +394,7 @@ export default {
           this.tempItem = null;
           this.changeStatus = true;
         });
-        // console.log('ccc', JSON.parse(JSON.stringify(item)));
       }, 0);
-      // console.log('ddd', JSON.parse(JSON.stringify(item)));
     },
     previewImage(item) {
       if (
@@ -504,7 +519,6 @@ export default {
       //#endif
     },
     sortList() {
-      console.log("sortList");
       const result = [];
       let source = this.value;
       // #ifdef VUE3
@@ -529,7 +543,7 @@ export default {
           }
         }
       }
-
+      this.cacheResult=result
       this.$emit("input", result);
       this.$emit("update:modelValue", result);
     },
@@ -555,6 +569,7 @@ export default {
         disable: false,
         offset: 0,
         moveEnd: false,
+        num:this.imageList.length
       });
       this.add.x =
         (this.imageList.length % this.colsValue) * this.viewWidth + "px";
@@ -628,6 +643,15 @@ export default {
             }
           }
         }
+      }
+      .index {
+        position: absolute;
+        top: 0rpx;
+        left: 0rpx;
+        padding: 10rpx;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.4);
+        font-size: 24rpx;
       }
     }
 
