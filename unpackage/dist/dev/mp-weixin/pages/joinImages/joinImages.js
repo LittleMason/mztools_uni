@@ -22,7 +22,6 @@ const _sfc_main = {
     };
   },
   mounted() {
-    this.openPreview();
   },
   methods: {
     openPreview() {
@@ -33,25 +32,27 @@ const _sfc_main = {
     },
     //canvas转图片
     canvasToImg() {
-      common_vendor.index.canvasToTempFilePath({
-        canvasId: "joinCanvas",
-        fileType: "jpg",
-        x: 0,
-        y: 0,
-        width: this.canvasWidth,
-        height: this.canvasHeight,
-        success: (res) => {
-          this.concatImage = res.tempFilePath;
+      common_vendor.index.canvasToTempFilePath(
+        {
+          canvasId: "joinCanvas",
+          fileType: "jpg",
+          x: 0,
+          y: 0,
+          width: this.canvasWidth,
+          height: this.canvasHeight,
+          success: (res) => {
+            this.concatImage = res.tempFilePath;
+          },
+          fail: (res) => {
+            console.log("canvas转换图片失败");
+          }
         },
-        fail: (res) => {
-          console.log("canvas转换图片失败");
-        }
-      }, this);
+        this
+      );
     },
     horizonConcat() {
       this.previewImgMode = "aspectFit";
       this.drawImgs = [];
-      common_vendor.index.getWindowInfo();
       const query = common_vendor.index.createSelectorQuery().in(this);
       query.select("#joinCanvas").boundingClientRect((res) => {
         const ctx = common_vendor.index.createCanvasContext("joinCanvas", this);
@@ -65,7 +66,11 @@ const _sfc_main = {
               this.canvasHeight = drawH;
               const selectWHPercent = (imgWidth / imgHeight).toFixed(2);
               const drawW = parseInt(drawH * selectWHPercent);
-              this.drawImgs[i] = { height: drawH, path: this.imgUrlArr[i], width: drawW };
+              this.drawImgs[i] = {
+                height: drawH,
+                path: this.imgUrlArr[i],
+                width: drawW
+              };
               if (i === this.imgUrlArr.length - 1) {
                 const imgWidths = this.drawImgs.map((item) => {
                   return item.width;
@@ -101,9 +106,7 @@ const _sfc_main = {
     verticalConcat() {
       this.previewImgMode = "aspectFit";
       this.drawImgs = [];
-      const {
-        screenWidth
-      } = common_vendor.index.getWindowInfo();
+      const { screenWidth } = common_vendor.index.getWindowInfo();
       const query = common_vendor.index.createSelectorQuery().in(this);
       query.select("#joinCanvas").boundingClientRect((res) => {
         const ctx = common_vendor.index.createCanvasContext("joinCanvas", this);
@@ -117,7 +120,11 @@ const _sfc_main = {
               this.canvasWidth = drawW;
               const selectWHPercent = (imgWidth / imgHeight).toFixed(2);
               const drawH = parseInt(drawW / selectWHPercent);
-              this.drawImgs[i] = { height: drawH, path: this.imgUrlArr[i], width: drawW };
+              this.drawImgs[i] = {
+                height: drawH,
+                path: this.imgUrlArr[i],
+                width: drawW
+              };
               if (i === this.imgUrlArr.length - 1) {
                 const imgHeights = this.drawImgs.map((item) => {
                   return item.height;
@@ -147,19 +154,23 @@ const _sfc_main = {
           });
         }
       }).exec();
+    },
+    handleConcat(methodName) {
+      if (!this.imgUrlArr.length)
+        return;
+      this.openPreview();
+      this[methodName]();
     }
   }
 };
 if (!Array) {
   const _easycom_drag2 = common_vendor.resolveComponent("drag");
-  const _easycom_icons2 = common_vendor.resolveComponent("icons");
   const _component_preview = common_vendor.resolveComponent("preview");
-  (_easycom_drag2 + _easycom_icons2 + _component_preview)();
+  (_easycom_drag2 + _component_preview)();
 }
 const _easycom_drag = () => "../../components/drag/drag.js";
-const _easycom_icons = () => "../../components/icons/icons.js";
 if (!Math) {
-  (_easycom_drag + _easycom_icons)();
+  _easycom_drag();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
@@ -167,25 +178,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     b: common_vendor.p({
       modelValue: $data.imgUrlArr
     }),
-    c: common_vendor.p({
-      type: "icon-add",
-      size: "40",
-      color: "#fff"
-    }),
-    d: common_vendor.o((...args) => $options.horizonConcat && $options.horizonConcat(...args)),
-    e: common_vendor.p({
-      type: "icon-save",
-      size: "40",
-      color: "#fff"
-    }),
-    f: common_vendor.o((...args) => $options.verticalConcat && $options.verticalConcat(...args)),
-    g: $data.successUpload,
-    h: $data.concatImage,
-    i: $data.concatImage,
-    j: $data.previewImgMode,
-    k: common_vendor.o((...args) => _ctx.handlePreview && _ctx.handlePreview(...args)),
-    l: common_vendor.s("width: " + $data.canvasWidth + "px; height:" + $data.canvasHeight + "px;"),
-    m: common_vendor.sr("preview", "5bb3e2c2-3")
+    c: common_vendor.o(($event) => $options.handleConcat("horizonConcat")),
+    d: common_vendor.o(($event) => $options.handleConcat("verticalConcat")),
+    e: $data.successUpload,
+    f: common_vendor.s("width: " + $data.canvasWidth + "px; height:" + $data.canvasHeight + "px;"),
+    g: common_vendor.sr("preview", "5bb3e2c2-1"),
+    h: common_vendor.p({
+      data: $data.concatImage,
+      previewImgMode: $data.previewImgMode
+    })
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-5bb3e2c2"], ["__file", "D:/workspace/mztools_uni/pages/joinImages/joinImages.vue"]]);

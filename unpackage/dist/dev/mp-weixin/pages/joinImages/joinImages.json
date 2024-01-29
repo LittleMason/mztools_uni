@@ -3,7 +3,6 @@
   "enablePullDownRefresh": false,
   "usingComponents": {
     "preview": "./joinPreview",
-    "drag": "../../components/drag/drag",
-    "icons": "../../components/icons/icons"
+    "drag": "../../components/drag/drag"
   }
 }
