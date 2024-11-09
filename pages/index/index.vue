@@ -147,7 +147,7 @@
 	.swiper-wrapper{
 		margin-bottom: 40rpx;
 		swiper{
-			min-height: 60vw;
+			min-height: 40vw;
 		}
 		.swiper-item{
 			font-family: "Bitstream Vera Serif Bold";

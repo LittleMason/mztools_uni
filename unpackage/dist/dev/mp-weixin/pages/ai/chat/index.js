@@ -87,11 +87,11 @@ const _sfc_main = {
   beforeMount() {
   },
   async mounted() {
-    if (this.adpid && common_vendor.Ws.getCurrentUserInfo().tokenExpired > Date.now()) {
-      let db = common_vendor.Ws.databaseForJQL();
+    if (this.adpid && common_vendor.Ys.getCurrentUserInfo().tokenExpired > Date.now()) {
+      let db = common_vendor.Ys.databaseForJQL();
       let res = await db.collection("uni-id-users").where({
         // 当前用户id
-        "_id": common_vendor.Ws.getCurrentUserInfo().uid
+        "_id": common_vendor.Ys.getCurrentUserInfo().uid
       }).field("score").get();
       console.log("当前用户有多少积分:", res.data[0] && res.data[0].score);
     }
@@ -162,7 +162,7 @@ const _sfc_main = {
         });
         let myIntive = setInterval(async (e2) => {
           i++;
-          const db = common_vendor.Ws.database();
+          const db = common_vendor.Ys.database();
           let res = await db.collection("uni-id-users").where('"_id" == $cloudEnv_uid').field("score").get();
           let {
             score
@@ -301,7 +301,7 @@ const _sfc_main = {
       await this.checkIsOpenPush();
       let sseEnd, requestEnd;
       if (this.enableStream) {
-        sseChannel = new common_vendor.Ws.SSEChannel();
+        sseChannel = new common_vendor.Ys.SSEChannel();
         this.sliceMsgToLastMsg = new pages_ai_chat_SliceMsgToLastMsg.SliceMsgToLastMsg(this);
         sseChannel.on("message", (message) => {
           if (this.sseIndex === 0) {
@@ -570,5 +570,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     x: common_vendor.sr("llm-config", "c91a967c-3")
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/workspace/mztools_uni/pages/ai/chat/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
 wx.createPage(MiniProgramPage);

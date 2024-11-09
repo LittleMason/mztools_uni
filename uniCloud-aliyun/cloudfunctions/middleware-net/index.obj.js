@@ -28,7 +28,7 @@ module.exports = {
 	*/
 	async getRandomSentence(){
 		const cnUrl = 'https://api.xygeng.cn/one';
-		const enUrl = 'https://api.quotable.io/random';
+		const enUrl = 'https://api.xygeng.cn/one';
 		const httpClient = uniCloud.httpclient;
 		const datas=[];
 		
@@ -45,8 +45,8 @@ module.exports = {
 			method: 'GET',
 			dataType: 'json'
 		})
-		datas.push(enRes.data);
-		
+		datas.push(enRes.data.data);
+		console.log('datas:',datas);	
 		return datas;
 	}
 }

@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../../../common/vendor.js");
 const utils_util = require("../../../../utils/util.js");
+const common_assets = require("../../../../common/assets.js");
 const app = getApp();
 const _sfc_main = {
   data() {
@@ -88,7 +89,7 @@ const _sfc_main = {
         });
         return false;
       }
-      const uniCo = common_vendor.Ws.importObject("request-agent-middleware");
+      const uniCo = common_vendor.Ys.importObject("request-agent-middleware");
       const datas = {
         token: app.globalData.txAPIToken,
         url: this.matchUrl(this.videoUrl)
@@ -115,15 +116,27 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: common_vendor.n("swiper-item " + _ctx.item),
-    b: common_vendor.n("swiper-item " + _ctx.item),
-    c: $data.videoUrl,
-    d: common_vendor.o(($event) => $data.videoUrl = $event.detail.value),
-    e: $data.videoUrl == ""
-  }, $data.videoUrl == "" ? {} : {}, {
-    f: common_vendor.o((...args) => $options.inputClear && $options.inputClear(...args)),
-    g: common_vendor.o((...args) => $options.submit && $options.submit(...args))
+    a: common_assets._imports_0,
+    b: common_assets._imports_1,
+    c: common_assets._imports_2,
+    d: common_assets._imports_3,
+    e: common_vendor.n("swiper-item " + _ctx.item),
+    f: common_assets._imports_4,
+    g: common_assets._imports_5,
+    h: common_assets._imports_6,
+    i: common_assets._imports_7,
+    j: common_vendor.n("swiper-item " + _ctx.item),
+    k: $data.videoUrl,
+    l: common_vendor.o(($event) => $data.videoUrl = $event.detail.value),
+    m: $data.videoUrl == ""
+  }, $data.videoUrl == "" ? {
+    n: common_assets._imports_8
+  } : {
+    o: common_assets._imports_9
+  }, {
+    p: common_vendor.o((...args) => $options.inputClear && $options.inputClear(...args)),
+    q: common_vendor.o((...args) => $options.submit && $options.submit(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/workspace/mztools_uni/pages/videos/watermark/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
 wx.createPage(MiniProgramPage);

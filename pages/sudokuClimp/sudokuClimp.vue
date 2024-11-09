@@ -9,12 +9,14 @@
 			/>
 			<image v-for="item in clipImgDatas" :src="item" mode="widthFix" :key="item"></image>
 		</view>
-		<view class="adpater-title">
-			边框装饰
-		</view>
-		<view class="bks-wrapper">
-			<view v-for="item in coverImages" class="bks-item" @click="()=>{handleChangeCoverImage(item.src)}" :key="item.src">
-				<image :src="item.src" mode="widthFix"></image>
+		<view v-if="borderSelectVisible">
+			<view class="adpater-title">
+				边框装饰
+			</view>
+			<view class="bks-wrapper">
+				<view v-for="item in coverImages" class="bks-item" @click="()=>{handleChangeCoverImage(item.src)}" :key="item.src">
+					<image :src="item.src" mode="widthFix"></image>
+				</view>
 			</view>
 		</view>
 		<view class="sudoku-climp-container-bt-wrapper">
@@ -34,6 +36,7 @@
 	const loading = ref(false); // the status of draw image 
 	const previewBgSrc = ref('');
 	const successUpload = ref(false);
+	const borderSelectVisible = ref(false);
 	const imgs = ref([]);
 	const adapterH = ref(0); //适配后的高度
 	const adapterW = ref(0); //适配后的宽度
@@ -98,6 +101,7 @@
 							!isSetBackground && clipImgDatas.value.push(tempFilePath);
 							savaImgDatas.value.push(tempFilePath);
 							loading.value=false;
+							borderSelectVisible = true;
 						},
 						fail(err) {
 							console.log('err:', err);

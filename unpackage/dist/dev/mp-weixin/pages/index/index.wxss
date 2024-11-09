@@ -7,7 +7,7 @@
   margin-bottom: 40rpx;
 }
 .container .swiper-wrapper swiper.data-v-1cf27b2a {
-  min-height: 60vw;
+  min-height: 40vw;
 }
 .container .swiper-wrapper .swiper-item.data-v-1cf27b2a {
   font-family: "Bitstream Vera Serif Bold";

@@ -65,7 +65,7 @@ const _sfc_main = {
         url: item.path
       });
     };
-    const middlewareNet = common_vendor.Ws.importObject("middleware-net");
+    const middlewareNet = common_vendor.Ys.importObject("middleware-net");
     middlewareNet.getRandomSentence().then((sentences) => {
       swiperDatas.value = sentences;
     });
@@ -129,5 +129,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/workspace/mztools_uni/pages/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"]]);
 wx.createPage(MiniProgramPage);

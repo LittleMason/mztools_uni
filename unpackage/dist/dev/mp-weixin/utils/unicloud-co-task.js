@@ -41,7 +41,7 @@ function main({
     fail,
     complete
   });
-  const uniCloudCo = common_vendor.Ws.importObject(coName, config || {});
+  const uniCloudCo = common_vendor.Ys.importObject(coName, config || {});
   uniCloudCo[funName](...param).then((res) => {
     task.invoke("success", res);
   }).catch((err) => {

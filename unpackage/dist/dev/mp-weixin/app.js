@@ -19,7 +19,7 @@ if (!Math) {
 }
 new Proxy({}, {
   get(_, key) {
-    throw new Error(`Module "console" has been externalized for browser compatibility. Cannot access "console.${key}" in client code.  See http://vitejs.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.`);
+    throw new Error(`Module "console" has been externalized for browser compatibility. Cannot access "console.${key}" in client code.  See https://vitejs.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.`);
   }
 });
 const _sfc_main = {
@@ -39,7 +39,7 @@ const _sfc_main = {
     userDefaultLogin: () => {
       common_vendor.index.login({
         async success(res) {
-          const uniIdCo = common_vendor.Ws.importObject("uni-id-co");
+          const uniIdCo = common_vendor.Ys.importObject("uni-id-co");
           const logined = await uniIdCo.loginByWeixin({
             code: res.code
           });
@@ -53,7 +53,7 @@ const _sfc_main = {
       const currentTime = Date.now();
       const tokenIsExpired = tokenExpired - currentTime < 10 * 3600;
       console.log("tokenIsExpired:", tokenIsExpired);
-      const uniCo = common_vendor.Ws.importObject("uni-id-co");
+      const uniCo = common_vendor.Ys.importObject("uni-id-co");
       if (tokenIsExpired && token) {
         uniCo.refreshToken().then((res) => {
           console.log("刷新token:", res);
@@ -208,7 +208,7 @@ const _sfc_main = {
     async getToken(code, encryptedData, inviteCode, callback = null) {
       this.userInfo;
       console.log("this.userInfo:", this.userInfo);
-      const uniCo = common_vendor.Ws.importObject("uni-id-co");
+      const uniCo = common_vendor.Ys.importObject("uni-id-co");
       console.log("code:", code);
       console.log("inviteCode:", inviteCode);
       try {
@@ -231,9 +231,8 @@ const _sfc_main = {
     }
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/workspace/mztools_uni/App.vue"]]);
 function createApp() {
-  const app = common_vendor.createSSRApp(App);
+  const app = common_vendor.createSSRApp(_sfc_main);
   app.mixin(utils_share.share);
   return {
     app

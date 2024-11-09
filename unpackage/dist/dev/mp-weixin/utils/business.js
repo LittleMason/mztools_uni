@@ -113,8 +113,8 @@ async function initUserInfo(postToken) {
   const token = postToken || common_vendor.index.getStorageSync("token");
   const selfData = this.globalData ? this.globalData : this;
   if (token) {
-    const { uid } = common_vendor.Ws.getCurrentUserInfo();
-    const db = common_vendor.Ws.database();
+    const { uid } = common_vendor.Ys.getCurrentUserInfo();
+    const db = common_vendor.Ys.database();
     const userRecord = await db.collection("uni-id-users").doc(uid).field({ nickname: true, avatar: true }).get();
     const { data } = userRecord.result;
     console.log("userRecord:", data);

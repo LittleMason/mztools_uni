@@ -7,6 +7,7 @@ const _sfc_main = {
     const loading = common_vendor.ref(false);
     const previewBgSrc = common_vendor.ref("");
     const successUpload = common_vendor.ref(false);
+    const borderSelectVisible = common_vendor.ref(false);
     const imgs = common_vendor.ref([]);
     const adapterH = common_vendor.ref(0);
     const adapterW = common_vendor.ref(0);
@@ -66,6 +67,7 @@ const _sfc_main = {
                 !isSetBackground && clipImgDatas.value.push(tempFilePath);
                 savaImgDatas.value.push(tempFilePath);
                 loading.value = false;
+                borderSelectVisible = true;
               },
               fail(err) {
                 console.log("err:", err);
@@ -114,7 +116,7 @@ const _sfc_main = {
       utils_business.saveImage2Photo("canvas", savaImgDatas.value);
     };
     return (_ctx, _cache) => {
-      return {
+      return common_vendor.e({
         a: adapterH.value + "px",
         b: previewBgSrc.value,
         c: common_vendor.f(clipImgDatas.value, (item, k0, i0) => {
@@ -123,7 +125,9 @@ const _sfc_main = {
             b: item
           };
         }),
-        d: common_vendor.f(coverImages.value, (item, k0, i0) => {
+        d: borderSelectVisible.value
+      }, borderSelectVisible.value ? {
+        e: common_vendor.f(coverImages.value, (item, k0, i0) => {
           return {
             a: item.src,
             b: common_vendor.o(() => {
@@ -131,13 +135,13 @@ const _sfc_main = {
             }, item.src),
             c: item.src
           };
-        }),
-        e: common_vendor.o(handleSaveImage),
-        f: !successUpload.value,
-        g: common_vendor.o(handleChoseImage)
-      };
+        })
+      } : {}, {
+        f: common_vendor.o(handleSaveImage),
+        g: !successUpload.value,
+        h: common_vendor.o(handleChoseImage)
+      });
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/workspace/mztools_uni/pages/sudokuClimp/sudokuClimp.vue"]]);
-wx.createPage(MiniProgramPage);
+wx.createPage(_sfc_main);

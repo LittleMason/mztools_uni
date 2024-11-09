@@ -1,10 +1,16 @@
 "use strict";
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
 class SliceMsgToLastMsg {
   constructor(arg) {
     // 所有待插入的消息数据
-    this.msgs = "";
+    __publicField(this, "msgs", "");
     // 是否正在分割消息数据
-    this.sliceMsgIng = false;
+    __publicField(this, "sliceMsgIng", false);
     this.$ = arg;
     this.t = 70;
     this.msgCreateTime = false;
